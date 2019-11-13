@@ -1,0 +1,5 @@
+
+# VisualStudio generated files
+**/.vs/*
+*.user
+**/x64/*
