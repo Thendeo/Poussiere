@@ -19,6 +19,12 @@
     <Filter Include="Fichiers d%27en-tête\Maths">
       <UniqueIdentifier>{2e8a438a-a8ce-4c78-89a9-3805c2f20700}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Fichiers sources\Renderer">
+      <UniqueIdentifier>{34f54841-64d5-4e16-b8e2-77a2ac90746d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête\Renderer">
+      <UniqueIdentifier>{6a3fab9f-2b2a-4008-9ff6-fa840c0b54bb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\..\src\scene\main.cpp">
@@ -30,6 +36,9 @@
     <ClCompile Include="..\..\..\..\src\Maths\Point3D.cpp">
       <Filter>Fichiers sources\Maths</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\src\Renderer\ParticuleShader.cpp">
+      <Filter>Fichiers sources\Renderer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\..\src\Maths\Triangle.h">
@@ -37,6 +46,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\..\src\Maths\Point3D.h">
       <Filter>Fichiers d%27en-tête\Maths</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\Renderer\ParticuleShader.h">
+      <Filter>Fichiers d%27en-tête\Renderer</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

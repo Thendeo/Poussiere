@@ -21,11 +21,13 @@
   <ItemGroup>
     <ClCompile Include="..\..\..\..\src\Maths\Point3D.cpp" />
     <ClCompile Include="..\..\..\..\src\Maths\Triangle.cpp" />
+    <ClCompile Include="..\..\..\..\src\Renderer\ParticuleShader.cpp" />
     <ClCompile Include="..\..\..\..\src\scene\main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\..\src\Maths\Point3D.h" />
     <ClInclude Include="..\..\..\..\src\Maths\Triangle.h" />
+    <ClInclude Include="..\..\..\..\src\Renderer\ParticuleShader.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
@@ -85,9 +87,10 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <SDLCheck>true</SDLCheck>
+      <SDLCheck>false</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(WORKSPACE)\SOUP\glew-2.1.0\include;$(WORKSPACE)\SOUP\glm;$(WORKSPACE)\SOUP\glfw-3.3\include;$(WORKSPACE)\Repos\Particules\src\Maths;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -104,7 +107,8 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(WORKSPACE)\SOUP\glew-2.1.0\include;$(WORKSPACE)\SOUP\glm;$(WORKSPACE)\SOUP\glfw-3.3\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(WORKSPACE)\SOUP\glew-2.1.0\include;$(WORKSPACE)\SOUP\glm;$(WORKSPACE)\SOUP\glfw-3.3\include;$(WORKSPACE)\Repos\Particules\src\Maths;$(WORKSPACE)\Repos\Particules\src\Renderer;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;TW_STATIC;TW_NO_LIB_PRAGMA;TW_NO_DIRECT3D;_CRT_SECURE_NO_WARNINGS;CMAKE_INTDIR="Debug";%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
