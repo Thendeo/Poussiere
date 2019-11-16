@@ -13,10 +13,30 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Fichiers sources\Maths">
+      <UniqueIdentifier>{dc17a70b-fcca-4fda-a348-90202dafee33}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête\Maths">
+      <UniqueIdentifier>{2e8a438a-a8ce-4c78-89a9-3805c2f20700}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\..\src\scene\main.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\src\Maths\Triangle.cpp">
+      <Filter>Fichiers sources\Maths</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\Maths\Point3D.cpp">
+      <Filter>Fichiers sources\Maths</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\..\src\Maths\Triangle.h">
+      <Filter>Fichiers d%27en-tête\Maths</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\Maths\Point3D.h">
+      <Filter>Fichiers d%27en-tête\Maths</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

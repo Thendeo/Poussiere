@@ -19,7 +19,13 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\..\src\Maths\Point3D.cpp" />
+    <ClCompile Include="..\..\..\..\src\Maths\Triangle.cpp" />
     <ClCompile Include="..\..\..\..\src\scene\main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\..\src\Maths\Point3D.h" />
+    <ClInclude Include="..\..\..\..\src\Maths\Triangle.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
@@ -81,7 +87,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(WORKSPACE)\SOUP\glew-2.1.0\include;$(WORKSPACE)\SOUP\glm;$(WORKSPACE)\SOUP\glfw-3.3\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(WORKSPACE)\SOUP\glew-2.1.0\include;$(WORKSPACE)\SOUP\glm;$(WORKSPACE)\SOUP\glfw-3.3\include;$(WORKSPACE)\Repos\Particules\src\Maths;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
