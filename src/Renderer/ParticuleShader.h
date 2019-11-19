@@ -26,7 +26,7 @@ public:
 	ParticuleShader(std::string pTexturePath);
 	~ParticuleShader();
 
-	GLuint bind(GLfloat* p_VertexBuffer);
+	GLuint bind(GLuint p_VertexBufferID);
 	void draw();
 
 	void setVertexParameters(glm::mat4 pMVP);

@@ -11,7 +11,8 @@ GLFWwindow* window;
 
 // Include GLM
 #include <glm/glm.hpp>
-using namespace glm;
+#include <glm/gtc/matrix_transform.hpp >
+#include <glm/gtx/transform.hpp>
 
 #include <ParticuleShader.h>
 
@@ -28,7 +29,6 @@ int main(void)
 	glfwWindowHint(GLFW_SAMPLES, 4);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE); // To make MacOS happy; should not be needed
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 	// Open a window and create its OpenGL context
@@ -55,37 +55,115 @@ int main(void)
 
 	// Dark blue background
 	glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
-
-	glm::mat4 Projection = glm::mat4();
-	// Camera matrix
-	/*glm::mat4 View = glm::lookAt(
-		glm::vec3(4, 3, 3), // Camera is at (4,3,3), in World Space
-		glm::vec3(0, 0, 0), // and looks at the origin
-		glm::vec3(0, 1, 0)  // Head is up (set to 0,-1,0 to look upside-down)
-	);
-	// Model matrix : an identity matrix (model will be at the origin)
-	glm::mat4 Model = glm::mat4(1.0f);
-	// Our ModelViewProjection : multiplication of our 3 matrices
-	glm::mat4 MVP = Projection * View * Model; // Remember, matrix multiplication is the other way around
-	*/
-
-
+	
+	// Create vertex buffer data
 	GLfloat g_vertex_buffer_data[] = {
-		-1.0f, -1.0f, 0.0f,
-		 1.0f, -1.0f, 0.0f,
+		0.0f, 0.0f, 0.0f,
+		 1.0f, 0.0f, 0.0f,
 		 0.0f,  1.0f, 0.0f,
 	};
-	ParticuleShader m_shader;
-	m_shader.bind(g_vertex_buffer_data);
 
+	GLuint l_VertexBufferID1 = 0;
+	glGenBuffers(1, &l_VertexBufferID1);
+	glBindBuffer(GL_ARRAY_BUFFER, l_VertexBufferID1);
+	glBufferData(GL_ARRAY_BUFFER, 36, g_vertex_buffer_data, GL_STATIC_DRAW);
+
+	// Outside of the loop variables
+	ParticuleShader m_shader;
+
+	// Matrice de la caméra
+	glm::mat4 View;
+	// Matrice de modèle : une matrice d'identité (le modèle sera à l'origine) 
+	glm::mat4 Model = glm::mat4(1.0f);  // Changez pour chaque modèle ! 
+	// Matrice de projection : Champ de vision de 45° , ration 4:3, distance d'affichage : 0.1 unités <-> 100 unités 
+	glm::mat4 Projection = glm::perspective(45.0f, 4.0f / 3.0f, 0.1f, 100.0f);
+	glm::mat4 MVP;
+
+	float base = 0.0;
 
 	do {
+
 		// Clear the screen. It's not mentioned before Tutorial 02, but it can cause flickering, so it's there nonetheless.
 		glClear(GL_COLOR_BUFFER_BIT);
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-		// Draw nothing, see you in tutorial 2 !
+		// Matrice de la caméra
+		View = glm::lookAt(
+			glm::vec3(4, 3, 3), // La caméra est à (4,3,3), dans l'espace monde
+			glm::vec3(0, -base, 0), // et regarde l'origine
+			glm::vec3(0, 1, 0)  // La tête est vers le haut (utilisez 0,-1,0 pour regarder à l'envers) 
+		);
+		MVP = Projection * View * Model; // Souvenez-vous, la multiplication de matrice fonctionne dans l'autre sens
+		m_shader.setVertexParameters(MVP);
+
+		m_shader.bind(l_VertexBufferID1);
 		m_shader.draw();
 
+		// Matrice de la caméra
+		View = glm::lookAt(
+			glm::vec3(4, 3, 3), // La caméra est à (4,3,3), dans l'espace monde
+			glm::vec3(0, base, 0), // et regarde l'origine
+			glm::vec3(0, 1, 0)  // La tête est vers le haut (utilisez 0,-1,0 pour regarder à l'envers) 
+		);
+		// Notre matrice ModelViewProjection : la multiplication des trois  matrices 
+		MVP = Projection * View * Model; // Souvenez-vous, la multiplication de matrice fonctionne dans l'autre sens
+
+		m_shader.setVertexParameters(MVP);
+		m_shader.bind(l_VertexBufferID1);
+		m_shader.draw();
+
+		// Matrice de la caméra
+		View = glm::lookAt(
+			glm::vec3(4, 3, 3), // La caméra est à (4,3,3), dans l'espace monde
+			glm::vec3(base, 0, 0), // et regarde l'origine
+			glm::vec3(0, 1, 0)  // La tête est vers le haut (utilisez 0,-1,0 pour regarder à l'envers) 
+		);
+		// Notre matrice ModelViewProjection : la multiplication des trois  matrices 
+		MVP = Projection * View * Model; // Souvenez-vous, la multiplication de matrice fonctionne dans l'autre sens
+
+		m_shader.setVertexParameters(MVP);
+		m_shader.bind(l_VertexBufferID1);
+		m_shader.draw();
+
+		// Matrice de la caméra
+		View = glm::lookAt(
+			glm::vec3(4, 3, 3), // La caméra est à (4,3,3), dans l'espace monde
+			glm::vec3(-base, 0, 0), // et regarde l'origine
+			glm::vec3(0, 1, 0)  // La tête est vers le haut (utilisez 0,-1,0 pour regarder à l'envers) 
+		);
+		// Notre matrice ModelViewProjection : la multiplication des trois  matrices 
+		MVP = Projection * View * Model; // Souvenez-vous, la multiplication de matrice fonctionne dans l'autre sens
+
+		m_shader.setVertexParameters(MVP);
+		m_shader.bind(l_VertexBufferID1);
+		m_shader.draw();
+
+		// Matrice de la caméra
+		View = glm::lookAt(
+			glm::vec3(4, 3, 3), // La caméra est à (4,3,3), dans l'espace monde
+			glm::vec3(0, 0, base), // et regarde l'origine
+			glm::vec3(0, 1, 0)  // La tête est vers le haut (utilisez 0,-1,0 pour regarder à l'envers) 
+		);
+		// Notre matrice ModelViewProjection : la multiplication des trois  matrices 
+		MVP = Projection * View * Model; // Souvenez-vous, la multiplication de matrice fonctionne dans l'autre sens
+
+		m_shader.setVertexParameters(MVP);
+		m_shader.bind(l_VertexBufferID1);
+		m_shader.draw();
+
+		// Matrice de la caméra
+		View = glm::lookAt(
+			glm::vec3(4, 3, 3), // La caméra est à (4,3,3), dans l'espace monde
+			glm::vec3(0, 0, -base), // et regarde l'origine
+			glm::vec3(0, 1, 0)  // La tête est vers le haut (utilisez 0,-1,0 pour regarder à l'envers) 
+		);
+		// Notre matrice ModelViewProjection : la multiplication des trois  matrices 
+		MVP = Projection * View * Model; // Souvenez-vous, la multiplication de matrice fonctionne dans l'autre sens
+
+		m_shader.setVertexParameters(MVP);
+		m_shader.bind(l_VertexBufferID1);
+		m_shader.draw();
+		base += 0.002F;
 
 		// Swap buffers
 		glfwSwapBuffers(window);

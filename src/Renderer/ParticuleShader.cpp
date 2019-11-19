@@ -133,7 +133,7 @@ ParticuleShader::ParticuleShader()
 	m_ProgramID = LoadShaders("SimpleVertexShader.vertexshader", "SimpleFragmentShader.fragmentshader");
 
 	// Get a handle for our "MVP" uniform
-	//m_MatrixID = glGetUniformLocation(m_ProgramID, "MVP");
+	m_MatrixID = glGetUniformLocation(m_ProgramID, "MVP");
 
 }
 
@@ -160,12 +160,12 @@ ParticuleShader::~ParticuleShader()
 {
 }
 
-GLuint ParticuleShader::bind(GLfloat* p_VertexBuffer)
+GLuint ParticuleShader::bind(GLuint p_VertexBufferID)
 {
 
 	// Send our transformation to the currently bound shader, 
 	// in the "MVP" uniform
-	//glUniformMatrix4fv(m_MatrixID, 1, GL_FALSE, &m_MVP[0][0]);
+	glUniformMatrix4fv(m_MatrixID, 1, GL_FALSE, &m_MVP[0][0]);
 
 	// Bind our texture in Texture Unit 0
 	//glActiveTexture(GL_TEXTURE0);
@@ -174,15 +174,7 @@ GLuint ParticuleShader::bind(GLfloat* p_VertexBuffer)
 	//glUniform1i(m_TextureID, 0);
 	/*GLuint size = sizeof(&p_VertexBuffer);
 	*/
-	GLfloat g_vertex_buffer_data[] = {
-		-1.0f, -1.0f, 0.0f,
-		 1.0f, -1.0f, 0.0f,
-		 0.0f,  1.0f, 0.0f,
-	};
-
-	glGenBuffers(1, &m_vertexbuffer);
-	glBindBuffer(GL_ARRAY_BUFFER, m_vertexbuffer);
-	glBufferData(GL_ARRAY_BUFFER, 36, p_VertexBuffer, GL_STATIC_DRAW);
+	glBindBuffer(GL_ARRAY_BUFFER, p_VertexBufferID);
 
 	return m_vertexbuffer;
 }
@@ -208,7 +200,6 @@ void ParticuleShader::draw()
 	
 	// 1rst attribute buffer : vertices
 	glEnableVertexAttribArray(0);
-	glBindBuffer(GL_ARRAY_BUFFER, m_vertexbuffer);
 	glVertexAttribPointer(
 		0,                  // attribute. No particular reason for 0, but must match the layout in the shader.
 		3,                  // size
@@ -237,6 +228,7 @@ void ParticuleShader::draw()
 
 void ParticuleShader::setVertexParameters(glm::mat4 pMVP)
 {
+	m_MVP = pMVP;
 }
 
 void ParticuleShader::loadTexture(std::string pTexturePath)
