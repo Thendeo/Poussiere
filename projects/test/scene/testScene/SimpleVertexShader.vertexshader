@@ -2,10 +2,16 @@
 
 in vec3 vertexPosition_modelspace; 
 uniform mat4 MVP; 
- 
+layout(location = 1) in vec3 vertexColor;
+
+out vec3 fragmentColor;
+
 void main(){ 
  
     // Obtient la position du sommet, dans l'espace de découpe : MVP * position
     vec4 v = vec4(vertexPosition_modelspace,1); // Transforme un vecteur 4D homogène, vous vous souvenez ?
     gl_Position = MVP * v; 
+	
+	
+	fragmentColor = vertexColor;
 }

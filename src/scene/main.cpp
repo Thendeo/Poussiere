@@ -63,13 +63,25 @@ int main(void)
 		 0.0f,  1.0f, 0.0f,
 	};
 
+	GLfloat g_color_buffer_data[] = {
+		0.526F, 0.478F, 0.124F,
+		0.965F, 0.352F, 0.210F,
+		0.124F, 0.256F, 0.850F
+	};
+
 	GLuint l_VertexBufferID1 = 0;
 	glGenBuffers(1, &l_VertexBufferID1);
 	glBindBuffer(GL_ARRAY_BUFFER, l_VertexBufferID1);
-	glBufferData(GL_ARRAY_BUFFER, 36, g_vertex_buffer_data, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(g_vertex_buffer_data), g_vertex_buffer_data, GL_STATIC_DRAW);
+
+	GLuint l_ColorBuffer = 0;
+	glGenBuffers(1, &l_ColorBuffer);
+	glBindBuffer(GL_ARRAY_BUFFER, l_ColorBuffer);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(g_color_buffer_data), g_color_buffer_data, GL_STATIC_DRAW);
 
 	// Outside of the loop variables
 	ParticuleShader m_shader;
+	ParticuleShader m_Color;
 
 	// Matrice de la caméra
 	glm::mat4 View;
@@ -81,6 +93,7 @@ int main(void)
 
 	float base = 0.0;
 
+	// Loop that draws several triangles based on a single vertex array and multiple MVP changes
 	do {
 
 		// Clear the screen. It's not mentioned before Tutorial 02, but it can cause flickering, so it's there nonetheless.
@@ -97,6 +110,7 @@ int main(void)
 		m_shader.setVertexParameters(MVP);
 
 		m_shader.bind(l_VertexBufferID1);
+		m_shader.bind(l_ColorBuffer);
 		m_shader.draw();
 
 		// Matrice de la caméra
