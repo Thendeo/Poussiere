@@ -29,14 +29,17 @@ public:
 	void draw();
 
 	void setVertexParameters(glm::mat4 pMVP);
-	void loadTexture(std::string pTexturePath);
-	void setVertexBuffer(GLuint pVertexBufferID);
-	void setUVBuffer(GLuint pUVBufferID);
+	void loadTexture(int pWidth, int pHeight, unsigned char* pData);
 
 private:
 	
+	// Arrays
 	GLuint m_VertexArrayID;
-	GLuint m_vertexbuffer;
+	GLuint m_TextureID;
+
+	// BufferData
+	GLuint m_Vertexbuffer;
+	GLuint m_Texture;
 	GLuint m_uvBuffer;
 
 	GLuint m_ProgramID;
@@ -44,7 +47,5 @@ private:
 	GLuint m_MatrixID;
 	glm::mat4 m_MVP;
 
-	GLuint m_TextureID;
-	GLuint m_Texture;
 	bool m_TextureLoaded;
 };

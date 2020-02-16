@@ -118,18 +118,21 @@ GLuint LoadShaders(const char* vertex_file_path, const char* fragment_file_path)
 
 ParticuleShader::ParticuleShader(GLfloat* pVertexData, int pVertexSize, GLfloat* pUVData, int pUVSize)
 	: m_VertexArrayID(0)
-	, m_vertexbuffer(0)
+	, m_TextureID(0)
+	, m_Vertexbuffer(0)
+	, m_Texture(0)
 	, m_uvBuffer(0)
 	, m_ProgramID(0)
 	, m_MatrixID(0)
 	, m_MVP()
-	, m_TextureID(0)
-	, m_Texture(0)
 	, m_TextureLoaded(false)
 {
-	
+	// Create Arrays
 	glGenVertexArrays(1, &m_VertexArrayID);
 	glBindVertexArray(m_VertexArrayID);
+
+	glGenTextures(1, &m_TextureID);
+	glBindTexture(GL_TEXTURE_2D, m_TextureID);
 
 	m_ProgramID = LoadShaders("SimpleVertexShader.vertexshader", "SimpleFragmentShader.fragmentshader");
 
@@ -140,26 +143,28 @@ ParticuleShader::ParticuleShader(GLfloat* pVertexData, int pVertexSize, GLfloat*
 	// Set texture to buffer ID 0
 	glUniform1i(m_TextureID, 0);
 
-	glGenBuffers(1, &m_vertexbuffer);
-	glBindBuffer(GL_ARRAY_BUFFER, m_vertexbuffer);
+	glGenBuffers(1, &m_Vertexbuffer);
+	glBindBuffer(GL_ARRAY_BUFFER, m_Vertexbuffer);
 	glBufferData(GL_ARRAY_BUFFER, pVertexSize, pVertexData, GL_STATIC_DRAW);
 
 	glGenBuffers(1, &m_uvBuffer);
 	glBindBuffer(GL_ARRAY_BUFFER, m_uvBuffer);
 	glBufferData(GL_ARRAY_BUFFER, pUVSize, pUVData, GL_STATIC_DRAW);
+
+
 }
 
 ParticuleShader::ParticuleShader(std::string pTexturePath)
 	: m_VertexArrayID(0)
-	, m_vertexbuffer(0)
+	, m_TextureID(0)
+	, m_Vertexbuffer(0)
+	, m_Texture(0)
+	, m_uvBuffer(0)
 	, m_ProgramID(0)
 	, m_MatrixID(0)
 	, m_MVP()
-	, m_TextureID(0)
-	, m_Texture(0)
 	, m_TextureLoaded(false)
 {
-	loadTexture(pTexturePath);
 	m_ProgramID = LoadShaders("SimpleFragmentShader.vertexshader", "SimpleVertexShader.fragmentshader");
 
 	// Get a handle for our "MVP" and Texture uniforms
@@ -178,10 +183,11 @@ void ParticuleShader::draw()
 {
 	// Use our shader
 	glUseProgram(m_ProgramID);
-	
+
+	glBindBuffer(GL_ARRAY_BUFFER, m_TextureID);
 	// 1rst attribute buffer : vertices
 	glEnableVertexAttribArray(0);
-	glBindBuffer(GL_ARRAY_BUFFER, m_vertexbuffer);
+	glBindBuffer(GL_ARRAY_BUFFER, m_Vertexbuffer);
 	glVertexAttribPointer(
 		0,                  // attribute. No particular reason for 0, but must match the layout in the shader.
 		3,                  // size
@@ -215,102 +221,12 @@ void ParticuleShader::setVertexParameters(glm::mat4 pMVP)
 	glUniformMatrix4fv(m_MatrixID, 1, GL_FALSE, &m_MVP[0][0]);
 }
 
-void ParticuleShader::loadTexture(std::string pTexturePath)
+void ParticuleShader::loadTexture(int pWidth, int pHeight, unsigned char* pData)
 {
-	// TODO : move function to other place
-	// If texture is already created, delete it and pass bool to false
-	// Add error check
-	// Check for isCreatedTexture function instead of bool
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, pWidth, pHeight, 0, GL_BGR, GL_UNSIGNED_BYTE, pData);
 
-	// Data read from the header of the BMP file
-	unsigned char header[54];
-	unsigned int dataPos;
-	unsigned int imageSize;
-	unsigned int width, height;
-	// Actual RGB data
-	unsigned char* data;
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 
-	// Open the file
-	FILE* file = fopen(pTexturePath.c_str(), "rb");
-	if (!file) {
-		printf("Could not be opened. Are you in the right directory ? Don't forget to read the FAQ !\n");
-		getchar();
-		//return 0;
-	}
-
-	// Read the header, i.e. the 54 first bytes
-
-	// If less than 54 bytes are read, problem
-	if (fread(header, 1, 54, file) != 54) {
-		printf("Not a correct BMP file\n");
-		fclose(file);
-		//return 0;
-	}
-	// A BMP files always begins with "BM"
-	if (header[0] != 'B' || header[1] != 'M') {
-		printf("Not a correct BMP file\n");
-		fclose(file);
-		//return 0;
-	}
-	// Make sure this is a 24bpp file
-	if (*(int*) & (header[0x1E]) != 0) { printf("Not a correct BMP file\n");    fclose(file);  }
-	if (*(int*) & (header[0x1C]) != 24) { printf("Not a correct BMP file\n");    fclose(file);  }
-
-	// Read the information about the image
-	dataPos = *(int*) & (header[0x0A]);
-	imageSize = *(int*) & (header[0x22]);
-	width = *(int*) & (header[0x12]);
-	height = *(int*) & (header[0x16]);
-
-	// Some BMP files are misformatted, guess missing information
-	if (imageSize == 0)    imageSize = width * height * 3; // 3 : one byte for each Red, Green and Blue component
-	if (dataPos == 0)      dataPos = 54; // The BMP header is done that way
-
-	// Create a buffer
-	data = new unsigned char[imageSize];
-
-	// Read the actual data from the file into the buffer
-	fread(data, 1, imageSize, file);
-
-	// Everything is in memory now, the file can be closed.
-	fclose(file);
-
-	// Create one OpenGL texture
-	glGenTextures(1, &m_Texture);
-
-	// "Bind" the newly created texture : all future texture functions will modify this texture
-	glBindTexture(GL_TEXTURE_2D, m_Texture);
-
-	// Give the image to OpenGL
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_BGR, GL_UNSIGNED_BYTE, data);
-
-	// OpenGL has now copied the data. Free our own version
-	delete[] data;
-
-	// Poor filtering, or ...
-	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST); 
-
-	// ... nice trilinear filtering ...
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-	// ... which requires mipmaps. Generate them automatically.
-	glGenerateMipmap(GL_TEXTURE_2D);
-
-	// Return the ID of the texture we just created
-	//return textureID;
-
-	m_TextureLoaded = true;
-}
-
-void ParticuleShader::setVertexBuffer(GLuint pVertexBufferID)
-{
-	m_vertexbuffer = pVertexBufferID;
-}
-
-void ParticuleShader::setUVBuffer(GLuint pUVBufferID)
-{
-	m_uvBuffer = pUVBufferID;
+	glActiveTexture(GL_TEXTURE0);
 }

@@ -103,18 +103,13 @@ int main(void)
 
 	// Dark blue background
 	glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
-	
-	// Create vertex buffer data
+
+	/****************** DATA ******************/
+
 	GLfloat g_vertex_buffer_data[] = {
 		0.0f, 0.0f, 0.0f,
 		 1.0f, 0.0f, 0.0f,
 		 0.0f,  1.0f, 0.0f,
-	};
-
-	GLfloat g_color_buffer_data[] = {
-		0.526F, 0.478F, 0.124F,
-		0.965F, 0.352F, 0.210F,
-		0.124F, 0.256F, 0.850F
 	};
 
 	GLfloat g_uv_buffer_data[] = {
@@ -123,35 +118,22 @@ int main(void)
 		 0.0f,  1.0F
 	};
 		
-	// Crée une texture OpenGL
-	GLuint textureID;
-	glGenTextures(1, &textureID);
-	glBindTexture(GL_TEXTURE_2D, textureID);
-
-	// Donne l'image à OpenGL
 	unsigned int l_TextureWidth = 2, l_TextureHeight = 2;
 	unsigned char l_TextureData[16] = { 255, 0, 0,
 		0, 255, 0,
 		0, 0, 255,
 		255, 255, 255 };
-	//unsigned char* l_TextureData;
-	//GLuint Texture = loadBMP_custom("uvtemplate.bmp", &l_TextureData, l_TextureWidth, l_TextureHeight);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, l_TextureWidth, l_TextureHeight, 0, GL_BGR, GL_UNSIGNED_BYTE, l_TextureData);
-
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, textureID);
 
 
-	// Outside of the loop variables
+	/****************** SHADER ******************/ 
 	ParticuleShader m_shader(g_vertex_buffer_data, sizeof(g_vertex_buffer_data), g_uv_buffer_data, sizeof(g_uv_buffer_data));
+	m_shader.loadTexture(l_TextureWidth, l_TextureHeight, l_TextureData);
+
+	/****************** MVP ******************/
 
 	// Matrice de la caméra
 	glm::mat4 View;
-	// Matrice de modèle : une matrice d'identité (le modèle sera à l'origine) 
-	glm::mat4 Model = glm::mat4(1.0f);  // Changez pour chaque modèle ! 
+	glm::mat4 Model = glm::mat4(1.0f);
 	// Matrice de projection : Champ de vision de 45° , ration 4:3, distance d'affichage : 0.1 unités <-> 100 unités 
 	glm::mat4 Projection = glm::perspective(45.0f, 4.0f / 3.0f, 0.1f, 100.0f);
 	glm::mat4 MVP;
@@ -162,15 +144,10 @@ int main(void)
 	// Accepte le fragment s'il est plus proche de la caméra que le précédent accepté
 	glDepthFunc(GL_LESS);
 
-
-	//m_shader.setVertexBuffer(l_VertexBufferID1);
-	//m_shader.setUVBuffer(l_UVBuffer);
-
 	// Loop that draws several triangles based on a single vertex array and multiple MVP changes
 	do {
 
-		// Clear the screen. It's not mentioned before Tutorial 02, but it can cause flickering, so it's there nonetheless.
-		// Nettoie l'écran
+		// Clear the screen
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 
@@ -180,67 +157,57 @@ int main(void)
 			glm::vec3(0, -base, 1), // et regarde l'origine
 			glm::vec3(0, 1, 0)  // La tête est vers le haut (utilisez 0,-1,0 pour regarder à l'envers) 
 		);
-		MVP = Projection * View * Model; // Souvenez-vous, la multiplication de matrice fonctionne dans l'autre sens
+		MVP = Projection * View * Model; 
 		m_shader.setVertexParameters(MVP);
 
 		m_shader.draw();
 
-		// Matrice de la caméra
 		View = glm::lookAt(
-			glm::vec3(4, 3, 3), // La caméra est à (4,3,3), dans l'espace monde
-			glm::vec3(0, base, 0), // et regarde l'origine
-			glm::vec3(0, 1, 0)  // La tête est vers le haut (utilisez 0,-1,0 pour regarder à l'envers) 
+			glm::vec3(4, 3, 3),
+			glm::vec3(0, base, 0),
+			glm::vec3(0, 1, 0)
 		);
-		// Notre matrice ModelViewProjection : la multiplication des trois  matrices 
-		MVP = Projection * View * Model; // Souvenez-vous, la multiplication de matrice fonctionne dans l'autre sens
+		MVP = Projection * View * Model;
 
 		m_shader.setVertexParameters(MVP);
 		m_shader.draw();
 
-		// Matrice de la caméra
 		View = glm::lookAt(
-			glm::vec3(4, 3, 3), // La caméra est à (4,3,3), dans l'espace monde
-			glm::vec3(base, 0, 1), // et regarde l'origine
-			glm::vec3(0, 1, 0)  // La tête est vers le haut (utilisez 0,-1,0 pour regarder à l'envers) 
+			glm::vec3(4, 3, 3), 
+			glm::vec3(base, 0, 1),
+			glm::vec3(0, 1, 0)
 		);
-		// Notre matrice ModelViewProjection : la multiplication des trois  matrices 
-		MVP = Projection * View * Model; // Souvenez-vous, la multiplication de matrice fonctionne dans l'autre sens
+		MVP = Projection * View * Model;
 
 		m_shader.setVertexParameters(MVP);
 		m_shader.draw();
 
-		// Matrice de la caméra
 		View = glm::lookAt(
-			glm::vec3(4, 3, 3), // La caméra est à (4,3,3), dans l'espace monde
-			glm::vec3(-base, 0, 0), // et regarde l'origine
-			glm::vec3(0, 1, 0)  // La tête est vers le haut (utilisez 0,-1,0 pour regarder à l'envers) 
+			glm::vec3(4, 3, 3),
+			glm::vec3(-base, 0, 0),
+			glm::vec3(0, 1, 0)
 		);
-		// Notre matrice ModelViewProjection : la multiplication des trois  matrices 
-		MVP = Projection * View * Model; // Souvenez-vous, la multiplication de matrice fonctionne dans l'autre sens
+		MVP = Projection * View * Model;
 
 		m_shader.setVertexParameters(MVP);
 		m_shader.draw();
 
-		// Matrice de la caméra
 		View = glm::lookAt(
-			glm::vec3(4, 3, 3), // La caméra est à (4,3,3), dans l'espace monde
-			glm::vec3(0, 0, base), // et regarde l'origine
-			glm::vec3(0, 1, 0)  // La tête est vers le haut (utilisez 0,-1,0 pour regarder à l'envers) 
+			glm::vec3(4, 3, 3), 
+			glm::vec3(0, 0, base),
+			glm::vec3(0, 1, 0)
 		);
-		// Notre matrice ModelViewProjection : la multiplication des trois  matrices 
-		MVP = Projection * View * Model; // Souvenez-vous, la multiplication de matrice fonctionne dans l'autre sens
+		MVP = Projection * View * Model;
 
 		m_shader.setVertexParameters(MVP);
 		m_shader.draw();
 
-		// Matrice de la caméra
 		View = glm::lookAt(
-			glm::vec3(4, 3, 3), // La caméra est à (4,3,3), dans l'espace monde
-			glm::vec3(0, 0, -base), // et regarde l'origine
-			glm::vec3(0, 1, 0)  // La tête est vers le haut (utilisez 0,-1,0 pour regarder à l'envers) 
+			glm::vec3(4, 3, 3),
+			glm::vec3(0, 0, -base), 
+			glm::vec3(0, 1, 0)
 		);
-		// Notre matrice ModelViewProjection : la multiplication des trois  matrices 
-		MVP = Projection * View * Model; // Souvenez-vous, la multiplication de matrice fonctionne dans l'autre sens
+		MVP = Projection * View * Model;
 
 		m_shader.setVertexParameters(MVP);
 		m_shader.draw();
