@@ -16,6 +16,7 @@ GLFWwindow* window;
 
 #include <ParticuleShader.h>
 
+// TODO : move this to an image loader
 GLuint loadBMP_custom(const char* imagepath, unsigned char** outData, unsigned int &outWidth, unsigned int &outHeight)
 {
 	// Données lues à partir de l'en-tête du fichier BMP
@@ -66,6 +67,7 @@ GLuint loadBMP_custom(const char* imagepath, unsigned char** outData, unsigned i
 
 int main(void)
 {
+	// TODO move this to an openGLScene singleton
 	// Initialise GLFW
 	if (!glfwInit())
 	{
@@ -131,6 +133,7 @@ int main(void)
 
 	/****************** MVP ******************/
 
+	// TODO move this inside a camera object with configuration
 	// Matrice de la caméra
 	glm::mat4 View;
 	glm::mat4 Model = glm::mat4(1.0f);
@@ -150,6 +153,8 @@ int main(void)
 		// Clear the screen
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+		// TODO replace those redondant lines by a texture with appropriate fragment code
 
 		// Matrice de la caméra
 		View = glm::lookAt(
@@ -211,6 +216,8 @@ int main(void)
 
 		m_shader.setVertexParameters(MVP);
 		m_shader.draw();
+
+		// TODO move this awfull clock inside a real MasterTimer with proper scheduler
 		base += 0.002F;
 
 

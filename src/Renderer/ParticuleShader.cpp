@@ -20,6 +20,8 @@ using namespace std;
 
 #include <stdlib.h>
 #include <string.h>
+
+// TODO move this to shader parser (new class)
 GLuint LoadShaders(const char* vertex_file_path, const char* fragment_file_path) {
 
 	// Create the shaders
