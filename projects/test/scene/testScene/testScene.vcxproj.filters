@@ -25,6 +25,9 @@
     <Filter Include="Fichiers d%27en-tête\Renderer">
       <UniqueIdentifier>{6a3fab9f-2b2a-4008-9ff6-fa840c0b54bb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Shaders">
+      <UniqueIdentifier>{7a615a8c-f7cb-4090-985d-46f01f69fe1d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\..\src\scene\main.cpp">
@@ -50,5 +53,13 @@
     <ClInclude Include="..\..\..\..\src\Renderer\ParticuleShader.h">
       <Filter>Fichiers d%27en-tête\Renderer</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="SimpleVertexShader.vertexshader">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="SimpleFragmentShader.fragmentshader">
+      <Filter>Shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>

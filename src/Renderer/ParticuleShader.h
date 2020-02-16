@@ -31,9 +31,14 @@ public:
 
 	void setVertexParameters(glm::mat4 pMVP);
 	void loadTexture(std::string pTexturePath);
+	void setVertexBuffer(GLuint pVertexBufferID);
+	void setUVBuffer(GLuint pUVBufferID);
+
+private:
 	
 	GLuint m_VertexArrayID;
 	GLuint m_vertexbuffer;
+	GLuint m_uvBuffer;
 
 	GLuint m_ProgramID;
 
