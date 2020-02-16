@@ -119,15 +119,10 @@ int main(void)
 
 	GLfloat g_uv_buffer_data[] = {
 		0.0, 0.0f,
-		 2.0F, 0.0f,
-		 0.0f,  2.0F
+		 1.0F, 0.0f,
+		 0.0f,  1.0F
 	};
-
-	GLuint l_VertexBufferID1 = 0;
-	glGenBuffers(1, &l_VertexBufferID1);
-	glBindBuffer(GL_ARRAY_BUFFER, l_VertexBufferID1);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(g_vertex_buffer_data), g_vertex_buffer_data, GL_STATIC_DRAW);
-	
+		
 	// Crée une texture OpenGL
 	GLuint textureID;
 	glGenTextures(1, &textureID);
@@ -145,17 +140,13 @@ int main(void)
 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-
 	
-	GLuint l_UVBuffer = 0;
-	glGenBuffers(1, &l_UVBuffer);
-	glBindBuffer(GL_ARRAY_BUFFER, l_UVBuffer);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(g_uv_buffer_data), g_uv_buffer_data, GL_STATIC_DRAW);
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, textureID);
 
 
 	// Outside of the loop variables
-	ParticuleShader m_shader;
-	ParticuleShader m_Color;
+	ParticuleShader m_shader(g_vertex_buffer_data, sizeof(g_vertex_buffer_data), g_uv_buffer_data, sizeof(g_uv_buffer_data));
 
 	// Matrice de la caméra
 	glm::mat4 View;
@@ -172,11 +163,8 @@ int main(void)
 	glDepthFunc(GL_LESS);
 
 
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, textureID);
-
-	m_shader.setVertexBuffer(l_VertexBufferID1);
-	m_shader.setUVBuffer(l_UVBuffer);
+	//m_shader.setVertexBuffer(l_VertexBufferID1);
+	//m_shader.setUVBuffer(l_UVBuffer);
 
 	// Loop that draws several triangles based on a single vertex array and multiple MVP changes
 	do {
@@ -195,7 +183,6 @@ int main(void)
 		MVP = Projection * View * Model; // Souvenez-vous, la multiplication de matrice fonctionne dans l'autre sens
 		m_shader.setVertexParameters(MVP);
 
-		m_shader.bind(l_UVBuffer);
 		m_shader.draw();
 
 		// Matrice de la caméra

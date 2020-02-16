@@ -116,7 +116,7 @@ GLuint LoadShaders(const char* vertex_file_path, const char* fragment_file_path)
 }
 
 
-ParticuleShader::ParticuleShader()
+ParticuleShader::ParticuleShader(GLfloat* pVertexData, int pVertexSize, GLfloat* pUVData, int pUVSize)
 	: m_VertexArrayID(0)
 	, m_vertexbuffer(0)
 	, m_uvBuffer(0)
@@ -133,10 +133,20 @@ ParticuleShader::ParticuleShader()
 
 	m_ProgramID = LoadShaders("SimpleVertexShader.vertexshader", "SimpleFragmentShader.fragmentshader");
 
-	// Get a handle for our "MVP" uniform
+	// Get a handle for our "MVP" and Texture uniforms
 	m_MatrixID = glGetUniformLocation(m_ProgramID, "MVP");
 	m_TextureID = glGetUniformLocation(m_ProgramID, "myTextureSampler");
 
+	// Set texture to buffer ID 0
+	glUniform1i(m_TextureID, 0);
+
+	glGenBuffers(1, &m_vertexbuffer);
+	glBindBuffer(GL_ARRAY_BUFFER, m_vertexbuffer);
+	glBufferData(GL_ARRAY_BUFFER, pVertexSize, pVertexData, GL_STATIC_DRAW);
+
+	glGenBuffers(1, &m_uvBuffer);
+	glBindBuffer(GL_ARRAY_BUFFER, m_uvBuffer);
+	glBufferData(GL_ARRAY_BUFFER, pUVSize, pUVData, GL_STATIC_DRAW);
 }
 
 ParticuleShader::ParticuleShader(std::string pTexturePath)
@@ -150,55 +160,25 @@ ParticuleShader::ParticuleShader(std::string pTexturePath)
 	, m_TextureLoaded(false)
 {
 	loadTexture(pTexturePath);
-	//m_ProgramID = LoadShaders("SimpleFragmentShader.vertexshader", "SimpleVertexShader.fragmentshader");
+	m_ProgramID = LoadShaders("SimpleFragmentShader.vertexshader", "SimpleVertexShader.fragmentshader");
 
-	// Get a handle for our "myTextureSampler" uniform
-	m_TextureID = glGetUniformLocation(m_ProgramID, "myTextureSampler");
-	// Get a handle for our "MVP" uniform
+	// Get a handle for our "MVP" and Texture uniforms
 	m_MatrixID = glGetUniformLocation(m_ProgramID, "MVP");
+	m_TextureID = glGetUniformLocation(m_ProgramID, "myTextureSampler");
+
+	// Set texture to buffer ID 0
+	glUniform1i(m_TextureID, 0);
 }
 
 ParticuleShader::~ParticuleShader()
 {
 }
 
-GLuint ParticuleShader::bind(GLuint p_VertexBufferID)
-{
-
-
-	// Bind our texture in Texture Unit 0
-	//glActiveTexture(GL_TEXTURE0);
-	//glBindTexture(GL_TEXTURE_2D, m_Texture);
-	// Set our "myTextureSampler" sampler to use Texture Unit 0
-	//glUniform1i(m_TextureID, 0);
-	/*GLuint size = sizeof(&p_VertexBuffer);
-	*/
-	glBindBuffer(GL_ARRAY_BUFFER, p_VertexBufferID);
-
-	return m_vertexbuffer;
-}
-
 void ParticuleShader::draw()
 {
-	/*GLuint vertexbuffer;
-	glGenBuffers(1, &vertexbuffer);
-	glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(&p_VertexBuffer), p_VertexBuffer, GL_STATIC_DRAW);*/
-
-	/*GLuint uvbuffer;
-	glGenBuffers(1, &uvbuffer);
-	glBindBuffer(GL_ARRAY_BUFFER, uvbuffer);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(&p_PixelBuffer), p_PixelBuffer, GL_STATIC_DRAW);*/
-
-	/*GLuint size = sizeof(&p_VertexBuffer);
-	glGenBuffers(1, &m_vertexbuffer);
-	glBindBuffer(GL_ARRAY_BUFFER, m_vertexbuffer);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(&p_VertexBuffer), p_VertexBuffer, GL_STATIC_DRAW);
-	// Use our shader*/
+	// Use our shader
 	glUseProgram(m_ProgramID);
-
-	glUniform1i(m_TextureID, 0);
-
+	
 	// 1rst attribute buffer : vertices
 	glEnableVertexAttribArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, m_vertexbuffer);
@@ -232,8 +212,6 @@ void ParticuleShader::draw()
 void ParticuleShader::setVertexParameters(glm::mat4 pMVP)
 {
 	m_MVP = pMVP;
-	// Send our transformation to the currently bound shader, 
-	// in the "MVP" uniform
 	glUniformMatrix4fv(m_MatrixID, 1, GL_FALSE, &m_MVP[0][0]);
 }
 

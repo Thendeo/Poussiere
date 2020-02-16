@@ -22,11 +22,10 @@ class ParticuleShader
 {
 public:
 
-	ParticuleShader();
+	ParticuleShader(GLfloat* pVertexData, int pVertexSize, GLfloat* pUVData, int pUVSize);
 	ParticuleShader(std::string pTexturePath);
 	~ParticuleShader();
 
-	GLuint bind(GLuint p_VertexBufferID);
 	void draw();
 
 	void setVertexParameters(glm::mat4 pMVP);
