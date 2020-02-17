@@ -28,6 +28,15 @@
     <Filter Include="Shaders">
       <UniqueIdentifier>{7a615a8c-f7cb-4090-985d-46f01f69fe1d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Fichiers d%27en-tête\Image">
+      <UniqueIdentifier>{63db6c01-9e79-4897-bb1f-c317b2d40091}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête\Platform">
+      <UniqueIdentifier>{31ebaeaf-97cd-45e3-86b0-131323ba24fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers sources\Platform">
+      <UniqueIdentifier>{59395b22-841a-46b0-96e1-c83e9a0eb889}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\..\src\scene\main.cpp">
@@ -42,6 +51,12 @@
     <ClCompile Include="..\..\..\..\src\Renderer\ParticuleShader.cpp">
       <Filter>Fichiers sources\Renderer</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\src\Maths\Image_8.cpp">
+      <Filter>Fichiers sources\Maths</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\Platform\AssertHdl.cpp">
+      <Filter>Fichiers d%27en-tête\Platform</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\..\src\Maths\Triangle.h">
@@ -52,6 +67,15 @@
     </ClInclude>
     <ClInclude Include="..\..\..\..\src\Renderer\ParticuleShader.h">
       <Filter>Fichiers d%27en-tête\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\Maths\Image_8.h">
+      <Filter>Fichiers d%27en-tête\Maths</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\Platform\AssertHdl.h">
+      <Filter>Fichiers d%27en-tête\Platform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\Maths\Image.h">
+      <Filter>Fichiers d%27en-tête\Maths</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

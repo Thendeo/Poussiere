@@ -19,14 +19,19 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\..\src\Maths\Image_8.cpp" />
     <ClCompile Include="..\..\..\..\src\Maths\Point3D.cpp" />
     <ClCompile Include="..\..\..\..\src\Maths\Triangle.cpp" />
+    <ClCompile Include="..\..\..\..\src\Platform\AssertHdl.cpp" />
     <ClCompile Include="..\..\..\..\src\Renderer\ParticuleShader.cpp" />
     <ClCompile Include="..\..\..\..\src\scene\main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\..\src\Maths\Image.h" />
+    <ClInclude Include="..\..\..\..\src\Maths\Image_8.h" />
     <ClInclude Include="..\..\..\..\src\Maths\Point3D.h" />
     <ClInclude Include="..\..\..\..\src\Maths\Triangle.h" />
+    <ClInclude Include="..\..\..\..\src\Platform\AssertHdl.h" />
     <ClInclude Include="..\..\..\..\src\Renderer\ParticuleShader.h" />
   </ItemGroup>
   <ItemGroup>
@@ -111,7 +116,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(WORKSPACE)\SOUP\glew-2.1.0\include;$(WORKSPACE)\SOUP\glm;$(WORKSPACE)\SOUP\glfw-3.3\include;$(WORKSPACE)\Repos\Particules\src\Maths;$(WORKSPACE)\Repos\Particules\src\Renderer;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(WORKSPACE)\SOUP\glew-2.1.0\include;$(WORKSPACE)\SOUP\glm;$(WORKSPACE)\SOUP\glfw-3.3\include;$(WORKSPACE)\Repos\Particules\src\Maths;$(WORKSPACE)\Repos\Particules\src\Renderer;$(WORKSPACE)\Repos\Particules\src\Platform;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_WINDOWS;TW_STATIC;TW_NO_LIB_PRAGMA;TW_NO_DIRECT3D;_CRT_SECURE_NO_WARNINGS;CMAKE_INTDIR="Debug";%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>

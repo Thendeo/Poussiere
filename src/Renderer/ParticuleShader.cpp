@@ -21,6 +21,8 @@ using namespace std;
 #include <stdlib.h>
 #include <string.h>
 
+#include "AssertHdl.h"
+
 // TODO move this to shader parser (new class)
 GLuint LoadShaders(const char* vertex_file_path, const char* fragment_file_path) {
 
@@ -223,9 +225,23 @@ void ParticuleShader::setVertexParameters(glm::mat4 pMVP)
 	glUniformMatrix4fv(m_MatrixID, 1, GL_FALSE, &m_MVP[0][0]);
 }
 
-void ParticuleShader::loadTexture(int pWidth, int pHeight, unsigned char* pData)
+void ParticuleShader::loadTexture(Image* pTexture)
 {
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, pWidth, pHeight, 0, GL_BGR, GL_UNSIGNED_BYTE, pData);
+	GLint l_Type = 0;
+	switch (pTexture->getType())
+	{
+	case 8U:
+		l_Type = GL_RGB;
+		break;
+	case 12U:
+		l_Type = GL_RGBA;
+		break;
+	default:
+		doAssert(false);
+		break;
+
+	}
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, pTexture->getWidth(), pTexture->getHeight(), 0, GL_BGR, GL_UNSIGNED_BYTE, pTexture->getData());
 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);

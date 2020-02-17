@@ -12,6 +12,8 @@
 #include <GL/glew.h>
 #include <glm/glm.hpp>
 
+#include "Image.h"
+
 #include <string>
 
 //! @brief Shader to draw a particule
@@ -29,7 +31,7 @@ public:
 	void draw();
 
 	void setVertexParameters(glm::mat4 pMVP);
-	void loadTexture(int pWidth, int pHeight, unsigned char* pData);
+	void loadTexture(Image* pTexture);
 
 private:
 	

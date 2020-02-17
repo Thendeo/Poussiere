@@ -15,6 +15,7 @@ GLFWwindow* window;
 #include <glm/gtx/transform.hpp>
 
 #include <ParticuleShader.h>
+#include "Image_8.h"
 
 // TODO : move this to an image loader
 GLuint loadBMP_custom(const char* imagepath, unsigned char** outData, unsigned int &outWidth, unsigned int &outHeight)
@@ -129,7 +130,9 @@ int main(void)
 
 	/****************** SHADER ******************/ 
 	ParticuleShader m_shader(g_vertex_buffer_data, sizeof(g_vertex_buffer_data), g_uv_buffer_data, sizeof(g_uv_buffer_data));
-	m_shader.loadTexture(l_TextureWidth, l_TextureHeight, l_TextureData);
+	Image_8 l_Tex;
+	l_Tex.loadFromBMP("texture.bmp");
+	m_shader.loadTexture(&l_Tex);
 
 	/****************** MVP ******************/
 
@@ -162,6 +165,7 @@ int main(void)
 			glm::vec3(0, -base, 1), // et regarde l'origine
 			glm::vec3(0, 1, 0)  // La tête est vers le haut (utilisez 0,-1,0 pour regarder à l'envers) 
 		);
+
 		MVP = Projection * View * Model; 
 		m_shader.setVertexParameters(MVP);
 
