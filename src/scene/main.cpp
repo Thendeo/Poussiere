@@ -96,14 +96,11 @@ int main(void)
 	glm::mat4 MVP;
 
 	float base = 0.0;
-	// Active le test de profondeur
-	glDisable(GL_CULL_FACE);
-	glDisable(GL_DEPTH_TEST);
-	// Accepte le fragment s'il est plus proche de la caméra que le précédent accepté
 	glDepthFunc(GL_LESS);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glEnable(GL_BLEND);
 
+	// 5 Particules + direction
 	glm::mat4 Model[5];
 	glm::vec3 ModelTranslation[5] = 
 	{ 
@@ -114,8 +111,6 @@ int main(void)
 		, glm::vec3(1, 1, 0)
 	};
 
-
-	// Loop that draws several triangles based on a single vertex array and multiple MVP changes
 	do {
 
 		// Clear the screen
@@ -126,11 +121,10 @@ int main(void)
 
 		// Matrice de la caméra
 		View = glm::lookAt(
-			glm::vec3(1, 1, 1), // La caméra est à (4,3,3), dans l'espace monde
-			glm::vec3(0, 0, 0), // et regarde l'origine
-			glm::vec3(0, 1, 0)  // La tête est vers le haut (utilisez 0,-1,0 pour regarder à l'envers) 
+			glm::vec3(1, 1, 1), // Position
+			glm::vec3(0, 0, 0), // LookAt
+			glm::vec3(0, 1, 0)  // Up vector
 		);
-
 
 		for (unsigned int l_ModelID = 0; l_ModelID < 5; l_ModelID++)
 		{
@@ -139,64 +133,9 @@ int main(void)
 			m_shader.setVertexParameters(MVP);
 			m_shader.draw();
 		}
-		/*
-		MVP = Projection * View * Model; 
-		m_shader.setVertexParameters(MVP);
-
-		m_shader.draw();
-
-		View = glm::lookAt(
-			glm::vec3(4, 3, 3),
-			glm::vec3(0, base, 0),
-			glm::vec3(0, 1, 0)
-		);
-
-		m_shader.setVertexParameters(MVP);
-		m_shader.draw();
-
-		View = glm::lookAt(
-			glm::vec3(4, 3, 3), 
-			glm::vec3(base, 0, 1),
-			glm::vec3(0, 1, 0)
-		);
-		MVP = Projection * View * Model;
-
-		m_shader.setVertexParameters(MVP);
-		m_shader.draw();
-
-		View = glm::lookAt(
-			glm::vec3(4, 3, 3),
-			glm::vec3(-base, 0, 0),
-			glm::vec3(0, 1, 0)
-		);
-		MVP = Projection * View * Model;
-
-		m_shader.setVertexParameters(MVP);
-		m_shader.draw();
-
-		View = glm::lookAt(
-			glm::vec3(4, 3, 3), 
-			glm::vec3(0, 0, base),
-			glm::vec3(0, 1, 0)
-		);
-		MVP = Projection * View * Model;
-
-		m_shader.setVertexParameters(MVP);
-		m_shader.draw();
-
-		View = glm::lookAt(
-			glm::vec3(4, 3, 3),
-			glm::vec3(0, 0, -base), 
-			glm::vec3(0, 1, 0)
-		);
-		MVP = Projection * View * Model;
-
-		m_shader.setVertexParameters(MVP);
-		m_shader.draw();*/
-
-		// TODO move this awfull clock inside a real MasterTimer with proper scheduler
+		
+		// TODO move this awfull clock inside a real Timer with proper scheduler
 		base += 0.002F;
-
 
 		// Swap buffers
 		glfwSwapBuffers(window);
