@@ -12,6 +12,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "lodepng.h"
+
 #include "AssertHdl.h"
 
 Image_8::Image_8()
@@ -66,6 +68,12 @@ void Image_8::loadFromBMP(const char* p_Path)
 	//doAssert(m_ImageSize == (l_Readed * 3));
 
 	fclose(l_File);
+}
+
+void Image_8::loadFromPNG(const char* p_Path)
+{
+	unsigned l_Err = lodepng_decode_file(&m_Data, &m_Width, &m_Height, p_Path, LCT_RGBA, 8U);
+	doAssert(0 == l_Err);
 }
 
 int Image_8::getWidth()

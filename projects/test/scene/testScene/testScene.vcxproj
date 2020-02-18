@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\..\..\..\SOUP\lodepng\lodepng.cpp" />
     <ClCompile Include="..\..\..\..\src\Maths\Image_8.cpp" />
     <ClCompile Include="..\..\..\..\src\Maths\Point3D.cpp" />
     <ClCompile Include="..\..\..\..\src\Maths\Triangle.cpp" />
@@ -116,7 +117,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(WORKSPACE)\SOUP\glew-2.1.0\include;$(WORKSPACE)\SOUP\glm;$(WORKSPACE)\SOUP\glfw-3.3\include;$(WORKSPACE)\Repos\Particules\src\Maths;$(WORKSPACE)\Repos\Particules\src\Renderer;$(WORKSPACE)\Repos\Particules\src\Platform;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(WORKSPACE)\SOUP\glew-2.1.0\include;$(WORKSPACE)\SOUP\glm;$(WORKSPACE)\SOUP\glfw-3.3\include;$(WORKSPACE)\Repos\Particules\src\Maths;$(WORKSPACE)\Repos\Particules\src\Renderer;$(WORKSPACE)\Repos\Particules\src\Platform;$(WORKSPACE)\SOUP\lodepng;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_WINDOWS;TW_STATIC;TW_NO_LIB_PRAGMA;TW_NO_DIRECT3D;_CRT_SECURE_NO_WARNINGS;CMAKE_INTDIR="Debug";%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>

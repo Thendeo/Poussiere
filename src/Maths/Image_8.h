@@ -19,6 +19,7 @@ public:
 	~Image_8();
 
 	void loadFromBMP(const char* p_Path);
+	void loadFromPNG(const char* p_Path);
 
 	virtual int getWidth();
 	virtual int getHeight();

@@ -241,10 +241,12 @@ void ParticuleShader::loadTexture(Image* pTexture)
 		break;
 
 	}
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, pTexture->getWidth(), pTexture->getHeight(), 0, GL_BGR, GL_UNSIGNED_BYTE, pTexture->getData());
+	glTexImage2D(GL_TEXTURE_2D, 0, l_Type, pTexture->getWidth(), pTexture->getHeight(), 0, l_Type, GL_UNSIGNED_BYTE, pTexture->getData());
 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
 
 	glActiveTexture(GL_TEXTURE0);
 }

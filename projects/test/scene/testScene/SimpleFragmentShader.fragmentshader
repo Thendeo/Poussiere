@@ -4,7 +4,7 @@
 in vec2 UV; 
  
 // Données en sortie
-out vec3 color; 
+out vec4 color; 
  
 // Valeurs qui sont constantes pour l'ensemble du modèle.
 uniform sampler2D myTextureSampler; 
@@ -13,6 +13,7 @@ void main()
 {
 
 	// coordonnées UV spécifiées
-    color = texture( myTextureSampler, UV ).rgb; 
+    color.rgb = texture( myTextureSampler, UV ).rgb; 
+	color.a = texture( myTextureSampler, UV ).r;
 
 }
