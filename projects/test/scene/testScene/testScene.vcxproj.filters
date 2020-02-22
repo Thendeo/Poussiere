@@ -37,9 +37,6 @@
     <Filter Include="Fichiers sources\Platform">
       <UniqueIdentifier>{59395b22-841a-46b0-96e1-c83e9a0eb889}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Fichiers sources\Maths\SOUP">
-      <UniqueIdentifier>{c2556d6b-42a1-49ad-a017-4cb0b9bb6c48}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\..\src\scene\main.cpp">
@@ -60,8 +57,8 @@
     <ClCompile Include="..\..\..\..\src\Platform\AssertHdl.cpp">
       <Filter>Fichiers d%27en-tête\Platform</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\..\..\SOUP\lodepng\lodepng.cpp">
-      <Filter>Fichiers sources\Maths\SOUP</Filter>
+    <ClCompile Include="..\..\..\..\src\Maths\Image.cpp">
+      <Filter>Fichiers sources\Maths</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

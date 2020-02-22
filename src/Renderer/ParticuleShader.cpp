@@ -228,12 +228,21 @@ void ParticuleShader::setVertexParameters(glm::mat4 pMVP)
 void ParticuleShader::loadTexture(Image* pTexture)
 {
 	GLint l_Type = 0;
-	switch (pTexture->getType())
+	switch (pTexture->getImgType())
 	{
-	case 8U:
+	case ImageType::ImageType_Gray:
+		doAssert(false);
+		break;
+	case ImageType::ImageType_GrayA:
+		doAssert(false);
+		break;
+	case ImageType::ImageType_Palette:
+		doAssert(false);
+		break;
+	case ImageType::ImageType_RGB:
 		l_Type = GL_RGB;
 		break;
-	case 12U:
+	case ImageType::ImageType_RGBA:
 		l_Type = GL_RGBA;
 		break;
 	default:

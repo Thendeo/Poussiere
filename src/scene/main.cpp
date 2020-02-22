@@ -82,7 +82,7 @@ int main(void)
 	/****************** SHADER ******************/ 
 	ParticuleShader m_shader(g_vertex_buffer_data, sizeof(g_vertex_buffer_data), g_uv_buffer_data, sizeof(g_uv_buffer_data));
 	Image_8 l_Tex;
-	l_Tex.loadFromBMP("texture.bmp");
+	l_Tex.loadFromPNG("particule.png");
 	m_shader.loadTexture(&l_Tex);
 
 	/****************** MVP ******************/

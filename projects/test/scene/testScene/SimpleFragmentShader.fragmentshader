@@ -13,7 +13,6 @@ void main()
 {
 
 	// coordonnées UV spécifiées
-    color.rgb = texture( myTextureSampler, UV ).rgb; 
-	color.a = texture( myTextureSampler, UV ).r;
+    color.rgba = texture( myTextureSampler, UV ).rgba; 
 
 }

@@ -21,16 +21,8 @@ public:
 	void loadFromBMP(const char* p_Path);
 	void loadFromPNG(const char* p_Path);
 
-	virtual int getWidth();
-	virtual int getHeight();
-	virtual size_t getType();
 	virtual unsigned char* getData();
 
-
 private:
-	unsigned int m_Width;
-	unsigned int m_Height;
-
-	unsigned int m_ImageSize;
 	unsigned char* m_Data;
 };
