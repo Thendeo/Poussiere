@@ -24,10 +24,11 @@ using namespace std;
 #include "AssertHdl.h"
 
 // TODO move this to shader parser (new class)
-GLuint LoadShaders(const char* vertex_file_path, const char* fragment_file_path) {
+GLuint LoadShaders(const char* vertex_file_path, const char* geometry_file_path, const char* fragment_file_path) {
 
 	// Create the shaders
 	GLuint VertexShaderID = glCreateShader(GL_VERTEX_SHADER);
+	GLuint GeometryShaderID = glCreateShader(GL_GEOMETRY_SHADER);
 	GLuint FragmentShaderID = glCreateShader(GL_FRAGMENT_SHADER);
 
 	// Read the Vertex Shader code from the file
@@ -44,6 +45,17 @@ GLuint LoadShaders(const char* vertex_file_path, const char* fragment_file_path)
 		getchar();
 		return 0;
 	}
+
+	// Read the Geometry Shader code from the file
+	std::string GeometryShaderCode;
+	std::ifstream GeometryShaderStream(geometry_file_path, std::ios::in);
+	if (GeometryShaderStream.is_open()) {
+		std::stringstream sstr;
+		sstr << GeometryShaderStream.rdbuf();
+		GeometryShaderCode = sstr.str();
+		GeometryShaderStream.close();
+	}
+
 
 	// Read the Fragment Shader code from the file
 	std::string FragmentShaderCode;
@@ -75,6 +87,20 @@ GLuint LoadShaders(const char* vertex_file_path, const char* fragment_file_path)
 	}
 
 
+	// Compile Geometry Shader
+	printf("Compiling shader : %s\n", geometry_file_path);
+	char const* GeometrySourcePointer = GeometryShaderCode.c_str();
+	glShaderSource(GeometryShaderID, 1, &GeometrySourcePointer, NULL);
+	glCompileShader(GeometryShaderID);
+
+	// Check Geometry Shader
+	glGetShaderiv(GeometryShaderID, GL_COMPILE_STATUS, &Result);
+	glGetShaderiv(GeometryShaderID, GL_INFO_LOG_LENGTH, &InfoLogLength);
+	if (InfoLogLength > 0) {
+		std::vector<char> GeometryShaderErrorMessage(InfoLogLength + 1);
+		glGetShaderInfoLog(GeometryShaderID, InfoLogLength, NULL, &GeometryShaderErrorMessage[0]);
+		printf("%s\n", &GeometryShaderErrorMessage[0]);
+	}
 
 	// Compile Fragment Shader
 	printf("Compiling shader : %s\n", fragment_file_path);
@@ -93,10 +119,12 @@ GLuint LoadShaders(const char* vertex_file_path, const char* fragment_file_path)
 
 
 
+
 	// Link the program
 	printf("Linking program\n");
 	GLuint ProgramID = glCreateProgram();
 	glAttachShader(ProgramID, VertexShaderID);
+	glAttachShader(ProgramID, GeometryShaderID);
 	glAttachShader(ProgramID, FragmentShaderID);
 	glLinkProgram(ProgramID);
 
@@ -111,9 +139,11 @@ GLuint LoadShaders(const char* vertex_file_path, const char* fragment_file_path)
 
 
 	glDetachShader(ProgramID, VertexShaderID);
+	glDetachShader(ProgramID, GeometryShaderID);
 	glDetachShader(ProgramID, FragmentShaderID);
 
 	glDeleteShader(VertexShaderID);
+	glDeleteShader(GeometryShaderID);
 	glDeleteShader(FragmentShaderID);
 
 	return ProgramID;
@@ -138,7 +168,7 @@ ParticuleShader::ParticuleShader(GLfloat* pVertexData, int pVertexSize, GLfloat*
 	glGenTextures(1, &m_TextureID);
 	glBindTexture(GL_TEXTURE_2D, m_TextureID);
 
-	m_ProgramID = LoadShaders("SimpleVertexShader.vertexshader", "SimpleFragmentShader.fragmentshader");
+	m_ProgramID = LoadShaders("SimpleVertexShader.vertexshader", "SimpleGeometryShader.geometryshader", "SimpleFragmentShader.fragmentshader");
 
 	// Get a handle for our "MVP" and Texture uniforms
 	m_MatrixID = glGetUniformLocation(m_ProgramID, "MVP");
@@ -169,7 +199,7 @@ ParticuleShader::ParticuleShader(std::string pTexturePath)
 	, m_MVP()
 	, m_TextureLoaded(false)
 {
-	m_ProgramID = LoadShaders("SimpleFragmentShader.vertexshader", "SimpleVertexShader.fragmentshader");
+	m_ProgramID = LoadShaders("SimpleVertexShader.vertexshader", "SimpleGeometryShader.geometryshader", "SimpleFragmentShader.fragmentshader");
 
 	// Get a handle for our "MVP" and Texture uniforms
 	m_MatrixID = glGetUniformLocation(m_ProgramID, "MVP");
