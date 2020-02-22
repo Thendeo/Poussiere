@@ -101,15 +101,16 @@ int main(void)
 	glEnable(GL_BLEND);
 
 	// 5 Particules + direction
-	glm::mat4 Model[5];
-	glm::vec3 ModelTranslation[5] = 
-	{ 
-		glm::vec3(1, 0, 0)
-		, glm::vec3(0, 1, 0)
-		, glm::vec3(-1, 0, 0)
-		, glm::vec3(0, -1, 0)
-		, glm::vec3(1, 1, 0)
-	};
+	const unsigned int l_NbModel = 512;
+	glm::mat4 Model[l_NbModel];
+
+	glm::vec3 ModelTranslation[l_NbModel];
+	for(unsigned int l_IdModel = 0; l_IdModel< l_NbModel; l_IdModel++)
+	{
+		ModelTranslation[l_IdModel] = glm::vec3((1 == (rand() % 2) ? -1 : 1) * (rand() % 100) / 100.0F,
+			(1 == (rand() % 2) ? -1 : 1) * (rand() % 100) / 100.0F,
+			(1 == (rand() % 2) ? -1 : 1) * (rand() % 100) / 100.0F);
+	}
 
 	do {
 
@@ -121,12 +122,12 @@ int main(void)
 
 		// Matrice de la caméra
 		View = glm::lookAt(
-			glm::vec3(1, 1, 1), // Position
+			glm::vec3(4, 1, 4), // Position
 			glm::vec3(0, 0, 0), // LookAt
 			glm::vec3(0, 1, 0)  // Up vector
 		);
 
-		for (unsigned int l_ModelID = 0; l_ModelID < 5; l_ModelID++)
+		for (unsigned int l_ModelID = 0; l_ModelID < l_NbModel; l_ModelID++)
 		{
 			Model[l_ModelID] = glm::translate(ModelTranslation[l_ModelID] * base);
 			MVP = Projection * View * Model[l_ModelID];
@@ -135,7 +136,7 @@ int main(void)
 		}
 		
 		// TODO move this awfull clock inside a real Timer with proper scheduler
-		base += 0.002F;
+		base += 0.02F;
 
 		// Swap buffers
 		glfwSwapBuffers(window);
