@@ -37,6 +37,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="SimpleFragmentShader.fragmentshader" />
+    <None Include="SimpleGeometryShader.geometryshader" />
     <None Include="SimpleVertexShader.vertexshader" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

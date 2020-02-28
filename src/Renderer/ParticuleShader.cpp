@@ -244,7 +244,7 @@ void ParticuleShader::draw()
 	);
 
 	// Draw the triangle !
-	glDrawArrays(GL_TRIANGLES, 0, 3); // 12*3 indices starting at 0 -> 12 triangles
+	glDrawArrays(GL_POINTS, 0, 3); // 12*3 indices starting at 0 -> 12 triangles
 	glDisableVertexAttribArray(0);
 	glDisableVertexAttribArray(1);
 }

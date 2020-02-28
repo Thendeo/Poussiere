@@ -56,14 +56,12 @@ int main(void)
 	glfwSetInputMode(window, GLFW_STICKY_KEYS, GL_TRUE);
 
 	// Dark blue background
-	glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
+	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
 	/****************** DATA ******************/
 
 	GLfloat g_vertex_buffer_data[] = {
-		0.0f, 0.0f, 0.0f,
-		 1.0f, 0.0f, 0.0f,
-		 0.0f,  1.0f, 0.0f,
+		0.0f, 0.0f, 0.0f
 	};
 
 	GLfloat g_uv_buffer_data[] = {
@@ -96,6 +94,7 @@ int main(void)
 	glm::mat4 MVP;
 
 	float base = 0.0;
+	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LESS);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glEnable(GL_BLEND);
@@ -112,6 +111,13 @@ int main(void)
 			(1 == (rand() % 2) ? -1 : 1) * (rand() % 100) / 100.0F);
 	}
 
+	// Matrice de la caméra
+	View = glm::lookAt(
+		glm::vec3(4, 1, 4), // Position
+		glm::vec3(0, 0, 0), // LookAt
+		glm::vec3(0, 1, 0)  // Up vector
+	);
+
 	do {
 
 		// Clear the screen
@@ -119,13 +125,6 @@ int main(void)
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 		// TODO replace those redondant lines by a texture with appropriate fragment code
-
-		// Matrice de la caméra
-		View = glm::lookAt(
-			glm::vec3(4, 1, 4), // Position
-			glm::vec3(0, 0, 0), // LookAt
-			glm::vec3(0, 1, 0)  // Up vector
-		);
 
 		for (unsigned int l_ModelID = 0; l_ModelID < l_NbModel; l_ModelID++)
 		{
@@ -136,7 +135,7 @@ int main(void)
 		}
 		
 		// TODO move this awfull clock inside a real Timer with proper scheduler
-		base += 0.02F;
+		base += 0.005F;
 
 		// Swap buffers
 		glfwSwapBuffers(window);

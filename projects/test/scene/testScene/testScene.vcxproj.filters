@@ -88,5 +88,8 @@
     <None Include="SimpleFragmentShader.fragmentshader">
       <Filter>Shaders</Filter>
     </None>
+    <None Include="SimpleGeometryShader.geometryshader">
+      <Filter>Shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>

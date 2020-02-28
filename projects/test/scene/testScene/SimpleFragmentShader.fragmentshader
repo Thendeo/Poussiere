@@ -1,7 +1,7 @@
 #version 330 core
 
 // Valeurs interpolées à partir du vertex shader
-in vec2 UV; 
+in vec2 tex_coord; 
  
 // Données en sortie
 out vec4 color; 
@@ -12,7 +12,10 @@ uniform sampler2D myTextureSampler;
 void main()
 {
 
+	vec4 texel = texture(myTextureSampler, tex_coord).rgba;
+	if(texel.a < 0.4)
+		discard;
 	// coordonnées UV spécifiées
-    color.rgba = texture( myTextureSampler, UV ).rgba; 
+	color = texel;
 
 }
