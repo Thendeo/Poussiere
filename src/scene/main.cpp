@@ -96,11 +96,11 @@ int main(void)
 	float base = 0.0;
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LESS);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	glEnable(GL_BLEND);
+	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	//glEnable(GL_BLEND);
 
 	// 5 Particules + direction
-	const unsigned int l_NbModel = 512;
+	const unsigned int l_NbModel = 2048;
 	glm::mat4 Model[l_NbModel];
 
 	glm::vec3 ModelTranslation[l_NbModel];
@@ -135,7 +135,7 @@ int main(void)
 		}
 		
 		// TODO move this awfull clock inside a real Timer with proper scheduler
-		base += 0.005F;
+		base += 0.016F;
 
 		// Swap buffers
 		glfwSwapBuffers(window);
