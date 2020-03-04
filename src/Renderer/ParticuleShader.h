@@ -9,6 +9,8 @@
 
 #pragma once
 
+#include "Shader.h"
+
 #include <GL/glew.h>
 #include <glm/glm.hpp>
 
@@ -20,7 +22,7 @@
 //! Basic class with vertex and pixel shader to draw a particule from a png.
 //! Input for the vertex shader is MVP
 //! Pixel shader render texture from UV map
-class ParticuleShader
+class ParticuleShader: public Shader
 {
 public:
 
@@ -28,7 +30,7 @@ public:
 	ParticuleShader(std::string pTexturePath);
 	~ParticuleShader();
 
-	void draw();
+	virtual void draw();
 
 	void setVertexParameters(glm::mat4 pMVP);
 	void loadTexture(Image* pTexture);

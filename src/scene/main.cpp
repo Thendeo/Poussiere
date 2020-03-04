@@ -15,6 +15,7 @@ GLFWwindow* window;
 #include <glm/gtx/transform.hpp>
 
 #include <ParticuleShader.h>
+#include "AdvanceShader.h"
 #include "Image_8.h"
 
 int main(void)
@@ -79,9 +80,12 @@ int main(void)
 
 	/****************** SHADER ******************/ 
 	ParticuleShader m_shader(g_vertex_buffer_data, sizeof(g_vertex_buffer_data), g_uv_buffer_data, sizeof(g_uv_buffer_data));
+	AdvanceShader m_AdvanceShader;
 	Image_8 l_Tex;
 	l_Tex.loadFromPNG("particule.png");
 	m_shader.loadTexture(&l_Tex);
+	m_AdvanceShader.loadTexture(); // NOT IMPLEMENTED
+	// load program
 
 	/****************** MVP ******************/
 
@@ -96,8 +100,8 @@ int main(void)
 	float base = 0.0;
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LESS);
-	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	//glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glEnable(GL_BLEND);
 
 	// 5 Particules + direction
 	const unsigned int l_NbModel = 2048;
@@ -128,6 +132,12 @@ int main(void)
 
 		for (unsigned int l_ModelID = 0; l_ModelID < l_NbModel; l_ModelID++)
 		{
+			// Add texture
+			m_AdvanceShader.loadTexture(); // NO IMPLEMENTED
+			m_AdvanceShader.draw(); // NO IMPLEMENTED
+
+			// SWAP BUFFER ISH ?
+
 			Model[l_ModelID] = glm::translate(ModelTranslation[l_ModelID] * base);
 			MVP = Projection * View * Model[l_ModelID];
 			m_shader.setVertexParameters(MVP);

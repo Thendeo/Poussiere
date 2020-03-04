@@ -24,7 +24,9 @@
     <ClCompile Include="..\..\..\..\src\Maths\Point3D.cpp" />
     <ClCompile Include="..\..\..\..\src\Maths\Triangle.cpp" />
     <ClCompile Include="..\..\..\..\src\Platform\AssertHdl.cpp" />
+    <ClCompile Include="..\..\..\..\src\Renderer\AdvanceShader.cpp" />
     <ClCompile Include="..\..\..\..\src\Renderer\ParticuleShader.cpp" />
+    <ClCompile Include="..\..\..\..\src\Renderer\Shader.cpp" />
     <ClCompile Include="..\..\..\..\src\scene\main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -33,7 +35,9 @@
     <ClInclude Include="..\..\..\..\src\Maths\Point3D.h" />
     <ClInclude Include="..\..\..\..\src\Maths\Triangle.h" />
     <ClInclude Include="..\..\..\..\src\Platform\AssertHdl.h" />
+    <ClInclude Include="..\..\..\..\src\Renderer\AdvanceShader.h" />
     <ClInclude Include="..\..\..\..\src\Renderer\ParticuleShader.h" />
+    <ClInclude Include="..\..\..\..\src\Renderer\Shader.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="SimpleFragmentShader.fragmentshader" />
