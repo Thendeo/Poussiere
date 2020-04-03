@@ -126,10 +126,10 @@
       <PreprocessorDefinitions>WIN32;_WINDOWS;TW_STATIC;TW_NO_LIB_PRAGMA;TW_NO_DIRECT3D;_CRT_SECURE_NO_WARNINGS;CMAKE_INTDIR="Debug";%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
-      <AdditionalDependencies>opengl32.lib;glu32.lib;glew32.lib;glfw3.lib;libpng16_staticd.lib;zlibstaticd.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(WORKSPACE)\SOUP\glfw-3.3\lib-vc2019;$(WORKSPACE)\SOUP\glew-2.1.0\lib\Release\x64;$(WORKSPACE)\SOUP\libpng\1637\bin;D:\Work\SOUP\zlib\1.2.11\bin;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
+	<SubSystem>Console</SubSystem>
+	<AdditionalDependencies>opengl32.lib;glu32.lib;glew32.lib;glfw3.lib;libpng16_staticd.lib;zlibstaticd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+	<AdditionalLibraryDirectories>$(WORKSPACE)\SOUP\glfw-3.3\lib-vc2019;$(WORKSPACE)\SOUP\glew-2.1.0\lib\Release\x64;$(WORKSPACE)\SOUP\libpng\1637\bin;$(WORKSPACE)\SOUP\zlib\1.2.11\bin;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+	<IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
