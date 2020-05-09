@@ -24,6 +24,7 @@
     <ClCompile Include="..\..\..\..\src\Maths\Point3D.cpp" />
     <ClCompile Include="..\..\..\..\src\Maths\Triangle.cpp" />
     <ClCompile Include="..\..\..\..\src\Platform\AssertHdl.cpp" />
+    <ClCompile Include="..\..\..\..\src\Platform\ShaderLoader.cpp" />
     <ClCompile Include="..\..\..\..\src\Renderer\AdvanceShader.cpp" />
     <ClCompile Include="..\..\..\..\src\Renderer\ParticuleShader.cpp" />
     <ClCompile Include="..\..\..\..\src\Renderer\Shader.cpp" />
@@ -35,11 +36,14 @@
     <ClInclude Include="..\..\..\..\src\Maths\Point3D.h" />
     <ClInclude Include="..\..\..\..\src\Maths\Triangle.h" />
     <ClInclude Include="..\..\..\..\src\Platform\AssertHdl.h" />
+    <ClInclude Include="..\..\..\..\src\Platform\ShaderLoader.h" />
     <ClInclude Include="..\..\..\..\src\Renderer\AdvanceShader.h" />
     <ClInclude Include="..\..\..\..\src\Renderer\ParticuleShader.h" />
     <ClInclude Include="..\..\..\..\src\Renderer\Shader.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="AdvanceFragment.fragmentshader" />
+    <None Include="AdvancVertex.vertexshader" />
     <None Include="SimpleFragmentShader.fragmentshader" />
     <None Include="SimpleGeometryShader.geometryshader" />
     <None Include="SimpleVertexShader.vertexshader" />
@@ -126,10 +130,10 @@
       <PreprocessorDefinitions>WIN32;_WINDOWS;TW_STATIC;TW_NO_LIB_PRAGMA;TW_NO_DIRECT3D;_CRT_SECURE_NO_WARNINGS;CMAKE_INTDIR="Debug";%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-	<SubSystem>Console</SubSystem>
-	<AdditionalDependencies>opengl32.lib;glu32.lib;glew32.lib;glfw3.lib;libpng16_staticd.lib;zlibstaticd.lib;%(AdditionalDependencies)</AdditionalDependencies>
-	<AdditionalLibraryDirectories>$(WORKSPACE)\SOUP\glfw-3.3\lib-vc2019;$(WORKSPACE)\SOUP\glew-2.1.0\lib\Release\x64;$(WORKSPACE)\SOUP\libpng\1637\bin;$(WORKSPACE)\SOUP\zlib\1.2.11\bin;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-	<IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
+      <SubSystem>Console</SubSystem>
+      <AdditionalDependencies>opengl32.lib;glu32.lib;glew32.lib;glfw3.lib;libpng16_staticd.lib;zlibstaticd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(WORKSPACE)\SOUP\glfw-3.3\lib-vc2019;$(WORKSPACE)\SOUP\glew-2.1.0\lib\Release\x64;$(WORKSPACE)\SOUP\libpng\1637\bin;$(WORKSPACE)\SOUP\zlib\1.2.11\bin;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
