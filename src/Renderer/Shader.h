@@ -1,7 +1,7 @@
 /*----------------------------------------------------
 **
 **		Date: 2019
-**		Author: Alexis LAFONT
+**		Author: Thendeo
 **		Project: Particules
 **		File: Shader header file
 **
@@ -13,6 +13,14 @@
 #include <glm/glm.hpp>
 
 #include "Image.h"
+#include <stdio.h>
+#include <string>
+#include <vector>
+#include <iostream>
+#include <fstream>
+#include <algorithm>
+#include <sstream>
+using namespace std;
 
 #include <string>
 

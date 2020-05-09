@@ -1,7 +1,7 @@
 /*----------------------------------------------------
 **
 ** Date: 2019
-** Author : Alexis LAFONT
+** Author : Thendeo
 ** Project : Particules
 ** File : Shader implementation file
 **

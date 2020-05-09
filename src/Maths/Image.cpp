@@ -1,7 +1,7 @@
 /*----------------------------------------------------
 **
 **		Date: 2020
-**		Author: Alexis LAFONT
+**		Author: Thendeo
 **		Project: Particules
 **		File: Image header file
 **
