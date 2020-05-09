@@ -80,11 +80,56 @@ int main(void)
 
 	/****************** SHADER ******************/ 
 	ParticuleShader m_shader(g_vertex_buffer_data, sizeof(g_vertex_buffer_data), g_uv_buffer_data, sizeof(g_uv_buffer_data));
+
 	AdvanceShader m_AdvanceShader;
+
 	Image_8 l_Tex;
 	l_Tex.loadFromPNG("particule.png");
-	m_shader.loadTexture(&l_Tex);
-	m_AdvanceShader.loadTexture(); // NOT IMPLEMENTED
+	//m_shader.loadTexture(&l_Tex);
+
+
+	/* TEMPORARY TEXTURE LOADER START*/
+	// Next step, replace this by additive rendertotexture
+	GLint l_Type = 0;
+	switch (l_Tex.getImgType())
+	{
+	case ImageType::ImageType_RGB:
+		l_Type = GL_RGB;
+		break;
+	case ImageType::ImageType_RGBA:
+		l_Type = GL_RGBA;
+		break;
+	}
+
+	GLuint l_TextureParticule;
+	glGenTextures(1, &l_TextureParticule);
+	glBindTexture(GL_TEXTURE_2D, l_TextureParticule);
+
+	glTexImage2D(GL_TEXTURE_2D, 0, l_Type, l_Tex.getWidth(), l_Tex.getHeight(), 0, l_Type, GL_UNSIGNED_BYTE, l_Tex.getData());
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
+
+	m_shader.setTexture(0);
+
+	/* TEMPORARY TEXTURE LOADER END*/
+
+
+	Image_8 l_PositionTex;
+	l_PositionTex.loadFromBMP("pos.bmp");
+//	m_AdvanceShader.setAdvanceTexture(&l_PositionTex);
+
+	Image_8 l_AdvanceTex;
+	l_AdvanceTex.loadFromBMP("advance.bmp");
+//	m_AdvanceShader.setPositionTexture(&l_AdvanceTex);
+
+	// Set vertex matrix from texture
+	// Set result of advance input of particule
+	// Set input of advance latest computed texture (swap)
+	// Set velocity map from texture
+
 	// load program
 
 	/****************** MVP ******************/
@@ -104,7 +149,7 @@ int main(void)
 	glEnable(GL_BLEND);
 
 	// 5 Particules + direction
-	const unsigned int l_NbModel = 2048;
+	const unsigned int l_NbModel = 128;
 	glm::mat4 Model[l_NbModel];
 
 	glm::vec3 ModelTranslation[l_NbModel];
@@ -122,6 +167,9 @@ int main(void)
 		glm::vec3(0, 1, 0)  // Up vector
 	);
 
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, l_TextureParticule);
+
 	do {
 
 		// Clear the screen
@@ -130,14 +178,9 @@ int main(void)
 
 		// TODO replace those redondant lines by a texture with appropriate fragment code
 
+
 		for (unsigned int l_ModelID = 0; l_ModelID < l_NbModel; l_ModelID++)
 		{
-			// Add texture
-			m_AdvanceShader.loadTexture(); // NO IMPLEMENTED
-			m_AdvanceShader.draw(); // NO IMPLEMENTED
-
-			// SWAP BUFFER ISH ?
-
 			Model[l_ModelID] = glm::translate(ModelTranslation[l_ModelID] * base);
 			MVP = Projection * View * Model[l_ModelID];
 			m_shader.setVertexParameters(MVP);
@@ -145,7 +188,7 @@ int main(void)
 		}
 		
 		// TODO move this awfull clock inside a real Timer with proper scheduler
-		base += 0.016F;
+		base += 0.00016F;
 
 		// Swap buffers
 		glfwSwapBuffers(window);

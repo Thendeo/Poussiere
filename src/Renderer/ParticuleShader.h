@@ -1,7 +1,7 @@
 /*----------------------------------------------------
 **
 **		Date: 2019
-**		Author: Alexis LAFONT
+**		Author: Thendeo
 **		Project: Particules
 **		File: Particule header file
 **
@@ -11,12 +11,8 @@
 
 #include "Shader.h"
 
-#include <GL/glew.h>
-#include <glm/glm.hpp>
-
 #include "Image.h"
 
-#include <string>
 
 //! @brief Shader to draw a particule
 //! Basic class with vertex and pixel shader to draw a particule from a png.
@@ -34,6 +30,7 @@ public:
 
 	void setVertexParameters(glm::mat4 pMVP);
 	void loadTexture(Image* pTexture);
+	void setTexture(GLuint pTexture);
 
 private:
 	
