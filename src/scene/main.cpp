@@ -17,6 +17,8 @@ GLFWwindow* window;
 #include <ParticuleShader.h>
 #include "AdvanceShader.h"
 #include "Image_8.h"
+#include "AssertHdl.h"
+#include "ShaderLoader.h"
 
 int main(void)
 {
@@ -57,7 +59,7 @@ int main(void)
 	glfwSetInputMode(window, GLFW_STICKY_KEYS, GL_TRUE);
 
 	// Dark blue background
-	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+	glClearColor(0.1f, 0.4f, 0.5f, 0.0f);
 
 	/****************** DATA ******************/
 
@@ -84,11 +86,12 @@ int main(void)
 	AdvanceShader m_AdvanceShader;
 
 	Image_8 l_Tex;
-	l_Tex.loadFromPNG("particule.png");
+	l_Tex.loadFromPNG("pos.png");
 	//m_shader.loadTexture(&l_Tex);
 
 
 	/* TEMPORARY TEXTURE LOADER START*/
+	/*
 	// Next step, replace this by additive rendertotexture
 	GLint l_Type = 0;
 	switch (l_Tex.getImgType())
@@ -110,9 +113,115 @@ int main(void)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);*/
+	
+	
+	Image_8 l_TexPos1;
+	l_TexPos1.loadFromPNG("pos1.png");
+	Image_8 l_TexPos2;
+	l_TexPos2.loadFromPNG("pos2.png");
+
+	// Create Arrays
+	GLuint l_AdvanceVAO = 0;
+	glGenVertexArrays(1, &l_AdvanceVAO);
+	glBindVertexArray(l_AdvanceVAO);
+
+	GLuint l_AdvanceProgramID = ShaderLoader::_loadShader("AdvancVertex.vertexshader",
+		"SimpleGeometryShader.geometryshader", "AdvanceFragment.fragmentshader");
+
+
+
+	GLuint l_TextureID1 = 0;
+	glGenTextures(1, &l_TextureID1);
+	glBindTexture(GL_TEXTURE_2D, l_TextureID1);
+
+	GLint l_Type = 0;
+	switch (l_TexPos1.getImgType())
+	{
+	case ImageType::ImageType_RGB:
+		l_Type = GL_RGB;
+		break;
+	case ImageType::ImageType_RGBA:
+		l_Type = GL_RGBA;
+		break;
+	}
+	glTexImage2D(GL_TEXTURE_2D, 0, l_Type, l_TexPos1.getWidth(), l_TexPos1.getHeight(), 0, l_Type, GL_UNSIGNED_BYTE, l_TexPos1.getData());
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
 
-	m_shader.setTexture(0);
+	//l_TextureID1 = glGetUniformLocation(l_AdvanceProgramID, "advanceTexture");
+
+	GLuint l_TextureID2 = 0;
+	glGenTextures(1, &l_TextureID2);
+	glBindTexture(GL_TEXTURE_2D, l_TextureID2);
+
+	switch (l_TexPos2.getImgType())
+	{
+	case ImageType::ImageType_RGB:
+		l_Type = GL_RGB;
+		break;
+	case ImageType::ImageType_RGBA:
+		l_Type = GL_RGBA;
+		break;
+	}
+	glTexImage2D(GL_TEXTURE_2D, 0, l_Type, l_TexPos2.getWidth(), l_TexPos2.getHeight(), 0, l_Type, GL_UNSIGNED_BYTE, l_TexPos2.getData());
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
+
+	//l_TextureID2 = glGetUniformLocation(l_AdvanceProgramID, "posTexture");
+
+	// Le tampon d'image, regroupant 0, 1 ou plus de textures et 0 et 1 tampon de profondeur. 
+	GLuint FramebufferName = 0;
+	glGenFramebuffers(1, &FramebufferName);
+	glBindFramebuffer(GL_FRAMEBUFFER, FramebufferName);
+
+	// La texture dans laquelle on va dessiner
+	GLuint l_renderedTexture;
+	glGenTextures(1, &l_renderedTexture);
+
+	// "Lie" la nouvelle texture créée : toutes les fonctions suivantes vont modifier cette texture
+	glBindTexture(GL_TEXTURE_2D, l_renderedTexture);
+
+	// Donne une image vide à OpenGL (le dernier « 0 ») 
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 256, 256, 0, GL_RGB, GL_UNSIGNED_BYTE, 0);
+
+	// Filtrage léger. Obligatoire ! 
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	// Définit "renderedTexture" comme notre couleur d'attache #0 
+	glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, l_renderedTexture, 0);
+
+	// Définit la liste de tampons à dessiner. 
+	GLenum DrawBuffers[1] = { GL_COLOR_ATTACHMENT0 };
+	glDrawBuffers(1, DrawBuffers); // "1" est la taille de DrawBuffers
+
+	GLuint l_Status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
+	doAssert(GL_FRAMEBUFFER_COMPLETE == l_Status);
+
+	// Rendu dans le tampon d'image
+	glBindFramebuffer(GL_FRAMEBUFFER, FramebufferName);
+	glViewport(0, 0, 256, 256); // Rendu dans l'intégralité du tampon d'image, du coin inférieur gauche au coin supérieur droit
+
+		// Use our shader
+	glUseProgram(l_AdvanceProgramID);
+
+	// Bind our texture in Texture Unit 0
+	//glActiveTexture(GL_TEXTURE1);
+	//glBindTexture(GL_TEXTURE_2D, l_TextureID1);
+
+	//glActiveTexture(GL_TEXTURE2);
+	//glBindTexture(GL_TEXTURE_2D, l_TextureID2);
+
+	glDrawArrays(GL_POINTS, 0, 3); // 12*3 indices starting at 0 -> 12 triangles*/
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glViewport(0, 0, 1024, 768);
 
 	/* TEMPORARY TEXTURE LOADER END*/
 
@@ -168,7 +277,8 @@ int main(void)
 	);
 
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, l_TextureParticule);
+	glBindTexture(GL_TEXTURE_2D, l_renderedTexture);
+	m_shader.setTexture(0);
 
 	do {
 

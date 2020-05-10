@@ -1,0 +1,19 @@
+#version 330 core
+
+// Valeurs interpolées à partir du vertex shader
+in vec2 tex_coord; 
+ 
+// Données en sortie
+layout(location = 0) out vec3 color;
+ 
+// Valeurs qui sont constantes pour l'ensemble du modèle.
+uniform sampler2D advanceTexture; 
+ 
+// Valeurs qui sont constantes pour l'ensemble du modèle.
+uniform sampler2D posTexture; 
+
+void main()
+{
+	color = vec3(0.2, 0.3, 0.5);
+	//texture(posTexture, tex_coord).rgb + texture(advanceTexture, tex_coord).rgb;
+}

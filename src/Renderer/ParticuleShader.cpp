@@ -108,7 +108,7 @@ void ParticuleShader::draw()
 	);
 	
 	// 2nd attribute buffer : UVs
-	glEnableVertexAttribArray(1);
+/*	glEnableVertexAttribArray(1);
 	glBindBuffer(GL_ARRAY_BUFFER, m_uvBuffer);
 	glVertexAttribPointer(
 		1,                                // attribute. No particular reason for 1, but must match the layout in the shader.
@@ -118,11 +118,11 @@ void ParticuleShader::draw()
 		0,                                // stride
 		(void*)0                          // array buffer offset
 	);
-
+	*/
 	// Draw the triangle !
 	glDrawArrays(GL_POINTS, 0, 3); // 12*3 indices starting at 0 -> 12 triangles
 	glDisableVertexAttribArray(0);
-	glDisableVertexAttribArray(1);
+	//glDisableVertexAttribArray(1);
 }
 
 void ParticuleShader::setVertexParameters(glm::mat4 pMVP)
