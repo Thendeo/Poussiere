@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Fichiers sources">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Fichiers de ressources">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Fichiers sources\Platform">
+      <UniqueIdentifier>{6277ea1e-e2ee-4716-898c-41f7a2f4fef9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête\Platform">
+      <UniqueIdentifier>{59bca61c-edef-4c50-a250-74334a1bc315}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête\Maths">
+      <UniqueIdentifier>{5e86fb29-3818-458e-ba5f-105bf9f71b3e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers sources\Maths">
+      <UniqueIdentifier>{0f5f15bb-6329-4443-ada6-57b4b8c559d2}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\..\src\Platform\AssertHdl.h">
+      <Filter>Fichiers d%27en-tête\Platform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\Platform\ShaderLoader.h">
+      <Filter>Fichiers d%27en-tête\Platform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\Maths\Image.h">
+      <Filter>Fichiers d%27en-tête\Maths</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\Maths\Image_8.h">
+      <Filter>Fichiers d%27en-tête\Maths</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\..\src\Platform\ShaderLoader.cpp">
+      <Filter>Fichiers sources\Platform</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\Platform\AssertHdl.cpp">
+      <Filter>Fichiers sources\Platform</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\Maths\Image.cpp">
+      <Filter>Fichiers sources\Maths</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\Maths\Image_8.cpp">
+      <Filter>Fichiers sources\Maths</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\test\Rendering\testParticuleRendering\main.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="DrawParticules.vertexshader">
+      <Filter>Fichiers sources</Filter>
+    </None>
+    <None Include="DrawParticules.fragmentshader">
+      <Filter>Fichiers sources</Filter>
+    </None>
+    <None Include="DrawParticules.geometryshader">
+      <Filter>Fichiers sources</Filter>
+    </None>
+  </ItemGroup>
+</Project>
