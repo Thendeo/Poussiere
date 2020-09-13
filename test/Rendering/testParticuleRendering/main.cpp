@@ -72,7 +72,24 @@ int main(void)
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, l_ParticulePositionTextureID);
 	
-	const size_t l_matrixSize = 1024;
+
+	Image_8 l_ParticulePositionTexture;
+	l_ParticulePositionTexture.loadFromPNG("position.png");
+	const size_t l_matrixSize = 4096;
+
+	GLint l_Type = 0;
+	switch (l_ParticulePositionTexture.getImgType())
+	{
+	case ImageType::ImageType_RGB:
+		l_Type = GL_RGB;
+		break;
+	case ImageType::ImageType_RGBA:
+		l_Type = GL_RGBA;
+		break;
+	}
+	glTexImage2D(GL_TEXTURE_2D, 0, l_Type, l_ParticulePositionTexture.getWidth(), l_ParticulePositionTexture.getHeight(),
+		0, l_Type, GL_UNSIGNED_BYTE, l_ParticulePositionTexture.getData());
+	/*
 	unsigned char l_PrecomputedData[l_matrixSize * l_matrixSize * 3];
 	for (int i_YIterator = 0; i_YIterator < l_matrixSize; i_YIterator++)
 	{
@@ -85,7 +102,7 @@ int main(void)
 		}
 	}
 
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, l_matrixSize, l_matrixSize, 0, GL_RGB, GL_UNSIGNED_BYTE, &l_PrecomputedData[0]);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, l_matrixSize, l_matrixSize, 0, GL_RGB, GL_UNSIGNED_BYTE, &l_PrecomputedData[0]);*/
 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
@@ -99,7 +116,7 @@ int main(void)
 	Image_8 l_ParticuleRenderingTexture;
 	l_ParticuleRenderingTexture.loadFromPNG("particule.png");
 
-	GLint l_Type = 0;
+	l_Type = 0;
 	switch (l_ParticuleRenderingTexture.getImgType())
 	{
 	case ImageType::ImageType_RGB:
@@ -151,7 +168,7 @@ int main(void)
 	do 
 	{
 		View = glm::lookAt(
-			glm::vec3(100 * std::cos(base), 0, 100 * std::sin(base)), // Position
+			glm::vec3(200 * std::cos(base), 0, 200 * std::sin(base)), // Position
 			glm::vec3(0, 0, 0), // LookAt
 			glm::vec3(0, 1, 0)  // Up vector
 		);
