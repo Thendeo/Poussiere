@@ -56,7 +56,7 @@ int main(void)
 	glfwSetInputMode(window, GLFW_STICKY_KEYS, GL_TRUE);
 
 	// Dark blue background
-	glClearColor(0.1f, 0.4f, 0.5f, 0.0f);
+	glClearColor(0.1f, 0.1f, 0.2f, 0.0f);
 
 	/****************** SHADER ******************/
 	GLuint l_err = GL_NO_ERROR;
@@ -66,26 +66,11 @@ int main(void)
 	glGenVertexArrays(1, &l_vertexArray);
 	glBindVertexArray(l_vertexArray);
 
-	Image_8 l_TexPos;
-	l_TexPos.loadFromPNG("pos1.png");
-
-	GLuint l_TextureID = 0;
-	glGenTextures(1, &l_TextureID);
+	// Texture generation with random filled positions
+	GLuint l_ParticulePositionTextureID = 0;
+	glGenTextures(1, &l_ParticulePositionTextureID);
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, l_TextureID);
-
-	GLint l_Type = 0;
-	switch (l_TexPos.getImgType())
-	{
-	case ImageType::ImageType_RGB:
-		l_Type = GL_RGB;
-		break;
-	case ImageType::ImageType_RGBA:
-		l_Type = GL_RGBA;
-		break;
-	}
-	//glTexImage2D(GL_TEXTURE_2D, 0, l_Type, l_TexPos.getWidth(), l_TexPos.getHeight(), 0, l_Type, GL_UNSIGNED_BYTE, l_TexPos.getData());
-	// Temp test with precomputed data
+	glBindTexture(GL_TEXTURE_2D, l_ParticulePositionTextureID);
 	
 	const size_t l_matrixSize = 1024;
 	unsigned char l_PrecomputedData[l_matrixSize * l_matrixSize * 3];
@@ -104,6 +89,32 @@ int main(void)
 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+
+	// Texture loading for particule rendering
+	GLuint l_ParticuleRenderingTextureID = 0;
+	glGenTextures(1, &l_ParticuleRenderingTextureID);
+	glActiveTexture(GL_TEXTURE1);
+	glBindTexture(GL_TEXTURE_2D, l_ParticuleRenderingTextureID);
+
+	Image_8 l_ParticuleRenderingTexture;
+	l_ParticuleRenderingTexture.loadFromPNG("particule.png");
+
+	GLint l_Type = 0;
+	switch (l_ParticuleRenderingTexture.getImgType())
+	{
+	case ImageType::ImageType_RGB:
+		l_Type = GL_RGB;
+		break;
+	case ImageType::ImageType_RGBA:
+		l_Type = GL_RGBA;
+		break;
+	}
+	glTexImage2D(GL_TEXTURE_2D, 0, l_Type, l_ParticuleRenderingTexture.getWidth(), l_ParticuleRenderingTexture.getHeight(),
+		0, l_Type, GL_UNSIGNED_BYTE, l_ParticuleRenderingTexture.getData());
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
 	
 	/****************** MVP ******************/
 	// Matrice de la caméra
@@ -120,11 +131,11 @@ int main(void)
 	glUseProgram(l_programID);
 
 	GLuint l_MatrixUniform = glGetUniformLocation(l_programID, "MVP");
-	GLuint l_TextureUniform = glGetUniformLocation(l_programID, "myTextureSampler");
-	GLuint l_TextureUniformFragment = glGetUniformLocation(l_programID, "myTextureSampler2");
+	GLuint l_TextureUniform = glGetUniformLocation(l_programID, "particulePositionMatrix");
+	GLuint l_TextureUniformFragment = glGetUniformLocation(l_programID, "particuleSampler");
 
 	glUniform1i(l_TextureUniform, 0);
-	glUniform1i(l_TextureUniformFragment, 0);
+	glUniform1i(l_TextureUniformFragment, 1);
 
 	l_err = glGetError();
 
@@ -140,7 +151,7 @@ int main(void)
 	do 
 	{
 		View = glm::lookAt(
-			glm::vec3(125 * std::cos(base), 0, 125 * std::sin(base)), // Position
+			glm::vec3(100 * std::cos(base), 0, 100 * std::sin(base)), // Position
 			glm::vec3(0, 0, 0), // LookAt
 			glm::vec3(0, 1, 0)  // Up vector
 		);
