@@ -1,23 +1,23 @@
 #version 330 core
 
-// Valeurs interpolées à partir du vertex shader
+// Texture coordinates generated from geometry shader
 in vec2 tex_coord; 
  
-// Données en sortie
+// Output color
 out vec4 color; 
  
-// Valeurs qui sont constantes pour l'ensemble du modèle.
-uniform sampler2D myTextureSampler2; 
+// Texture of the particule
+uniform sampler2D particuleSampler; 
 
 void main()
 {
 
-	vec4 texel = texture(myTextureSampler2, tex_coord).rgba;
-	//if(texel.a < 0.6)
-	//	discard;
-	// coordonnées UV spécifiées
-	// temp grey
-	vec4 l_color = vec4(0.5f, 0.5f, 0.5f, 1.0f);
+	vec4 texel = texture(particuleSampler, tex_coord).rgba;
+
+	// Cut when transparency is below 0.6
+	if(texel.a < 0.6)
+		discard;
+
 	color = texel;
 
 }
