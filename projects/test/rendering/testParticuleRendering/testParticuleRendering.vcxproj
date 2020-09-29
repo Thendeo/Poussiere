@@ -154,12 +154,16 @@
     <ClInclude Include="..\..\..\..\src\Maths\Image_8.h" />
     <ClInclude Include="..\..\..\..\src\Platform\AssertHdl.h" />
     <ClInclude Include="..\..\..\..\src\Platform\ShaderLoader.h" />
+    <ClInclude Include="..\..\..\..\src\Renderer\ParticuleShader.h" />
+    <ClInclude Include="..\..\..\..\src\Renderer\Shader.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\..\src\Maths\Image.cpp" />
     <ClCompile Include="..\..\..\..\src\Maths\Image_8.cpp" />
     <ClCompile Include="..\..\..\..\src\Platform\AssertHdl.cpp" />
     <ClCompile Include="..\..\..\..\src\Platform\ShaderLoader.cpp" />
+    <ClCompile Include="..\..\..\..\src\Renderer\ParticuleShader.cpp" />
+    <ClCompile Include="..\..\..\..\src\Renderer\Shader.cpp" />
     <ClCompile Include="..\..\..\..\test\Rendering\testParticuleRendering\main.cpp" />
   </ItemGroup>
   <ItemGroup>

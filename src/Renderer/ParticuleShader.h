@@ -14,39 +14,35 @@
 #include "Image.h"
 
 
-//! @brief Shader to draw a particule
-//! Basic class with vertex and pixel shader to draw a particule from a png.
-//! Input for the vertex shader is MVP
-//! Pixel shader render texture from UV map
+//! @brief Shader to draw particules
+//! Allows one to draw multiple particules using a texture position and geometry shader
+//! Vertex shader input : 
+//! * MVP matrix for camera position
+//! * Texture for each particule position
+//! Geometry shader input :
+//! * None
+//! Fragment shader input :
+//! * Texture for particule rendering
 class ParticuleShader: public Shader
 {
 public:
 
-	ParticuleShader(GLfloat* pVertexData, int pVertexSize, GLfloat* pUVData, int pUVSize);
-	ParticuleShader(std::string pTexturePath);
+	ParticuleShader(unsigned int pNumberOfParticule);
 	~ParticuleShader();
 
 	virtual void draw();
 
-	void setVertexParameters(glm::mat4 pMVP);
-	void loadTexture(Image* pTexture);
-	void setTexture(GLuint pTexture);
+	void setVertexMVP(glm::mat4 pMVP);
+	void setVertexPosTextureLoc(GLuint p_TexturePosition);
+	void setFragmentRenderTextureLoc(GLuint p_TextureRendering);
 
 private:
 	
-	// Arrays
-	GLuint m_VertexArrayID;
-	GLuint m_TextureID;
+	// Uniform location
+	GLuint m_UniformMVP;
+	GLuint m_UniformTexturePosition;
+	GLuint m_UniformTextureRendering;
 
-	// BufferData
-	GLuint m_Vertexbuffer;
-	GLuint m_Texture;
-	GLuint m_uvBuffer;
-
-	GLuint m_ProgramID;
-
-	GLuint m_MatrixID;
-	glm::mat4 m_MVP;
-
-	bool m_TextureLoaded;
+	// Shader properties
+	unsigned int m_ParticuleNumber;
 };

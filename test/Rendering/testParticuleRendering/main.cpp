@@ -16,6 +16,7 @@ GLFWwindow* window;
 
 #include "Image_8.h"
 #include "AssertHdl.h"
+#include "ParticuleShader.h"
 #include "ShaderLoader.h"
 
 int main(void)
@@ -34,7 +35,7 @@ int main(void)
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 	// Open a window and create its OpenGL context
-	window = glfwCreateWindow(1024, 768, "Tutorial 01", NULL, NULL);
+	window = glfwCreateWindow(1728, 972, "Tutorial 01", NULL, NULL);
 	if (window == NULL) {
 		fprintf(stderr, "Failed to open GLFW window. If you have an Intel GPU, they are not 3.3 compatible. Try the 2.1 version of the tutorials.\n");
 		getchar();
@@ -60,7 +61,6 @@ int main(void)
 
 	/****************** SHADER ******************/
 	GLuint l_err = GL_NO_ERROR;
-	GLuint l_programID = ShaderLoader::_loadShader("DrawParticules.vertexshader", "DrawParticules.geometryshader", "DrawParticules.fragmentshader");
 
 	GLuint l_vertexArray = 0;
 	glGenVertexArrays(1, &l_vertexArray);
@@ -137,7 +137,7 @@ int main(void)
 	// Matrice de la caméra
 	glm::mat4 View;
 	// Matrice de projection : Champ de vision de 45° , ration 4:3, distance d'affichage : 0.1 unités <-> 100 unités 
-	glm::mat4 Projection = glm::perspective(45.0f, 4.0f / 3.0f, 0.1f, 500.0f);
+	glm::mat4 Projection = glm::perspective(45.0f, 16.0f / 9.0f, 0.1f, 500.0f);
 	glm::mat4 MVP;
 
 	glEnable(GL_DEPTH_TEST);
@@ -145,14 +145,9 @@ int main(void)
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glEnable(GL_BLEND);
 
-	glUseProgram(l_programID);
-
-	GLuint l_MatrixUniform = glGetUniformLocation(l_programID, "MVP");
-	GLuint l_TextureUniform = glGetUniformLocation(l_programID, "particulePositionMatrix");
-	GLuint l_TextureUniformFragment = glGetUniformLocation(l_programID, "particuleSampler");
-
-	glUniform1i(l_TextureUniform, 0);
-	glUniform1i(l_TextureUniformFragment, 1);
+	ParticuleShader l_ParticuleShader(l_matrixSize * l_matrixSize);
+	l_ParticuleShader.setVertexPosTextureLoc(0);
+	l_ParticuleShader.setFragmentRenderTextureLoc(1);
 
 	l_err = glGetError();
 
@@ -173,12 +168,14 @@ int main(void)
 			glm::vec3(0, 1, 0)  // Up vector
 		);
 		MVP = Projection * View;
-		glUniformMatrix4fv(l_MatrixUniform, 1, GL_FALSE, &MVP[0][0]);
+
+		l_ParticuleShader.setVertexMVP(MVP);
+
 		// Clear the screen
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-		glDrawArrays(GL_POINTS, 0, l_matrixSize* l_matrixSize); // 12*3 indices starting at 0 -> 12 triangles
+		l_ParticuleShader.draw();
 
 		// TODO move this awfull clock inside a real Timer with proper scheduler
 		base += 0.00016F;

@@ -1,6 +1,6 @@
 /*----------------------------------------------------
 **
-**		Date: 2019
+**		Date: 2020
 **		Author: Thendeo
 **		Project: Particules
 **		File: Shader header file
@@ -30,10 +30,16 @@ class Shader
 {
 public:
 
-	Shader();
+	//! @brief Constructor with vertex and fragment shader
+	Shader(const char* pVertexFilePath, const char* pFragmentFilePath);
+
+	//! @brief Constructor with vertex, geometry and fragment shader
+	Shader(const char* pVertexFilePath, const char* pGeometryFilePath, const char* pFragmentFilePath);
+
 	~Shader();
 
 	virtual void draw() = 0;
 
-private:
+protected:
+	GLuint m_ProgramID;
 };
