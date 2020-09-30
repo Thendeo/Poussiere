@@ -81,4 +81,15 @@
       <Filter>Fichiers d%27en-tête\Renderer</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="TexturedTriangle.fragmentshader">
+      <Filter>Fichiers de ressources</Filter>
+    </None>
+    <None Include="TexturedTriangle.geometryshader">
+      <Filter>Fichiers de ressources</Filter>
+    </None>
+    <None Include="TexturedTriangle.vertexshader">
+      <Filter>Fichiers de ressources</Filter>
+    </None>
+  </ItemGroup>
 </Project>
