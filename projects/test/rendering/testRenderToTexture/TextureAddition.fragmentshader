@@ -1,0 +1,19 @@
+#version 330 core
+
+// Form geometry shader
+in vec2 tex_coord; 
+ 
+// Ouput color
+layout(location = 0) out vec4 color; 
+ 
+// Texture for triangle
+uniform sampler2D textureA; 
+uniform sampler2D textureB; 
+
+void main()
+{
+	// Filling triangle with texture
+	vec4 texel = texture(textureA, tex_coord).rgba + texture(textureB, tex_coord).rgba;
+	color =  texel;
+
+}

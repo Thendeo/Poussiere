@@ -131,7 +131,7 @@ int main(void)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
 
 	// Create shader and loads paramaters
-	GLuint l_AdditionProgramID = ShaderLoader::_loadShader("TexturedTriangle.vertexshader", "TexturedTriangle.geometryshader", "TexturedTriangle.fragmentshader");
+	GLuint l_AdditionProgramID = ShaderLoader::_loadShader("TexturedTriangle.vertexshader", "TexturedTriangle.geometryshader", "TextureAddition.fragmentshader");
 
 	GLuint FramebufferName = 0;
 	glGenFramebuffers(1, &FramebufferName);
@@ -145,12 +145,10 @@ int main(void)
 
 	// Render it
 	glUseProgram(l_AdditionProgramID);
-	GLuint l_TexturePositionLocation = glGetUniformLocation(l_AdditionProgramID, "TextureA");
-	GLuint l_TexturePositionLocationBIS = glGetUniformLocation(l_AdditionProgramID, "myTextureSampler");
-	GLuint l_TextureVelocityLocation = glGetUniformLocation(l_AdditionProgramID, "TextureB");
+	GLuint l_TexturePositionLocation = glGetUniformLocation(l_AdditionProgramID, "textureA");
+	GLuint l_TextureVelocityLocation = glGetUniformLocation(l_AdditionProgramID, "textureB");
 	glUniform1i(l_TexturePositionLocation, 1);
 	glUniform1i(l_TextureVelocityLocation, 2);
-	glUniform1i(l_TexturePositionLocationBIS, 2);
 	
 
 	GLuint l_vertexArray = 0;
@@ -196,6 +194,8 @@ int main(void)
 		glClearColor(0.1f, 0.1f, 0.8f, 0.0f);
 
 		glUseProgram(l_TriangleProgramID);
+
+
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glDrawArrays(GL_POINTS, 0, 1);
 		glfwSwapBuffers(window);
