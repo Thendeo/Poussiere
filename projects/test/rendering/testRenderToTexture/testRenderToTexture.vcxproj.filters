@@ -91,5 +91,8 @@
     <None Include="TexturedTriangle.vertexshader">
       <Filter>Fichiers de ressources</Filter>
     </None>
+    <None Include="TextureAddition.fragmentshader">
+      <Filter>Fichiers de ressources</Filter>
+    </None>
   </ItemGroup>
 </Project>
