@@ -20,6 +20,9 @@ GLFWwindow* window;
 #include "ShaderLoader.h"
 #include "AdvanceShader.h"
 
+#include <thread>         // std::this_thread::sleep_for
+#include <chrono>         // std::chrono::seconds
+
 int main(void)
 {
 	// Initialise GLFW
@@ -140,7 +143,7 @@ int main(void)
 	// Render it
 	l_AdditionShader.setFragmentPosition(1);
 	l_AdditionShader.setFragmentVelocity(2);
-	l_AdditionShader.setOutputLocation(renderedTexture);
+	l_AdditionShader.setOutputLocation(l_PositionTextureID, renderedTexture, 0);
 	
 
 	GLuint l_vertexArray = 0;
@@ -163,6 +166,7 @@ int main(void)
 	doAssert(l_Err == GL_NO_ERROR);
 
 	bool l_shouldExit = false;
+	unsigned int l_frameNb = 0;
 	do
 	{
 		glClearColor(0.8f, 0.1f, 0.1f, 0.0f);
@@ -185,6 +189,9 @@ int main(void)
 		}
 		l_Err = glGetError();
 		doAssert(l_Err == GL_NO_ERROR);
+		std::cout << "Frame : " << l_frameNb << std::endl;
+		std::this_thread::sleep_for(std::chrono::milliseconds(250));
+		l_frameNb++;
 	} while (false == l_shouldExit);
 
 

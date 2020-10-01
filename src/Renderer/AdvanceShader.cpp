@@ -15,8 +15,13 @@ AdvanceShader::AdvanceShader(unsigned int pTextureSize)
 , m_TextureSize(pTextureSize)
 , m_UniformTexturePosition(0U)
 , m_UniformTextureVelocity(0U)
-, m_OutputTextureLocation(0U)
+, m_InputTexID(0U)
+, m_OutputTexID(0U)
+, m_InputTexLoc(0U)
+, m_OutputTexLoc(0U)
 , m_FrameBuffer(0U)
+, m_OutputSwitch(false)
+, m_FirstDraw(true)
 {
 	glUseProgram(m_ProgramID);
 
@@ -39,6 +44,11 @@ AdvanceShader::~AdvanceShader()
 
 void AdvanceShader::draw()
 {
+	if (false == m_FirstDraw)
+	{
+		swapOutput();
+	}
+	m_FirstDraw = false;
 	glClearColor(0.8f, 0.1f, 0.1f, 0.0f); // Clear in red
 
 	// Get viewport information for backup and restoration of it
@@ -56,10 +66,12 @@ void AdvanceShader::draw()
 	// Restore context to screen
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	glViewport(0, 0, l_viewportInfo[2], l_viewportInfo[3]);
+
 }
 
 void AdvanceShader::setFragmentPosition(GLuint p_TexturePosition)
 {
+	m_InputTexLoc = p_TexturePosition;
 	glUniform1i(m_UniformTexturePosition, p_TexturePosition);
 }
 
@@ -68,7 +80,66 @@ void AdvanceShader::setFragmentVelocity(GLuint p_TextureVelocity)
 	glUniform1i(m_UniformTextureVelocity, p_TextureVelocity);
 }
 
-void AdvanceShader::setOutputLocation(GLuint p_OutputLocation)
+void AdvanceShader::setOutputLocation(GLuint p_InputTexID, GLuint p_OutputTexID, GLuint p_OutputTexLoc)
 {
-	glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, p_OutputLocation, 0);
+	m_InputTexID = p_InputTexID;
+	m_OutputTexID = p_OutputTexID;
+	m_OutputTexLoc = p_OutputTexLoc;
+	glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, p_OutputTexID, 0);
+}
+
+void AdvanceShader::swapOutput()
+{
+	glBindFramebuffer(GL_FRAMEBUFFER, m_FrameBuffer);
+	if (true == m_OutputSwitch)
+	{
+		m_OutputSwitch = false;
+		glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, m_OutputTexID, 0);
+	}
+	else
+	{
+		m_OutputSwitch = true;
+		glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, m_InputTexID, 0);
+	}
+	GLenum l_Err = glGetError();
+	doAssert(l_Err == GL_NO_ERROR);
+	// Swap texture for next rendering
+	switch (m_OutputTexLoc)
+	{
+	case 0:
+		glActiveTexture(GL_TEXTURE0);
+		break;
+	case 1:
+		glActiveTexture(GL_TEXTURE1);
+		break;
+	case 2:
+		glActiveTexture(GL_TEXTURE2);
+		break;
+	default:
+		doAssert(false);
+		break;
+	}
+	glBindTexture(GL_TEXTURE_2D, m_InputTexID);
+	switch (m_InputTexLoc)
+	{
+	case 0:
+		glActiveTexture(GL_TEXTURE0);
+		break;
+	case 1:
+		glActiveTexture(GL_TEXTURE1);
+		break;
+	case 2:
+		glActiveTexture(GL_TEXTURE2);
+		break;
+	default:
+		doAssert(false);
+		break;
+	}
+	glBindTexture(GL_TEXTURE_2D, m_OutputTexID);
+
+	GLuint l_temp = m_OutputTexLoc;
+	m_OutputTexLoc = m_InputTexLoc;
+	m_InputTexLoc = l_temp;
+
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }

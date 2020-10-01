@@ -32,9 +32,12 @@ public:
 
 	void setFragmentPosition(GLuint p_TexturePosition);
 	void setFragmentVelocity(GLuint p_TextureVelocity);
-	void setOutputLocation(GLuint p_OutputLocation);
+	void setOutputLocation(GLuint p_InputLocation, GLuint p_OutputLocation, GLuint p_OutputTexLoc);
+
+	void swapOutput();
 
 private:
+
 
 	unsigned int m_TextureSize;
 
@@ -43,9 +46,15 @@ private:
 	GLuint m_UniformTextureVelocity;
 
 	// Rendered texture location
-	GLuint m_OutputTextureLocation;
+	GLuint m_InputTexID;
+	GLuint m_OutputTexID;
+	GLuint m_InputTexLoc;
+	GLuint m_OutputTexLoc;
 
 	// FrameBuffer
 	GLuint m_FrameBuffer;
 	GLenum m_DrawTarget[1];
+
+	bool m_OutputSwitch;
+	bool m_FirstDraw;
 };
