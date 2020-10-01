@@ -134,19 +134,13 @@ int main(void)
 	// Create shader and loads paramaters
 	AdvanceShader l_AdditionShader(1024);
 
-	GLuint FramebufferName = 0;
-	glGenFramebuffers(1, &FramebufferName);
-	glBindFramebuffer(GL_FRAMEBUFFER, FramebufferName);
-	glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, renderedTexture, 0);
-	GLenum DrawBuffers[1] = { GL_COLOR_ATTACHMENT0 };
-	glDrawBuffers(1, DrawBuffers); // "1" is the size of DrawBuffers
-
 	GLenum l_Err = glGetError();
 	doAssert(l_Err == GL_NO_ERROR);
 
 	// Render it
 	l_AdditionShader.setFragmentPosition(1);
 	l_AdditionShader.setFragmentVelocity(2);
+	l_AdditionShader.setOutputLocation(renderedTexture);
 	
 
 	GLuint l_vertexArray = 0;
@@ -172,7 +166,6 @@ int main(void)
 	do
 	{
 		glClearColor(0.8f, 0.1f, 0.1f, 0.0f);
-		glBindFramebuffer(GL_FRAMEBUFFER, FramebufferName);
 		l_AdditionShader.draw();
 
 		glClearColor(0.1f, 0.1f, 0.8f, 0.0f);

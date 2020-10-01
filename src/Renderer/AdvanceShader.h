@@ -32,6 +32,7 @@ public:
 
 	void setFragmentPosition(GLuint p_TexturePosition);
 	void setFragmentVelocity(GLuint p_TextureVelocity);
+	void setOutputLocation(GLuint p_OutputLocation);
 
 private:
 
@@ -43,4 +44,8 @@ private:
 
 	// Rendered texture location
 	GLuint m_OutputTextureLocation;
+
+	// FrameBuffer
+	GLuint m_FrameBuffer;
+	GLenum m_DrawTarget[1];
 };

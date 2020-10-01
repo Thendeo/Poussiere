@@ -16,15 +16,21 @@ AdvanceShader::AdvanceShader(unsigned int pTextureSize)
 , m_UniformTexturePosition(0U)
 , m_UniformTextureVelocity(0U)
 , m_OutputTextureLocation(0U)
+, m_FrameBuffer(0U)
 {
 	glUseProgram(m_ProgramID);
 
 	m_UniformTexturePosition = glGetUniformLocation(m_ProgramID, "textureA");
 	m_UniformTextureVelocity = glGetUniformLocation(m_ProgramID, "textureB");
 
-
 	GLenum l_Err = glGetError();
 	doAssert(l_Err == GL_NO_ERROR);
+
+	// Create FrameBuffer
+	glGenFramebuffers(1, &m_FrameBuffer);
+	glBindFramebuffer(GL_FRAMEBUFFER, m_FrameBuffer);
+	m_DrawTarget[0] = GL_COLOR_ATTACHMENT0;
+	glDrawBuffers(1, m_DrawTarget);
 }
 
 AdvanceShader::~AdvanceShader()
@@ -41,6 +47,7 @@ void AdvanceShader::draw()
 
 	// Draw
 	glViewport(0, 0, m_TextureSize, m_TextureSize);
+	glBindFramebuffer(GL_FRAMEBUFFER, m_FrameBuffer);
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glUseProgram(m_ProgramID);
@@ -59,4 +66,9 @@ void AdvanceShader::setFragmentPosition(GLuint p_TexturePosition)
 void AdvanceShader::setFragmentVelocity(GLuint p_TextureVelocity)
 {
 	glUniform1i(m_UniformTextureVelocity, p_TextureVelocity);
+}
+
+void AdvanceShader::setOutputLocation(GLuint p_OutputLocation)
+{
+	glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, p_OutputLocation, 0);
 }
