@@ -18,6 +18,7 @@ GLFWwindow* window;
 #include "AssertHdl.h"
 #include "ParticuleShader.h"
 #include "ShaderLoader.h"
+#include "AdvanceShader.h"
 
 int main(void)
 {
@@ -131,7 +132,7 @@ int main(void)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
 
 	// Create shader and loads paramaters
-	GLuint l_AdditionProgramID = ShaderLoader::_loadShader("TexturedTriangle.vertexshader", "TexturedTriangle.geometryshader", "TextureAddition.fragmentshader");
+	AdvanceShader l_AdditionShader(1024);
 
 	GLuint FramebufferName = 0;
 	glGenFramebuffers(1, &FramebufferName);
@@ -144,11 +145,8 @@ int main(void)
 	doAssert(l_Err == GL_NO_ERROR);
 
 	// Render it
-	glUseProgram(l_AdditionProgramID);
-	GLuint l_TexturePositionLocation = glGetUniformLocation(l_AdditionProgramID, "textureA");
-	GLuint l_TextureVelocityLocation = glGetUniformLocation(l_AdditionProgramID, "textureB");
-	glUniform1i(l_TexturePositionLocation, 1);
-	glUniform1i(l_TextureVelocityLocation, 2);
+	l_AdditionShader.setFragmentPosition(1);
+	l_AdditionShader.setFragmentVelocity(2);
 	
 
 	GLuint l_vertexArray = 0;
@@ -175,21 +173,7 @@ int main(void)
 	{
 		glClearColor(0.8f, 0.1f, 0.1f, 0.0f);
 		glBindFramebuffer(GL_FRAMEBUFFER, FramebufferName);
-		glViewport(0, 0, 1024, 1024); // Render on the whole framebuffer, complete from the lower left corner to the upper right
-
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		glUseProgram(l_AdditionProgramID);
-		glDrawArrays(GL_POINTS, 0, 1);
-		l_Err = glGetError();
-		doAssert(l_Err == GL_NO_ERROR);
-		glBindFramebuffer(GL_FRAMEBUFFER, 0);
-		l_Err = glGetError();
-		doAssert(l_Err == GL_NO_ERROR);
-		// Render on the whole framebuffer, complete from the lower left corner to the upper right
-		glViewport(0, 0, 1728, 972);
-
-		l_Err = glGetError();
-		doAssert(l_Err == GL_NO_ERROR);
+		l_AdditionShader.draw();
 
 		glClearColor(0.1f, 0.1f, 0.8f, 0.0f);
 

@@ -1,14 +1,5 @@
 /*----------------------------------------------------
 **
-**		Date: 2019
-**		Author: Alexis LAFONT
-**		Project: Particules
-**		File: AdvanceShader header file
-**
-----------------------------------------------------*/
-
-/*----------------------------------------------------
-**
 **		Date: 2020
 **		Author: Thendeo
 **		Project: Particules
@@ -34,7 +25,7 @@ class AdvanceShader : public Shader
 {
 public:
 
-	AdvanceShader();
+	AdvanceShader(unsigned int pTextureSize);
 	~AdvanceShader();
 
 	virtual void draw();
@@ -44,7 +35,12 @@ public:
 
 private:
 
+	unsigned int m_TextureSize;
+
 	// Uniform location
 	GLuint m_UniformTexturePosition;
 	GLuint m_UniformTextureVelocity;
+
+	// Rendered texture location
+	GLuint m_OutputTextureLocation;
 };
