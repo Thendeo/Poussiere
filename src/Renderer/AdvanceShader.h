@@ -36,7 +36,7 @@ public:
 
 private:
 
-
+	// Assuming same X/Y size
 	unsigned int m_TextureSize;
 
 	// Uniform location

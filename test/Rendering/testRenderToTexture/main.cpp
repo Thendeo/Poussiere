@@ -63,38 +63,21 @@ int main(void)
 	// Dark blue background
 	glClearColor(0.1f, 0.1f, 0.8f, 0.0f);
 
-	// The texture we're going to render to
-	GLuint renderedTexture;
-	glGenTextures(1, &renderedTexture);
-	glActiveTexture(GL_TEXTURE1);
 
-	// "Bind" the newly created texture : all future texture functions will modify this texture
-	glBindTexture(GL_TEXTURE_2D, renderedTexture);
-
-	// Give an empty image to OpenGL ( the last "0" means "empty" )
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 1024, 1024, 0, GL_RGB, GL_UNSIGNED_BYTE, 0);
-
-	// Poor filtering
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-
-
-	// Load initial position texture (or create from scratch)
+	// Load initial position, rendered target and velocity
 	Texture2D l_PositionTexture("position.png", eTextureUnitMap::eTUM_Position);
+	Texture2D l_UpdatedPositionTexture(l_PositionTexture.getWidth(), l_PositionTexture.getHeight()
+		, l_PositionTexture.getTextureType(), eTextureUnitMap::eTUM_UpdatedPosition);
 	Texture2D l_VelocityTexture("velocity.png", eTextureUnitMap::eTUM_Velocity);
 
 	// Create shader and loads paramaters
-	AdvanceShader l_AdditionShader(1024);
+	AdvanceShader l_AdditionShader(l_PositionTexture.getWidth());
+	l_AdditionShader.setOutputLocation(l_PositionTexture.getTextureName(), l_UpdatedPositionTexture.getTextureName());
 
 	GLenum l_Err = glGetError();
 	doAssert(l_Err == GL_NO_ERROR);
 
 	// Render it
-	l_AdditionShader.setOutputLocation(l_PositionTexture.getTextureName(), renderedTexture);
-	
-
 	GLuint l_vertexArray = 0;
 	glGenVertexArrays(1, &l_vertexArray);
 	glBindVertexArray(l_vertexArray);

@@ -12,12 +12,35 @@
 
 #include "Image_8.h"
 
+Texture2D::Texture2D(unsigned int p_Width, unsigned int p_Height, GLint p_Type, eTextureUnitMap p_TUM)
+: m_Width(p_Width)
+, m_Height(p_Height)
+, m_Size(p_Width*p_Height)
+, m_CurrentTextureUnit(p_TUM)
+, m_TextureName(0U)
+, m_TextureType(p_Type)
+{
+	// Load velocity texture
+	glGenTextures(1, &m_TextureName);
+	glActiveTexture(m_CurrentTextureUnit);
+	glBindTexture(GL_TEXTURE_2D, m_TextureName);
+
+	glTexImage2D(GL_TEXTURE_2D, 0, m_TextureType, p_Width, p_Height,
+		0, m_TextureType, GL_UNSIGNED_BYTE, 0);
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
+}
+
 Texture2D::Texture2D(const char* p_File, eTextureUnitMap p_TUM)
 : m_Width(0U)
 , m_Height(0U)
 , m_Size(0U)
 , m_CurrentTextureUnit(p_TUM)
 , m_TextureName(0U)
+, m_TextureType(0)
 {
 	// Load velocity texture
 	glGenTextures(1, &m_TextureName);
@@ -27,18 +50,22 @@ Texture2D::Texture2D(const char* p_File, eTextureUnitMap p_TUM)
 	Image_8 l_TextureData;
 	l_TextureData.loadFromPNG(p_File);
 
-	GLint l_Type = 0;
+	m_Width = l_TextureData.getWidth();
+	m_Height = l_TextureData.getHeight();
+	m_Size = m_Width * m_Height;
+
 	switch (l_TextureData.getImgType())
 	{
 	case ImageType::ImageType_RGB:
-		l_Type = GL_RGB;
+		m_TextureType = GL_RGB;
 		break;
 	case ImageType::ImageType_RGBA:
-		l_Type = GL_RGBA;
+		m_TextureType = GL_RGBA;
 		break;
 	}
-	glTexImage2D(GL_TEXTURE_2D, 0, l_Type, l_TextureData.getWidth(), l_TextureData.getHeight(),
-		0, l_Type, GL_UNSIGNED_BYTE, l_TextureData.getData()); // TODO change Image_8 to generic. Here we assume texture is 8bit, but no
+
+	glTexImage2D(GL_TEXTURE_2D, 0, m_TextureType, l_TextureData.getWidth(), l_TextureData.getHeight(),
+		0, m_TextureType, GL_UNSIGNED_BYTE, l_TextureData.getData()); // TODO change Image_8 to generic. Here we assume texture is 8bit, but no
 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
@@ -89,4 +116,9 @@ GLuint Texture2D::getTextureUnit()
 GLuint Texture2D::getTextureName()
 {
 	return m_TextureName;
+}
+
+GLint Texture2D::getTextureType()
+{
+	return m_TextureType;
 }
