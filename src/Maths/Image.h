@@ -27,7 +27,7 @@ public:
 
 	virtual int getWidth();
 	virtual int getHeight();
-	virtual unsigned int getPixelType();
+	virtual unsigned int getPixelSize();
 	virtual ImageType getImgType();
 	virtual unsigned char* getData() = 0;
 
@@ -36,9 +36,10 @@ protected:
 
 	unsigned int m_Width;
 	unsigned int m_Height;
+	char m_PixelSize;
 
 	unsigned int m_ImageSize;
-	unsigned int m_PixelType;
+
 	ImageType m_ImageType;
 };
 

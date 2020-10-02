@@ -11,6 +11,11 @@
 
 #include "Image.h"
 
+#include <stdio.h>
+
+#define PNG_DEBUG 3
+#include "png.h"
+
 //! @brief Pixel buffer of size char, loads different extensions
 class Image_8 : public Image
 {
@@ -24,5 +29,15 @@ public:
 	virtual unsigned char* getData();
 
 private:
+
+	void loadPNG(const char* p_Path);
+	void loadInformations();
+	void readData();
+
 	unsigned char* m_Data;
+
+	FILE* m_File;
+
+	png_structp m_PngPtr;
+	png_infop m_InfoPtr;
 };

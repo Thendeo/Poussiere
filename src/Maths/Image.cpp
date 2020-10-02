@@ -13,8 +13,8 @@
 Image::Image()
 	: m_Width(0)
 	, m_Height(0)
+	, m_PixelSize(0)
 	, m_ImageSize(0)
-	, m_PixelType(0)
 	, m_ImageType(ImageType::ImageType_MAX)
 {
 }
@@ -22,8 +22,8 @@ Image::Image()
 Image::Image(unsigned int pPixelType)
 	: m_Width(0)
 	, m_Height(0)
+	, m_PixelSize(pPixelType)
 	, m_ImageSize(0)
-	, m_PixelType(pPixelType)
 	, m_ImageType(ImageType::ImageType_MAX)
 {
 }
@@ -45,10 +45,10 @@ int Image::getHeight()
 	return m_Height;
 }
 
-unsigned int Image::getPixelType()
+unsigned int Image::getPixelSize()
 {
-	doAssert(0 != m_PixelType);
-	return m_PixelType;
+	doAssert(0 != m_PixelSize);
+	return m_PixelSize;
 }
 
 ImageType Image::getImgType()

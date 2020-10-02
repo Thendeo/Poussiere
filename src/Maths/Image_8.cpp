@@ -9,17 +9,17 @@
 
 #include "Image_8.h"
 
-#include <stdio.h>
 #include <stdlib.h>
 
-#define PNG_DEBUG 3
-#include "png.h"
 
 #include "AssertHdl.h"
 
 Image_8::Image_8()
 	: Image(8)
 	, m_Data(NULL)
+	, m_File(NULL)
+	, m_PngPtr(NULL)
+	, m_InfoPtr(NULL)
 {
 }
 Image_8::~Image_8()
@@ -72,81 +72,117 @@ void Image_8::loadFromBMP(const char* p_Path)
 
 void Image_8::loadFromPNG(const char* p_Path)
 {
+	loadPNG(p_Path);
 
-	FILE* l_PngFile = NULL;
-	l_PngFile = fopen(p_Path, "rb");
-	doAssert(NULL != l_PngFile);
+	unsigned int l_Width = m_Width;
+	unsigned int l_Height = m_Height;
+	char l_PixelSize = m_PixelSize;
+	ImageType l_ImageType = m_ImageType;
+
+	loadInformations();
+
+	// If second loading, verify properties equalness
+	if (ImageType::ImageType_MAX != l_ImageType)
+	{
+		doAssert(l_Width == m_Width);
+		doAssert(l_Height == m_Height);
+		doAssert(l_ImageType == m_ImageType);
+		doAssert(l_PixelSize == m_PixelSize);
+	}
+	else
+	{
+		// Compute size and alloc memory
+		m_ImageSize = m_Width * m_Height * m_PixelSize;
+		m_Data = (unsigned char*)malloc(m_ImageSize);
+	}
+
+	readData();
+	
+	// Free data
+	png_destroy_read_struct(&m_PngPtr, &m_InfoPtr, NULL);
+	fclose(m_File);
+}
+
+unsigned char* Image_8::getData()
+{
+	doAssert(NULL != m_Data);
+	return m_Data;
+}
+
+void Image_8::loadPNG(const char* p_Path)
+{
+	m_File = fopen(p_Path, "rb");
+	doAssert(NULL != m_File);
 
 	// Check if PNG
 	unsigned char l_Header[8];
-	size_t l_Ret = fread(&l_Header, 1, 8, l_PngFile);
+	size_t l_Ret = fread(&l_Header, 1, 8, m_File);
 	doAssert(8 == l_Ret);
 
 	l_Ret = png_sig_cmp(l_Header, 0, 8);
 
 	// Read structure
-	png_structp l_PngPtr = NULL;
-	l_PngPtr = png_create_read_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
-	doAssert(NULL != l_PngPtr);
+	m_PngPtr = png_create_read_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
+	doAssert(NULL != m_PngPtr);
 
-	png_infop l_InfoPtr = NULL;
-	l_InfoPtr = png_create_info_struct(l_PngPtr);
-	doAssert(NULL != l_PngPtr);
+	m_InfoPtr = png_create_info_struct(m_PngPtr);
+	doAssert(NULL != m_PngPtr);
 
 	// Error jump context
-	l_Ret = setjmp(png_jmpbuf(l_PngPtr));
+	l_Ret = setjmp(png_jmpbuf(m_PngPtr));
 	doAssert(0 == l_Ret);
 
-	png_init_io(l_PngPtr, l_PngFile);
-	png_set_sig_bytes(l_PngPtr, 8);
+	png_init_io(m_PngPtr, m_File);
+	png_set_sig_bytes(m_PngPtr, 8);
 
-	png_read_info(l_PngPtr, l_InfoPtr);
+	png_read_info(m_PngPtr, m_InfoPtr);
+}
 
-	m_Width = png_get_image_width(l_PngPtr, l_InfoPtr);
-	m_Height = png_get_image_height(l_PngPtr, l_InfoPtr);
+void Image_8::loadInformations()
+{
+	m_Width = png_get_image_width(m_PngPtr, m_InfoPtr);
+	m_Height = png_get_image_height(m_PngPtr, m_InfoPtr);
 
-	unsigned char l_ByteDepth = png_get_bit_depth(l_PngPtr, l_InfoPtr);
+	unsigned char l_ByteDepth = png_get_bit_depth(m_PngPtr, m_InfoPtr);
 	doAssert(8 == l_ByteDepth);
 
-	unsigned char l_ImgType = png_get_color_type(l_PngPtr, l_InfoPtr);
-	unsigned char l_ImgComposanteSize = 0;
+	unsigned char l_ImgType = png_get_color_type(m_PngPtr, m_InfoPtr);
 	switch (l_ImgType)
 	{
 	case PNG_COLOR_TYPE_GRAY:
 		m_ImageType = ImageType::ImageType_Gray;
-		l_ImgComposanteSize = 1;
+		m_PixelSize = 1;
 		break;
 
-	case PNG_COLOR_TYPE_PALETTE :
+	case PNG_COLOR_TYPE_PALETTE:
 		m_ImageType = ImageType::ImageType_Palette;
 		doAssert(false); // Don't know yet to handle palette size
 		break;
 
-	case PNG_COLOR_TYPE_RGB :
+	case PNG_COLOR_TYPE_RGB:
 		m_ImageType = ImageType::ImageType_RGB;
-		l_ImgComposanteSize = 3;
+		m_PixelSize = 3;
 		break;
 
-	case PNG_COLOR_TYPE_RGBA :
+	case PNG_COLOR_TYPE_RGBA:
 		m_ImageType = ImageType::ImageType_RGBA;
-		l_ImgComposanteSize = 4;
+		m_PixelSize = 4;
 		break;
 
-	case PNG_COLOR_TYPE_GA :
+	case PNG_COLOR_TYPE_GA:
 		m_ImageType = ImageType::ImageType_GrayA;
-		l_ImgComposanteSize = 2;
+		m_PixelSize = 2;
 		break;
 	default:
 		doAssert(false);
 		break;
 	}
-	m_ImageSize = m_Width * m_Height * l_ImgComposanteSize;
+}
 
-	int l_NbPass = png_set_interlace_handling(l_PngPtr); // Number of interlacing
-	png_read_update_info(l_PngPtr, l_InfoPtr); //  Update struct info for debug
-
-	// Allocating image buffer + 2D buffer for png parsing
-	m_Data = (unsigned char*)malloc(m_ImageSize);
+void Image_8::readData()
+{
+	int l_NbPass = png_set_interlace_handling(m_PngPtr); // Number of interlacing
+	png_read_update_info(m_PngPtr, m_InfoPtr); //  Update struct info for debug
 
 	png_bytep* l_RowsPtr = NULL;
 	l_RowsPtr = (png_bytep*)malloc(sizeof(png_bytep) * m_Height);
@@ -159,16 +195,6 @@ void Image_8::loadFromPNG(const char* p_Path)
 	}
 
 	// Read image
-	png_read_image(l_PngPtr, l_RowsPtr);
-	
-	// Free data
+	png_read_image(m_PngPtr, l_RowsPtr);
 	free(l_RowsPtr);
-	png_destroy_read_struct(&l_PngPtr, &l_InfoPtr, NULL);
-	fclose(l_PngFile);
-}
-
-unsigned char* Image_8::getData()
-{
-	doAssert(NULL != m_Data);
-	return m_Data;
 }
