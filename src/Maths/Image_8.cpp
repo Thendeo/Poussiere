@@ -81,20 +81,9 @@ void Image_8::loadFromPNG(const char* p_Path)
 
 	loadInformations();
 
-	// If second loading, verify properties equalness
-	if (ImageType::ImageType_MAX != l_ImageType)
-	{
-		doAssert(l_Width == m_Width);
-		doAssert(l_Height == m_Height);
-		doAssert(l_ImageType == m_ImageType);
-		doAssert(l_PixelSize == m_PixelSize);
-	}
-	else
-	{
-		// Compute size and alloc memory
-		m_ImageSize = m_Width * m_Height * m_PixelSize;
-		m_Data = (unsigned char*)malloc(m_ImageSize);
-	}
+	// Compute size and alloc memory
+	m_ImageSize = m_Width * m_Height * m_PixelSize;
+	m_Data = (unsigned char*)malloc(m_ImageSize);
 
 	readData();
 	
