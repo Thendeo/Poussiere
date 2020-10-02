@@ -92,9 +92,7 @@ int main(void)
 	doAssert(l_Err == GL_NO_ERROR);
 
 	// Render it
-	l_AdditionShader.setFragmentPosition(0);
-	l_AdditionShader.setFragmentVelocity(2);
-	l_AdditionShader.setOutputLocation(l_PositionTexture.getTextureName(), renderedTexture, 1);
+	l_AdditionShader.setOutputLocation(l_PositionTexture.getTextureName(), renderedTexture);
 	
 
 	GLuint l_vertexArray = 0;

@@ -8,6 +8,7 @@
 ----------------------------------------------------*/
 
 #include "AdvanceShader.h"
+#include "TextureDefinitions.h"
 #include "AssertHdl.h"
 
 AdvanceShader::AdvanceShader(unsigned int pTextureSize)
@@ -20,13 +21,14 @@ AdvanceShader::AdvanceShader(unsigned int pTextureSize)
 , m_InputTexLoc(0U)
 , m_OutputTexLoc(0U)
 , m_FrameBuffer(0U)
-, m_OutputSwitch(false)
-, m_FirstDraw(true)
+, m_OutputSwitch(true)
 {
 	glUseProgram(m_ProgramID);
 
 	m_UniformTexturePosition = glGetUniformLocation(m_ProgramID, "textureA");
+	glUniform1i(m_UniformTexturePosition, eUniformUnitMap::eUUM_Position);
 	m_UniformTextureVelocity = glGetUniformLocation(m_ProgramID, "textureB");
+	glUniform1i(m_UniformTextureVelocity, eUniformUnitMap::eUUM_Velocity);
 
 	GLenum l_Err = glGetError();
 	doAssert(l_Err == GL_NO_ERROR);
@@ -44,11 +46,7 @@ AdvanceShader::~AdvanceShader()
 
 void AdvanceShader::draw()
 {
-	if (false == m_FirstDraw)
-	{
-		swapOutput();
-	}
-	m_FirstDraw = false;
+	swapOutput();
 	glClearColor(0.8f, 0.1f, 0.1f, 0.0f); // Clear in red
 
 	// Get viewport information for backup and restoration of it
@@ -69,23 +67,10 @@ void AdvanceShader::draw()
 
 }
 
-void AdvanceShader::setFragmentPosition(GLuint p_TexturePosition)
-{
-	m_InputTexLoc = p_TexturePosition;
-	glUniform1i(m_UniformTexturePosition, p_TexturePosition);
-}
-
-void AdvanceShader::setFragmentVelocity(GLuint p_TextureVelocity)
-{
-	glUniform1i(m_UniformTextureVelocity, p_TextureVelocity);
-}
-
-void AdvanceShader::setOutputLocation(GLuint p_InputTexID, GLuint p_OutputTexID, GLuint p_OutputTexLoc)
+void AdvanceShader::setOutputLocation(GLuint p_InputTexID, GLuint p_OutputTexID)
 {
 	m_InputTexID = p_InputTexID;
 	m_OutputTexID = p_OutputTexID;
-	m_OutputTexLoc = p_OutputTexLoc;
-	glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, p_OutputTexID, 0);
 }
 
 void AdvanceShader::swapOutput()
@@ -95,51 +80,22 @@ void AdvanceShader::swapOutput()
 	{
 		m_OutputSwitch = false;
 		glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, m_OutputTexID, 0);
+		glActiveTexture(eTextureUnitMap::eTUM_Position);
+		glBindTexture(GL_TEXTURE_2D, m_InputTexID);
+		glActiveTexture(eTextureUnitMap::eTUM_UpdatedPosition);
+		glBindTexture(GL_TEXTURE_2D, m_OutputTexID);
 	}
 	else
 	{
 		m_OutputSwitch = true;
 		glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, m_InputTexID, 0);
+		glActiveTexture(eTextureUnitMap::eTUM_Position);
+		glBindTexture(GL_TEXTURE_2D, m_OutputTexID);
+		glActiveTexture(eTextureUnitMap::eTUM_UpdatedPosition);
+		glBindTexture(GL_TEXTURE_2D, m_InputTexID);
 	}
 	GLenum l_Err = glGetError();
 	doAssert(l_Err == GL_NO_ERROR);
-	// Swap texture for next rendering
-	switch (m_OutputTexLoc)
-	{
-	case 0:
-		glActiveTexture(GL_TEXTURE0);
-		break;
-	case 1:
-		glActiveTexture(GL_TEXTURE1);
-		break;
-	case 2:
-		glActiveTexture(GL_TEXTURE2);
-		break;
-	default:
-		doAssert(false);
-		break;
-	}
-	glBindTexture(GL_TEXTURE_2D, m_InputTexID);
-	switch (m_InputTexLoc)
-	{
-	case 0:
-		glActiveTexture(GL_TEXTURE0);
-		break;
-	case 1:
-		glActiveTexture(GL_TEXTURE1);
-		break;
-	case 2:
-		glActiveTexture(GL_TEXTURE2);
-		break;
-	default:
-		doAssert(false);
-		break;
-	}
-	glBindTexture(GL_TEXTURE_2D, m_OutputTexID);
-
-	GLuint l_temp = m_OutputTexLoc;
-	m_OutputTexLoc = m_InputTexLoc;
-	m_InputTexLoc = l_temp;
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }

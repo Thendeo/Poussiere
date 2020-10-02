@@ -18,3 +18,11 @@ enum eTextureUnitMap : int
 	eTUM_Velocity = GL_TEXTURE2,
 	eTUM_ParticuleTexture = GL_TEXTURE3
 };
+
+enum eUniformUnitMap : char
+{
+	eUUM_Position = 0,
+	eUUM_UpdatedPosition = 1,
+	eUUM_Velocity = 2,
+	eUUM_ParticuleTexture = 3
+};

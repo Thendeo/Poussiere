@@ -30,9 +30,7 @@ public:
 
 	virtual void draw();
 
-	void setFragmentPosition(GLuint p_TexturePosition);
-	void setFragmentVelocity(GLuint p_TextureVelocity);
-	void setOutputLocation(GLuint p_InputLocation, GLuint p_OutputLocation, GLuint p_OutputTexLoc);
+	void setOutputLocation(GLuint p_InputLocation, GLuint p_OutputLocation);
 
 	void swapOutput();
 
@@ -56,5 +54,4 @@ private:
 	GLenum m_DrawTarget[1];
 
 	bool m_OutputSwitch;
-	bool m_FirstDraw;
 };
