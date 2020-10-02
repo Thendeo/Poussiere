@@ -14,7 +14,7 @@ GLFWwindow* window;
 #include <glm/gtc/matrix_transform.hpp >
 #include <glm/gtx/transform.hpp>
 
-#include "Image_8.h"
+#include "Texture2D.h"
 #include "AssertHdl.h"
 #include "ParticuleShader.h"
 #include "ShaderLoader.h"
@@ -66,7 +66,7 @@ int main(void)
 	// The texture we're going to render to
 	GLuint renderedTexture;
 	glGenTextures(1, &renderedTexture);
-	glActiveTexture(GL_TEXTURE0);
+	glActiveTexture(GL_TEXTURE1);
 
 	// "Bind" the newly created texture : all future texture functions will modify this texture
 	glBindTexture(GL_TEXTURE_2D, renderedTexture);
@@ -82,57 +82,8 @@ int main(void)
 
 
 	// Load initial position texture (or create from scratch)
-	GLuint l_PositionTextureID = 0;
-	glGenTextures(1, &l_PositionTextureID);
-	glActiveTexture(GL_TEXTURE1);
-	glBindTexture(GL_TEXTURE_2D, l_PositionTextureID);
-
-	Image_8 l_PositionTexture;
-	l_PositionTexture.loadFromPNG("position.png");
-
-	GLint l_Type = 0;
-	switch (l_PositionTexture.getImgType())
-	{
-	case ImageType::ImageType_RGB:
-		l_Type = GL_RGB;
-		break;
-	case ImageType::ImageType_RGBA:
-		l_Type = GL_RGBA;
-		break;
-	}
-	glTexImage2D(GL_TEXTURE_2D, 0, l_Type, l_PositionTexture.getWidth(), l_PositionTexture.getHeight(),
-		0, l_Type, GL_UNSIGNED_BYTE, l_PositionTexture.getData());
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
-
-	// Load velocity texture
-	GLuint l_VelocityTextureID = 0;
-	glGenTextures(1, &l_VelocityTextureID);
-	glActiveTexture(GL_TEXTURE2);
-	glBindTexture(GL_TEXTURE_2D, l_VelocityTextureID);
-
-
-	Image_8 l_VelocityTexture;
-	l_VelocityTexture.loadFromPNG("velocity.png");
-
-	l_Type = 0;
-	switch (l_VelocityTexture.getImgType())
-	{
-	case ImageType::ImageType_RGB:
-		l_Type = GL_RGB;
-		break;
-	case ImageType::ImageType_RGBA:
-		l_Type = GL_RGBA;
-		break;
-	}
-	glTexImage2D(GL_TEXTURE_2D, 0, l_Type, l_VelocityTexture.getWidth(), l_VelocityTexture.getHeight(),
-		0, l_Type, GL_UNSIGNED_BYTE, l_VelocityTexture.getData());
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
+	Texture2D l_PositionTexture("position.png", eTextureUnitMap::eTUM_Position);
+	Texture2D l_VelocityTexture("velocity.png", eTextureUnitMap::eTUM_Velocity);
 
 	// Create shader and loads paramaters
 	AdvanceShader l_AdditionShader(1024);
@@ -141,9 +92,9 @@ int main(void)
 	doAssert(l_Err == GL_NO_ERROR);
 
 	// Render it
-	l_AdditionShader.setFragmentPosition(1);
+	l_AdditionShader.setFragmentPosition(0);
 	l_AdditionShader.setFragmentVelocity(2);
-	l_AdditionShader.setOutputLocation(l_PositionTextureID, renderedTexture, 0);
+	l_AdditionShader.setOutputLocation(l_PositionTexture.getTextureName(), renderedTexture, 1);
 	
 
 	GLuint l_vertexArray = 0;

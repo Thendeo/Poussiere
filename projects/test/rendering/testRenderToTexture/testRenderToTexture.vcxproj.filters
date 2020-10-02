@@ -31,6 +31,18 @@
     <Filter Include="Fichiers d%27en-tête\Platform">
       <UniqueIdentifier>{4da972ce-1f1b-412e-af8f-23e17fc6163c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Fichiers sources\Data">
+      <UniqueIdentifier>{e39e9dff-df1c-4fe0-ad83-f679b0e15673}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers sources\Data\Texture">
+      <UniqueIdentifier>{cbd3f2f1-7101-4bce-bbeb-d2c62350eb64}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête\Data">
+      <UniqueIdentifier>{3e50ca3e-a945-45f7-9783-f17b9fed3b2f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête\Data\Texture">
+      <UniqueIdentifier>{6258aed1-b2f3-4abc-a803-46a1463382eb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\..\src\Renderer\AdvanceShader.cpp">
@@ -57,6 +69,9 @@
     <ClCompile Include="..\..\..\..\test\Rendering\testRenderToTexture\main.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\src\Data\Texture\Texture2D.cpp">
+      <Filter>Fichiers sources\Data\Texture</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\..\src\Maths\Image.h">
@@ -79,6 +94,12 @@
     </ClInclude>
     <ClInclude Include="..\..\..\..\src\Renderer\AdvanceShader.h">
       <Filter>Fichiers d%27en-tête\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\Data\Texture\Texture2D.h">
+      <Filter>Fichiers d%27en-tête\Data\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\Data\Texture\TextureDefinitions.h">
+      <Filter>Fichiers d%27en-tête\Data\Texture</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
