@@ -47,7 +47,6 @@ AdvanceShader::~AdvanceShader()
 void AdvanceShader::draw()
 {
 	swapOutput();
-	glClearColor(0.8f, 0.1f, 0.1f, 0.0f); // Clear in red
 
 	// Get viewport information for backup and restoration of it
 	GLint l_viewportInfo[4];

@@ -54,6 +54,8 @@ void ParticuleShader::draw()
 	// Use our shader
 	GLenum l_Err = glGetError();
 
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glUseProgram(m_ProgramID);
 	glDrawArrays(GL_POINTS, 0, m_ParticuleNumber); // 12*3 indices starting at 0 -> 12 triangles
 
 	doAssert(l_Err == GL_NO_ERROR);

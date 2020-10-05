@@ -1,0 +1,105 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Fichiers sources">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Fichiers de ressources">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Fichiers sources\Data">
+      <UniqueIdentifier>{a66c520d-5508-4573-a961-6617bda9ca6b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers sources\Data\Texture">
+      <UniqueIdentifier>{aef5bbdd-faec-4fb4-8942-32c350521722}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers sources\Maths">
+      <UniqueIdentifier>{9faae9a9-c3be-4a0e-afec-857e4bcb276a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers sources\Platform">
+      <UniqueIdentifier>{7fcd4350-a813-4006-8645-9c7a574db417}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers sources\Renderer">
+      <UniqueIdentifier>{60034394-154e-408b-9eda-a36f421b2325}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête\Renderer">
+      <UniqueIdentifier>{173943b7-0b8f-48f1-bcb7-36f5e3cedcc3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête\Data">
+      <UniqueIdentifier>{c8c850a9-4250-4756-9a5f-a3e3e4e39644}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête\Maths">
+      <UniqueIdentifier>{83f8e386-ef5e-4c91-a229-718c09b833ae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête\Platform">
+      <UniqueIdentifier>{3ea92edc-5e6e-460c-84d9-9fdfa7de07f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête\Data\Texture">
+      <UniqueIdentifier>{7a8c1528-2f2a-403a-8149-a1a7e6a18a20}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\..\src\Data\Texture\Texture2D.cpp">
+      <Filter>Fichiers sources\Data\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\Maths\Image.cpp">
+      <Filter>Fichiers sources\Maths</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\Maths\Image_8.cpp">
+      <Filter>Fichiers sources\Maths</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\Platform\AssertHdl.cpp">
+      <Filter>Fichiers sources\Platform</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\Platform\ShaderLoader.cpp">
+      <Filter>Fichiers sources\Platform</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\Renderer\AdvanceShader.cpp">
+      <Filter>Fichiers sources\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\Renderer\ParticuleShader.cpp">
+      <Filter>Fichiers sources\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\Renderer\Shader.cpp">
+      <Filter>Fichiers sources\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\test\Rendering\testConstantVelocity\main.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\..\src\Data\Texture\Texture2D.h">
+      <Filter>Fichiers d%27en-tête\Data\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\Data\Texture\TextureDefinitions.h">
+      <Filter>Fichiers d%27en-tête\Data\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\Maths\Image.h">
+      <Filter>Fichiers d%27en-tête\Maths</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\Maths\Image_8.h">
+      <Filter>Fichiers d%27en-tête\Maths</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\Platform\AssertHdl.h">
+      <Filter>Fichiers d%27en-tête\Platform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\Platform\ShaderLoader.h">
+      <Filter>Fichiers d%27en-tête\Platform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\Renderer\AdvanceShader.h">
+      <Filter>Fichiers d%27en-tête\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\Renderer\ParticuleShader.h">
+      <Filter>Fichiers d%27en-tête\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\Renderer\Shader.h">
+      <Filter>Fichiers d%27en-tête\Renderer</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
