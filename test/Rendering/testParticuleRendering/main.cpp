@@ -15,6 +15,7 @@ GLFWwindow* window;
 #include <glm/gtx/transform.hpp>
 
 #include "Image_8.h"
+#include "Texture2D.h"
 #include "AssertHdl.h"
 #include "ParticuleShader.h"
 #include "ShaderLoader.h"
@@ -66,72 +67,11 @@ int main(void)
 	glGenVertexArrays(1, &l_vertexArray);
 	glBindVertexArray(l_vertexArray);
 
-	// Texture generation with random filled positions
-	GLuint l_ParticulePositionTextureID = 0;
-	glGenTextures(1, &l_ParticulePositionTextureID);
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, l_ParticulePositionTextureID);
-	
 
-	Image_8 l_ParticulePositionTexture;
-	l_ParticulePositionTexture.loadFromPNG("position.png");
 	const size_t l_matrixSize = 4096;
+	Texture2D l_ParticulePosition("position.png", eTextureUnitMap::eTUM_Position);
+	Texture2D l_ParticuleRendering("particule.png", eTextureUnitMap::eTUM_ParticuleTexture);
 
-	GLint l_Type = 0;
-	switch (l_ParticulePositionTexture.getImgType())
-	{
-	case ImageType::ImageType_RGB:
-		l_Type = GL_RGB;
-		break;
-	case ImageType::ImageType_RGBA:
-		l_Type = GL_RGBA;
-		break;
-	}
-	glTexImage2D(GL_TEXTURE_2D, 0, l_Type, l_ParticulePositionTexture.getWidth(), l_ParticulePositionTexture.getHeight(),
-		0, l_Type, GL_UNSIGNED_BYTE, l_ParticulePositionTexture.getData());
-	/*
-	unsigned char l_PrecomputedData[l_matrixSize * l_matrixSize * 3];
-	for (int i_YIterator = 0; i_YIterator < l_matrixSize; i_YIterator++)
-	{
-		for (int i_XIterator = 0; i_XIterator < l_matrixSize; i_XIterator++)
-		{
-			for (int i_RGBIterator = 0; i_RGBIterator < 3U; i_RGBIterator++)
-			{
-				l_PrecomputedData[i_YIterator * l_matrixSize * 3U + i_XIterator * 3U + i_RGBIterator] = (rand() % 255);
-			}
-		}
-	}
-
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, l_matrixSize, l_matrixSize, 0, GL_RGB, GL_UNSIGNED_BYTE, &l_PrecomputedData[0]);*/
-
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-
-	// Texture loading for particule rendering
-	GLuint l_ParticuleRenderingTextureID = 0;
-	glGenTextures(1, &l_ParticuleRenderingTextureID);
-	glActiveTexture(GL_TEXTURE1);
-	glBindTexture(GL_TEXTURE_2D, l_ParticuleRenderingTextureID);
-
-	Image_8 l_ParticuleRenderingTexture;
-	l_ParticuleRenderingTexture.loadFromPNG("particule.png");
-
-	l_Type = 0;
-	switch (l_ParticuleRenderingTexture.getImgType())
-	{
-	case ImageType::ImageType_RGB:
-		l_Type = GL_RGB;
-		break;
-	case ImageType::ImageType_RGBA:
-		l_Type = GL_RGBA;
-		break;
-	}
-	glTexImage2D(GL_TEXTURE_2D, 0, l_Type, l_ParticuleRenderingTexture.getWidth(), l_ParticuleRenderingTexture.getHeight(),
-		0, l_Type, GL_UNSIGNED_BYTE, l_ParticuleRenderingTexture.getData());
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
 	
 	/****************** MVP ******************/
 	// Matrice de la caméra
@@ -146,8 +86,6 @@ int main(void)
 	glEnable(GL_BLEND);
 
 	ParticuleShader l_ParticuleShader(l_matrixSize * l_matrixSize);
-	l_ParticuleShader.setVertexPosTextureLoc(0);
-	l_ParticuleShader.setFragmentRenderTextureLoc(1);
 
 	l_err = glGetError();
 

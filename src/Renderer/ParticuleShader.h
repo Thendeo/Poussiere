@@ -12,6 +12,7 @@
 #include "Shader.h"
 
 #include "Image.h"
+#include "TextureDefinitions.h"
 
 
 //! @brief Shader to draw particules
@@ -33,8 +34,6 @@ public:
 	virtual void draw();
 
 	void setVertexMVP(glm::mat4 pMVP);
-	void setVertexPosTextureLoc(GLuint p_TexturePosition);
-	void setFragmentRenderTextureLoc(GLuint p_TextureRendering);
 
 private:
 	

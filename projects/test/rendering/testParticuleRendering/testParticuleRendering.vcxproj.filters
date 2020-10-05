@@ -31,6 +31,18 @@
     <Filter Include="Fichiers sources\Renderer">
       <UniqueIdentifier>{7d1d131c-11b3-42b2-bc90-d853fef914a1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Fichiers d%27en-tête\Data">
+      <UniqueIdentifier>{a824a66a-d321-4d2c-988b-06ae46fa0be2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête\Data\Texture">
+      <UniqueIdentifier>{5b8b4721-6f31-43e4-a6e8-02bac0912cb7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers sources\Data">
+      <UniqueIdentifier>{5169491a-c43e-4170-b176-f8cb3ecd363d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers sources\Data\Texture">
+      <UniqueIdentifier>{efdd545d-e214-4355-9e6c-8b7c357a96a7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\..\src\Platform\AssertHdl.h">
@@ -50,6 +62,12 @@
     </ClInclude>
     <ClInclude Include="..\..\..\..\src\Renderer\Shader.h">
       <Filter>Fichiers d%27en-tête\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\Data\Texture\Texture2D.h">
+      <Filter>Fichiers d%27en-tête\Data\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\Data\Texture\TextureDefinitions.h">
+      <Filter>Fichiers d%27en-tête\Data\Texture</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -73,6 +91,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\..\src\Renderer\Shader.cpp">
       <Filter>Fichiers sources\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\Data\Texture\Texture2D.cpp">
+      <Filter>Fichiers sources\Data\Texture</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
