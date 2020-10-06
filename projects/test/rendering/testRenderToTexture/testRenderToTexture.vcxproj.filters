@@ -19,9 +19,6 @@
     <Filter Include="Fichiers d%27en-tête\Renderer">
       <UniqueIdentifier>{5d8848a5-69c3-4d8b-8251-243d98c5afb7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Fichiers sources\Maths">
-      <UniqueIdentifier>{3e754c53-cccf-49e5-abd3-f3abfa18c98a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Fichiers sources\Renderer">
       <UniqueIdentifier>{7daeff4e-d9d0-4d74-8211-1dc71d325562}</UniqueIdentifier>
     </Filter>
@@ -60,12 +57,6 @@
     <ClCompile Include="..\..\..\..\src\Platform\AssertHdl.cpp">
       <Filter>Fichiers sources\Platform</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\src\Maths\Image_8.cpp">
-      <Filter>Fichiers sources\Maths</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\src\Maths\Image.cpp">
-      <Filter>Fichiers sources\Maths</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\..\test\Rendering\testRenderToTexture\main.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
@@ -75,9 +66,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\..\src\Maths\Image.h">
-      <Filter>Fichiers d%27en-tête\Maths</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\src\Maths\Image_8.h">
       <Filter>Fichiers d%27en-tête\Maths</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\..\src\Platform\AssertHdl.h">
@@ -100,6 +88,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\..\src\Data\Texture\TextureDefinitions.h">
       <Filter>Fichiers d%27en-tête\Data\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\Maths\ImageType.h">
+      <Filter>Fichiers d%27en-tête\Maths</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

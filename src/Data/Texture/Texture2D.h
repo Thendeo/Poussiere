@@ -8,6 +8,9 @@
 ----------------------------------------------------*/
 #pragma once
 #include "TextureDefinitions.h"
+#include "ImageType.h"
+
+#include "Image.h"
 
 #include <list>
 #include <string>
@@ -25,9 +28,9 @@ public:
 	Texture2D(unsigned int p_Width, unsigned int p_Height, GLint p_Type, eTextureUnitMap p_TUM);
 
 	//! @brief Fills single level instance
-	//! @param p_File Binary path
+	//! @param p_Img Image data ptr
 	//! @param p_TUM Texture unit
-	Texture2D(const char* p_File, eTextureUnitMap p_TUM);
+	Texture2D(Image<UByte>* p_Img, eTextureUnitMap p_TUM);
 
 	//! @brief Fills instance with list of binary files
 	//! Each level will have one binary texture data

@@ -143,8 +143,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\..\src\Data\Texture\Texture2D.cpp" />
-    <ClCompile Include="..\..\..\..\src\Maths\Image.cpp" />
-    <ClCompile Include="..\..\..\..\src\Maths\Image_8.cpp" />
     <ClCompile Include="..\..\..\..\src\Platform\AssertHdl.cpp" />
     <ClCompile Include="..\..\..\..\src\Platform\ShaderLoader.cpp" />
     <ClCompile Include="..\..\..\..\src\Renderer\AdvanceShader.cpp" />
@@ -156,7 +154,7 @@
     <ClInclude Include="..\..\..\..\src\Data\Texture\Texture2D.h" />
     <ClInclude Include="..\..\..\..\src\Data\Texture\TextureDefinitions.h" />
     <ClInclude Include="..\..\..\..\src\Maths\Image.h" />
-    <ClInclude Include="..\..\..\..\src\Maths\Image_8.h" />
+    <ClInclude Include="..\..\..\..\src\Maths\ImageType.h" />
     <ClInclude Include="..\..\..\..\src\Platform\AssertHdl.h" />
     <ClInclude Include="..\..\..\..\src\Platform\ShaderLoader.h" />
     <ClInclude Include="..\..\..\..\src\Renderer\AdvanceShader.h" />

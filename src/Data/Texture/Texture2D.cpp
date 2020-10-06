@@ -10,7 +10,9 @@
 
 #include "Texture2D.h"
 
-#include "Image_8.h"
+#include "Image.h"
+#include "ImageType.h"
+#include "AssertHdl.h"
 
 Texture2D::Texture2D(unsigned int p_Width, unsigned int p_Height, GLint p_Type, eTextureUnitMap p_TUM)
 : m_Width(p_Width)
@@ -34,27 +36,24 @@ Texture2D::Texture2D(unsigned int p_Width, unsigned int p_Height, GLint p_Type, 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
 }
 
-Texture2D::Texture2D(const char* p_File, eTextureUnitMap p_TUM)
-: m_Width(0U)
-, m_Height(0U)
-, m_Size(0U)
-, m_CurrentTextureUnit(p_TUM)
-, m_TextureName(0U)
-, m_TextureType(0)
+Texture2D::Texture2D(Image<UByte>* p_Img, eTextureUnitMap p_TUM)
+	: m_Width(0U)
+	, m_Height(0U)
+	, m_Size(0U)
+	, m_CurrentTextureUnit(p_TUM)
+	, m_TextureName(0U)
+	, m_TextureType(0)
 {
 	// Load velocity texture
 	glGenTextures(1, &m_TextureName);
 	glActiveTexture(m_CurrentTextureUnit);
 	glBindTexture(GL_TEXTURE_2D, m_TextureName);
 
-	Image_8 l_TextureData;
-	l_TextureData.loadFromPNG(p_File);
-
-	m_Width = l_TextureData.getWidth();
-	m_Height = l_TextureData.getHeight();
+	m_Width = p_Img->getWidth();
+	m_Height = p_Img->getHeight();
 	m_Size = m_Width * m_Height;
 
-	switch (l_TextureData.getImgType())
+	switch (p_Img->getImgType())
 	{
 	case ImageType::ImageType_RGB:
 		m_TextureType = GL_RGB;
@@ -62,10 +61,13 @@ Texture2D::Texture2D(const char* p_File, eTextureUnitMap p_TUM)
 	case ImageType::ImageType_RGBA:
 		m_TextureType = GL_RGBA;
 		break;
+	default:
+		doAssert(false);
+		break;
 	}
 
-	glTexImage2D(GL_TEXTURE_2D, 0, m_TextureType, l_TextureData.getWidth(), l_TextureData.getHeight(),
-		0, m_TextureType, GL_UNSIGNED_BYTE, l_TextureData.getData()); // TODO change Image_8 to generic. Here we assume texture is 8bit, but no
+	glTexImage2D(GL_TEXTURE_2D, 0, m_TextureType, p_Img->getWidth(), p_Img->getHeight(),
+		0, m_TextureType, GL_UNSIGNED_BYTE, p_Img->getData());
 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
