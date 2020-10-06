@@ -170,9 +170,9 @@
     <ClCompile Include="..\..\..\..\test\Rendering\testParticuleRendering\main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="DrawParticules.fragmentshader" />
-    <None Include="DrawParticules.geometryshader" />
-    <None Include="DrawParticules.vertexshader" />
+    <None Include="..\..\..\..\src\Shaders\DrawParticules.fragmentshader" />
+    <None Include="..\..\..\..\src\Shaders\DrawParticules.geometryshader" />
+    <None Include="..\..\..\..\src\Shaders\DrawParticules.vertexshader" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

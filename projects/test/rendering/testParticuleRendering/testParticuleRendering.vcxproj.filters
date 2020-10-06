@@ -97,14 +97,14 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="DrawParticules.vertexshader">
-      <Filter>Fichiers sources</Filter>
+    <None Include="..\..\..\..\src\Shaders\DrawParticules.vertexshader">
+      <Filter>Fichiers de ressources</Filter>
     </None>
-    <None Include="DrawParticules.fragmentshader">
-      <Filter>Fichiers sources</Filter>
+    <None Include="..\..\..\..\src\Shaders\DrawParticules.fragmentshader">
+      <Filter>Fichiers de ressources</Filter>
     </None>
-    <None Include="DrawParticules.geometryshader">
-      <Filter>Fichiers sources</Filter>
+    <None Include="..\..\..\..\src\Shaders\DrawParticules.geometryshader">
+      <Filter>Fichiers de ressources</Filter>
     </None>
   </ItemGroup>
 </Project>

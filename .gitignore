@@ -1,6 +1,5 @@
 
 # VisualStudio generated files
 **/.vs/*
-*.user
 **/x64/*
 **/Debug/*

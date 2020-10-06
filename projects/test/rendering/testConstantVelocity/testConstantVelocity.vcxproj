@@ -163,6 +163,14 @@
     <ClInclude Include="..\..\..\..\src\Renderer\ParticuleShader.h" />
     <ClInclude Include="..\..\..\..\src\Renderer\Shader.h" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\..\src\Shaders\DrawParticules.fragmentshader" />
+    <None Include="..\..\..\..\src\Shaders\DrawParticules.geometryshader" />
+    <None Include="..\..\..\..\src\Shaders\DrawParticules.vertexshader" />
+    <None Include="..\..\..\..\src\Shaders\TextureAddition.fragmentshader" />
+    <None Include="..\..\..\..\src\Shaders\TexturedTriangle.geometryshader" />
+    <None Include="..\..\..\..\src\Shaders\TexturedTriangle.vertexshader" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

@@ -103,16 +103,16 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="TexturedTriangle.fragmentshader">
+    <None Include="..\..\..\..\src\Shaders\TextureAddition.fragmentshader">
       <Filter>Fichiers de ressources</Filter>
     </None>
-    <None Include="TexturedTriangle.geometryshader">
+    <None Include="..\..\..\..\src\Shaders\TexturedTriangle.fragmentshader">
       <Filter>Fichiers de ressources</Filter>
     </None>
-    <None Include="TexturedTriangle.vertexshader">
+    <None Include="..\..\..\..\src\Shaders\TexturedTriangle.geometryshader">
       <Filter>Fichiers de ressources</Filter>
     </None>
-    <None Include="TextureAddition.fragmentshader">
+    <None Include="..\..\..\..\src\Shaders\TexturedTriangle.vertexshader">
       <Filter>Fichiers de ressources</Filter>
     </None>
   </ItemGroup>

@@ -52,9 +52,14 @@ GLuint ShaderLoader::_loadShader(const char* pVertexFilePath, const char* pGeome
 	GLuint GeometryShaderID = glCreateShader(GL_GEOMETRY_SHADER);
 	GLuint FragmentShaderID = glCreateShader(GL_FRAGMENT_SHADER);
 
-	loadVertexShader(pVertexFilePath, VertexShaderID);
-	loadGeometryShader(pGeometryFilePath, GeometryShaderID);
-	loadFragmentShader(pFragmentFilePath, FragmentShaderID);
+	std::string l_ShaderPath(getenv("ShaderLoc"));
+	std::string l_VertexFullPath(l_ShaderPath + pVertexFilePath);
+	std::string l_GeometryFullPath(l_ShaderPath + pGeometryFilePath);
+	std::string l_FragmentFullPath(l_ShaderPath + pFragmentFilePath);
+
+	loadVertexShader(l_VertexFullPath.c_str(), VertexShaderID);
+	loadGeometryShader(l_GeometryFullPath.c_str(), GeometryShaderID);
+	loadFragmentShader(l_FragmentFullPath.c_str(), FragmentShaderID);
 	// Link the program
 	printf("Linking program\n");
 	GLuint ProgramID = glCreateProgram();

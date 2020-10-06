@@ -102,4 +102,24 @@
       <Filter>Fichiers d%27en-tête\Renderer</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\..\src\Shaders\DrawParticules.geometryshader">
+      <Filter>Fichiers de ressources</Filter>
+    </None>
+    <None Include="..\..\..\..\src\Shaders\DrawParticules.vertexshader">
+      <Filter>Fichiers de ressources</Filter>
+    </None>
+    <None Include="..\..\..\..\src\Shaders\TextureAddition.fragmentshader">
+      <Filter>Fichiers de ressources</Filter>
+    </None>
+    <None Include="..\..\..\..\src\Shaders\TexturedTriangle.geometryshader">
+      <Filter>Fichiers de ressources</Filter>
+    </None>
+    <None Include="..\..\..\..\src\Shaders\TexturedTriangle.vertexshader">
+      <Filter>Fichiers de ressources</Filter>
+    </None>
+    <None Include="..\..\..\..\src\Shaders\DrawParticules.fragmentshader">
+      <Filter>Fichiers de ressources</Filter>
+    </None>
+  </ItemGroup>
 </Project>

@@ -164,10 +164,10 @@
     <ClInclude Include="..\..\..\..\src\Renderer\Shader.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="TextureAddition.fragmentshader" />
-    <None Include="TexturedTriangle.fragmentshader" />
-    <None Include="TexturedTriangle.geometryshader" />
-    <None Include="TexturedTriangle.vertexshader" />
+    <None Include="..\..\..\..\src\Shaders\TextureAddition.fragmentshader" />
+    <None Include="..\..\..\..\src\Shaders\TexturedTriangle.fragmentshader" />
+    <None Include="..\..\..\..\src\Shaders\TexturedTriangle.geometryshader" />
+    <None Include="..\..\..\..\src\Shaders\TexturedTriangle.vertexshader" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
