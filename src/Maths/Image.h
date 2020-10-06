@@ -265,8 +265,16 @@ void Image<PixelDepth>::loadInformations()
 	m_Width = png_get_image_width(m_PngPtr, m_InfoPtr);
 	m_Height = png_get_image_height(m_PngPtr, m_InfoPtr);
 
+	// Allowing only 8 or 16 png images
 	unsigned char l_ByteDepth = png_get_bit_depth(m_PngPtr, m_InfoPtr);
-	doAssert(8 == l_ByteDepth);
+	if (16 == l_ByteDepth)
+	{
+		png_set_strip_16(m_PngPtr);
+	}
+	else
+	{
+		doAssert(8 == l_ByteDepth);
+	}
 
 	unsigned char l_ImgType = png_get_color_type(m_PngPtr, m_InfoPtr);
 	switch (l_ImgType)

@@ -75,6 +75,46 @@ Texture2D::Texture2D(Image<UByte>* p_Img, eTextureUnitMap p_TUM)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
 }
 
+Texture2D::Texture2D(Image<UWord>* p_Img, eTextureUnitMap p_TUM)
+	: m_Width(0U)
+	, m_Height(0U)
+	, m_Size(0U)
+	, m_CurrentTextureUnit(p_TUM)
+	, m_TextureName(0U)
+	, m_TextureType(0)
+{
+	// Load velocity texture
+	glGenTextures(1, &m_TextureName);
+	glActiveTexture(m_CurrentTextureUnit);
+	glBindTexture(GL_TEXTURE_2D, m_TextureName);
+
+	m_Width = p_Img->getWidth();
+	m_Height = p_Img->getHeight();
+	m_Size = m_Width * m_Height;
+
+	switch (p_Img->getImgType())
+	{
+	case ImageType::ImageType_RGB:
+		m_TextureType = GL_RGB;
+		break;
+	case ImageType::ImageType_RGBA:
+		m_TextureType = GL_RGBA;
+		break;
+	default:
+		doAssert(false);
+		break;
+	}
+
+	glTexImage2D(GL_TEXTURE_2D, 0, m_TextureType, p_Img->getWidth(), p_Img->getHeight(),
+		0, m_TextureType, GL_UNSIGNED_SHORT, p_Img->getData());
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
+
+}
+
 Texture2D::Texture2D(std::list<std::string> p_FileList, eTextureUnitMap p_TUM)
 	: m_Width(0U)
 	, m_Height(0U)
