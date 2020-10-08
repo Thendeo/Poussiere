@@ -8,7 +8,6 @@
 ----------------------------------------------------*/
 #pragma once
 
-#include <stdio.h>
 #include "AssertHdl.h"
 
 #define PNG_DEBUG 3
@@ -24,13 +23,47 @@ enum class ImageType
 	ImageType_MAX
 };
 
+class I_Image
+{
+public:
+
+	//! @brief Returns the width of the image
+	virtual int getWidth() = 0;
+
+	//! @brief Returns the width of the image
+	virtual int getHeight() = 0;
+
+	//! @brief Returns the pixel size of the image
+	//! @return The size of one pixel given image type
+	virtual unsigned int getPixelSize() = 0;
+
+	//! @brief Returns the image type
+	//! @return The type of the image from ImageType enumeration
+	virtual ImageType getImgType() = 0;
+
+	virtual void setWidth(int p_Width) = 0;
+	virtual void setHeight(int p_Height) = 0;
+	virtual void setPixelSize(unsigned int p_PixelSize) = 0;
+	virtual void setImgType(ImageType p_ImgType) = 0;
+};
+
 template <typename PixelDepth>
-class Image
+class Image : public I_Image
 {
 public:
 
 	Image();
 	~Image();
+
+	virtual int getWidth();
+	virtual int getHeight();
+	virtual unsigned int getPixelSize();
+	virtual ImageType getImgType();
+
+	virtual void setWidth(int p_Width);
+	virtual void setHeight(int p_Height);
+	virtual void setPixelSize(unsigned int p_PixelSize);
+	virtual void setImgType(ImageType p_ImgType);
 
 	//! @brief Loads data from a BMP file
 	//! @param p_Path Path to the file
@@ -40,23 +73,11 @@ public:
 	//! @param p_Path Path to the file
 	void loadFromPNG(const char* p_Path);
 
-	//! @brief Returns the width of the image
-	int getWidth();
-
-	//! @brief Returns the width of the image
-	int getHeight();
-
-	//! @brief Returns the pixel size of the image
-	//! @return The size of one pixel given image type
-	unsigned int getPixelSize();
-
-	//! @brief Returns the image type
-	//! @return The type of the image from ImageType enumeration
-	ImageType getImgType();
-
 	//! @brief Returns a reference to the buffer data
 	//! @return Template defined ptr to the image buffer
 	PixelDepth* getData();
+
+	void allocate(unsigned int p_Size);
 
 protected:
 
@@ -221,12 +242,41 @@ ImageType Image<PixelDepth>::getImgType()
 	return m_ImageType;
 }
 
+template <typename PixelDepth>
+void Image<PixelDepth>::setWidth(int p_Width)
+{
+	m_Width = p_Width;
+}
+
+template <typename PixelDepth>
+void Image<PixelDepth>::setHeight(int p_Height)
+{
+	m_Height = p_Height;
+}
+
+template <typename PixelDepth>
+void Image<PixelDepth>::setPixelSize(unsigned int p_PixelSize)
+{
+	m_PixelSize = p_PixelSize;
+}
+
+template <typename PixelDepth>
+void Image<PixelDepth>::setImgType(ImageType p_ImgType)
+{
+	m_ImageType = p_ImgType;
+}
 
 template <typename PixelDepth>
 PixelDepth* Image<PixelDepth>::getData()
 {
 	doAssert(NULL != m_Data);
 	return m_Data;
+}
+
+template<typename PixelDepth>
+inline void Image<PixelDepth>::allocate(unsigned int p_Size)
+{
+	m_Data = new PixelDepth[p_Size];
 }
 
 template <typename PixelDepth>

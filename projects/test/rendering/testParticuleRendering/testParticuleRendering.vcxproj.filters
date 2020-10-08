@@ -22,9 +22,6 @@
     <Filter Include="Fichiers d%27en-tête\Maths">
       <UniqueIdentifier>{5e86fb29-3818-458e-ba5f-105bf9f71b3e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Fichiers sources\Maths">
-      <UniqueIdentifier>{0f5f15bb-6329-4443-ada6-57b4b8c559d2}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Fichiers d%27en-tête\Renderer">
       <UniqueIdentifier>{24619152-15f2-4a8f-8df9-b0083425595b}</UniqueIdentifier>
     </Filter>
@@ -54,9 +51,6 @@
     <ClInclude Include="..\..\..\..\src\Maths\Image.h">
       <Filter>Fichiers d%27en-tête\Maths</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\src\Maths\Image_8.h">
-      <Filter>Fichiers d%27en-tête\Maths</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\..\src\Renderer\ParticuleShader.h">
       <Filter>Fichiers d%27en-tête\Renderer</Filter>
     </ClInclude>
@@ -76,12 +70,6 @@
     </ClCompile>
     <ClCompile Include="..\..\..\..\src\Platform\AssertHdl.cpp">
       <Filter>Fichiers sources\Platform</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\src\Maths\Image.cpp">
-      <Filter>Fichiers sources\Maths</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\src\Maths\Image_8.cpp">
-      <Filter>Fichiers sources\Maths</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\test\Rendering\testParticuleRendering\main.cpp">
       <Filter>Fichiers sources</Filter>

@@ -19,6 +19,7 @@ GLFWwindow* window;
 #include "ParticuleShader.h"
 #include "ShaderLoader.h"
 #include "AdvanceShader.h"
+#include "ImageLoader.h"
 
 #include <thread>         // std::this_thread::sleep_for
 #include <chrono>         // std::chrono::seconds
@@ -66,7 +67,8 @@ int main(void)
 
 	// Load initial position, rendered target and velocity
 	Image<UByte> l_PositionData;
-	l_PositionData.loadFromPNG("position_16.png");
+	ImageLoader l_Loader;
+	l_Loader.load(&l_PositionData, "position_16.png");
 	Texture2D l_PositionTexture(&l_PositionData, eTextureUnitMap::eTUM_Position);
 
 	Texture2D l_UpdatedPositionTexture(l_PositionTexture.getWidth(), l_PositionTexture.getHeight()

@@ -13,9 +13,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Fichiers d%27en-tête\Maths">
-      <UniqueIdentifier>{ff7c750f-7886-418d-818a-470ae3389f9f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Fichiers d%27en-tête\Renderer">
       <UniqueIdentifier>{5d8848a5-69c3-4d8b-8251-243d98c5afb7}</UniqueIdentifier>
     </Filter>
@@ -40,6 +37,15 @@
     <Filter Include="Fichiers d%27en-tête\Data\Texture">
       <UniqueIdentifier>{6258aed1-b2f3-4abc-a803-46a1463382eb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Fichiers d%27en-tête\Data\Image">
+      <UniqueIdentifier>{5061044a-d46a-4915-bf5c-3191144df19c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête\Data\Loader">
+      <UniqueIdentifier>{59fe129e-6353-474a-ac7c-a23212b48884}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers sources\Data\Loader">
+      <UniqueIdentifier>{bf2757a0-6c4a-4759-af1b-120df63dd151}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\..\src\Renderer\AdvanceShader.cpp">
@@ -63,11 +69,11 @@
     <ClCompile Include="..\..\..\..\src\Data\Texture\Texture2D.cpp">
       <Filter>Fichiers sources\Data\Texture</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\src\Data\Loader\ImageLoader.cpp">
+      <Filter>Fichiers sources\Data\Loader</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\..\src\Maths\Image.h">
-      <Filter>Fichiers d%27en-tête\Maths</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\..\src\Platform\AssertHdl.h">
       <Filter>Fichiers d%27en-tête\Platform</Filter>
     </ClInclude>
@@ -89,8 +95,14 @@
     <ClInclude Include="..\..\..\..\src\Data\Texture\TextureDefinitions.h">
       <Filter>Fichiers d%27en-tête\Data\Texture</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\src\Maths\ImageType.h">
-      <Filter>Fichiers d%27en-tête\Maths</Filter>
+    <ClInclude Include="..\..\..\..\src\Data\Loader\ImageLoader.h">
+      <Filter>Fichiers d%27en-tête\Data\Loader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\Data\Image\Image.h">
+      <Filter>Fichiers d%27en-tête\Data\Image</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\Data\Image\ImageType.h">
+      <Filter>Fichiers d%27en-tête\Data\Image</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

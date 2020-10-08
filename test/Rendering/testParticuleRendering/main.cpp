@@ -14,7 +14,7 @@ GLFWwindow* window;
 #include <glm/gtc/matrix_transform.hpp >
 #include <glm/gtx/transform.hpp>
 
-#include "Image_8.h"
+#include "Image.h"
 #include "Texture2D.h"
 #include "AssertHdl.h"
 #include "ParticuleShader.h"
@@ -69,8 +69,13 @@ int main(void)
 
 
 	const size_t l_matrixSize = 4096;
-	Texture2D l_ParticulePosition("position.png", eTextureUnitMap::eTUM_Position);
-	Texture2D l_ParticuleRendering("particule.png", eTextureUnitMap::eTUM_ParticuleTexture);
+	Image<UWord> l_PositionImage;
+	l_PositionImage.loadFromPNG("position_16.png");
+	Texture2D l_ParticulePosition(&l_PositionImage, eTextureUnitMap::eTUM_Position);
+
+	//Image<UByte> l_ParticuleImage;
+	//l_ParticuleImage.loadFromPNG("particule.png");
+	//Texture2D l_ParticuleRendering(&l_ParticuleImage, eTextureUnitMap::eTUM_ParticuleTexture);
 
 	
 	/****************** MVP ******************/
