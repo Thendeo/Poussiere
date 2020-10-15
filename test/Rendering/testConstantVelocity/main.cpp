@@ -19,6 +19,7 @@ GLFWwindow* window;
 #include "ParticuleShader.h"
 #include "ShaderLoader.h"
 #include "AdvanceShader.h"
+#include "Image.h"
 
 #include <thread>         // std::this_thread::sleep_for
 #include <chrono>         // std::chrono::seconds
@@ -65,11 +66,14 @@ int main(void)
 
 
 	// Load initial position, rendered target and velocity
-	Texture2D l_PositionTexture("velocity.png", eTextureUnitMap::eTUM_Position);
+	Image<UWord> l_PositionData("position.tif");
+	Texture2D l_PositionTexture(&l_PositionData, eTextureUnitMap::eTUM_Position);
 	Texture2D l_UpdatedPositionTexture(l_PositionTexture.getWidth(), l_PositionTexture.getHeight()
 		, l_PositionTexture.getTextureType(), eTextureUnitMap::eTUM_UpdatedPosition);
-	Texture2D l_VelocityTexture("velocity.png", eTextureUnitMap::eTUM_Velocity);
-	Texture2D l_RenderingParticule("particule.png", eTextureUnitMap::eTUM_ParticuleTexture);
+	Image<UWord> l_VelocityData("velocity.tif");
+	Texture2D l_VelocityTexture(&l_PositionData, eTextureUnitMap::eTUM_Velocity);
+	Image<UByte> l_RenderingImage("particule.png");
+	Texture2D l_RenderingParticule(&l_PositionData, eTextureUnitMap::eTUM_ParticuleTexture);
 
 	// Create shader and loads paramaters
 	AdvanceShader l_AdditionShader(l_PositionTexture.getWidth());
