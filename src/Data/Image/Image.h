@@ -162,7 +162,7 @@ Image<PixelDepth>::Image(const char* p_ImagePath)
 	{
 
 		// Test to load TIFF image
-		m_TiffPtr = TIFFOpen("position_16.tif", "r");
+		m_TiffPtr = TIFFOpen(p_ImagePath, "r");
 		doAssert(NULL != m_TiffPtr);
 
 		TIFFGetField(m_TiffPtr, TIFFTAG_IMAGEWIDTH, &m_Width);
