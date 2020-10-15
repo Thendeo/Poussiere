@@ -10,8 +10,6 @@
 
 #include "Texture2D.h"
 
-#include "Image.h"
-#include "ImageType.h"
 #include "AssertHdl.h"
 
 Texture2D::Texture2D(unsigned int p_Width, unsigned int p_Height, GLint p_Type, eTextureUnitMap p_TUM)

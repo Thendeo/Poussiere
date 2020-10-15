@@ -8,7 +8,6 @@
 ----------------------------------------------------*/
 #pragma once
 #include "TextureDefinitions.h"
-#include "ImageType.h"
 
 #include "Image.h"
 

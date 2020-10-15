@@ -63,6 +63,9 @@
     <ClCompile Include="..\..\..\..\src\Data\Texture\Texture2D.cpp">
       <Filter>Fichiers sources\Data\Texture</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\src\Data\Image\Image.cpp">
+      <Filter>Fichiers sources\Data</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\..\src\Platform\AssertHdl.h">

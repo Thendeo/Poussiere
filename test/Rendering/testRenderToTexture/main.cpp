@@ -64,8 +64,9 @@ int main(void)
 	glClearColor(0.1f, 0.1f, 0.8f, 0.0f);
 
 
+
 	// Load initial position, rendered target and velocity
-	Image<UByte> l_PositionData("position_16.png");
+	Image<UWord> l_PositionData("position_16.tif");
 	Texture2D l_PositionTexture(&l_PositionData, eTextureUnitMap::eTUM_Position);
 
 	Texture2D l_UpdatedPositionTexture(l_PositionTexture.getWidth(), l_PositionTexture.getHeight()

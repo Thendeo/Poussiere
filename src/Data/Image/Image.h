@@ -9,9 +9,12 @@
 #pragma once
 
 #include "AssertHdl.h"
+#include "ImageType.h"
 
 #define PNG_DEBUG 3
 #include "png.h"
+
+#include "tiffio.h"
 
 #include <string>
 
@@ -71,7 +74,7 @@ public:
 	//! @return Template defined ptr to the image buffer
 	PixelDepth* getData();
 
-protected:
+private:
 
 	//! @brief Open a PNG file and verify header informations
 	//! @param p_Path The path to the file
@@ -112,6 +115,9 @@ protected:
 
 	//! @brief PNG information struct from PNGLib
 	png_infop m_InfoPtr;
+
+	//! @brief TIFF file ptr
+	TIFF* m_TiffPtr;
 };
 
 
@@ -126,6 +132,7 @@ Image<PixelDepth>::Image(const char* p_ImagePath)
 	, m_File(NULL)
 	, m_PngPtr(NULL)
 	, m_InfoPtr(NULL)
+	, m_TiffPtr(NULL)
 {
 	std::string l_ImagePath(p_ImagePath);
 
@@ -150,6 +157,28 @@ Image<PixelDepth>::Image(const char* p_ImagePath)
 		// Free data
 		png_destroy_read_struct(&m_PngPtr, &m_InfoPtr, NULL);
 		fclose(m_File);
+	}
+	else if (0 == strcmp("tif", l_Extension.c_str()))
+	{
+
+		// Test to load TIFF image
+		m_TiffPtr = TIFFOpen("position_16.tif", "r");
+		doAssert(NULL != m_TiffPtr);
+
+		TIFFGetField(m_TiffPtr, TIFFTAG_IMAGEWIDTH, &m_Width);
+		TIFFGetField(m_TiffPtr, TIFFTAG_IMAGELENGTH, &m_Height);
+		m_ImageSize = m_Width * m_Height;
+		m_ImageType = ImageType::ImageType_RGBA;
+		m_PixelSize = 4;
+		m_ImageSize *= m_PixelSize;
+
+		readData();
+
+		TIFFClose(m_TiffPtr);
+	}
+	else
+	{
+		doAssert(false);
 	}
 }
 
@@ -296,25 +325,4 @@ void Image<PixelDepth>::loadInformations()
 		doAssert(false);
 		break;
 	}
-}
-
-template <typename PixelDepth>
-void Image<PixelDepth>::readData()
-{
-	int l_NbPass = png_set_interlace_handling(m_PngPtr); // Number of interlacing
-	png_read_update_info(m_PngPtr, m_InfoPtr); //  Update struct info for debug
-
-	png_bytep* l_RowsPtr = NULL;
-	l_RowsPtr = new png_bytep[sizeof(png_bytep) * m_Height];
-	doAssert(NULL != l_RowsPtr);
-
-	// Mapping image buffer addresses with rows from png
-	for (unsigned int l_IdRow = 0; l_IdRow < m_Height; l_IdRow++)
-	{
-		l_RowsPtr[l_IdRow] = m_Data + ((m_Height - (l_IdRow + 1)) * m_Width * 4U);
-	}
-
-	// Read image
-	png_read_image(m_PngPtr, l_RowsPtr);
-	delete(l_RowsPtr);
 }
