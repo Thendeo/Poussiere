@@ -69,13 +69,11 @@ int main(void)
 
 
 	const size_t l_matrixSize = 4096;
-	Image<UWord> l_PositionImage;
-	l_PositionImage.loadFromPNG("position_16.png");
-	Texture2D l_ParticulePosition(&l_PositionImage, eTextureUnitMap::eTUM_Position);
+	Image<UWord> l_PositionData("position.tif");
+	Texture2D l_ParticulePosition(&l_PositionData, eTextureUnitMap::eTUM_Position);
 
-	//Image<UByte> l_ParticuleImage;
-	//l_ParticuleImage.loadFromPNG("particule.png");
-	//Texture2D l_ParticuleRendering(&l_ParticuleImage, eTextureUnitMap::eTUM_ParticuleTexture);
+	Image<UByte> l_ParticuleImage("particule.png");
+	Texture2D l_ParticuleRendering(&l_ParticuleImage, eTextureUnitMap::eTUM_ParticuleTexture);
 
 	
 	/****************** MVP ******************/

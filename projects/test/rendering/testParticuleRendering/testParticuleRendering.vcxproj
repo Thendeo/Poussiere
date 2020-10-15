@@ -103,13 +103,13 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;TW_STATIC;TW_NO_LIB_PRAGMA;TW_NO_DIRECT3D;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(WORKSPACE)\SOUP\glew-2.1.0\include;$(WORKSPACE)\SOUP\glm;$(WORKSPACE)\SOUP\glfw-3.3\include;$(WORKSPACE)\Repos\Particules\src\Maths;$(WORKSPACE)\Repos\Particules\src\Renderer;$(WORKSPACE)\Repos\Particules\src\Data\Texture;$(WORKSPACE)\Repos\Particules\src\Platform;$(WORKSPACE)\SOUP\libpng\1637\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(WORKSPACE)\SOUP\glew-2.1.0\include;$(WORKSPACE)\SOUP\glm;$(WORKSPACE)\SOUP\glfw-3.3\include;$(WORKSPACE)\Repos\Particules\src\Renderer;$(WORKSPACE)\Repos\Particules\src\Data\Texture;$(WORKSPACE)\Repos\Particules\src\Data\Image;$(WORKSPACE)\Repos\Particules\src\Platform;$(WORKSPACE)\SOUP\libpng\1637\include;$(WORKSPACE)\SOUP\libtiff\4.1.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(WORKSPACE)\SOUP\glfw-3.3\lib-vc2019;$(WORKSPACE)\SOUP\glew-2.1.0\lib\Release\x64;$(WORKSPACE)\SOUP\libpng\1637\bin;$(WORKSPACE)\SOUP\zlib\1.2.11\bin;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>opengl32.lib;glu32.lib;glew32.lib;glfw3.lib;libpng16_staticd.lib;zlibstaticd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(WORKSPACE)\SOUP\glfw-3.3\lib-vc2019;$(WORKSPACE)\SOUP\glew-2.1.0\lib\Release\x64;$(WORKSPACE)\SOUP\libpng\1637\bin;$(WORKSPACE)\SOUP\zlib\1.2.11\bin;$(WORKSPACE)\SOUP\libtiff\4.1.0\bin;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opengl32.lib;glu32.lib;glew32.lib;glfw3.lib;libpng16_staticd.lib;zlibstaticd.lib;tiffd.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
       <HeapReserveSize>4194304 </HeapReserveSize>
       <StackCommitSize>
@@ -150,15 +150,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\..\src\Data\Image\Image.h" />
+    <ClInclude Include="..\..\..\..\src\Data\Image\ImageType.h" />
     <ClInclude Include="..\..\..\..\src\Data\Texture\Texture2D.h" />
     <ClInclude Include="..\..\..\..\src\Data\Texture\TextureDefinitions.h" />
-    <ClInclude Include="..\..\..\..\src\Maths\Image.h" />
     <ClInclude Include="..\..\..\..\src\Platform\AssertHdl.h" />
     <ClInclude Include="..\..\..\..\src\Platform\ShaderLoader.h" />
     <ClInclude Include="..\..\..\..\src\Renderer\ParticuleShader.h" />
     <ClInclude Include="..\..\..\..\src\Renderer\Shader.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\..\src\Data\Image\Image.cpp" />
     <ClCompile Include="..\..\..\..\src\Data\Texture\Texture2D.cpp" />
     <ClCompile Include="..\..\..\..\src\Platform\AssertHdl.cpp" />
     <ClCompile Include="..\..\..\..\src\Platform\ShaderLoader.cpp" />

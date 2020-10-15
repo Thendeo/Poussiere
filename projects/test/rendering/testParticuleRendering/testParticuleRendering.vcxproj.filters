@@ -19,9 +19,6 @@
     <Filter Include="Fichiers d%27en-tête\Platform">
       <UniqueIdentifier>{59bca61c-edef-4c50-a250-74334a1bc315}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Fichiers d%27en-tête\Maths">
-      <UniqueIdentifier>{5e86fb29-3818-458e-ba5f-105bf9f71b3e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Fichiers d%27en-tête\Renderer">
       <UniqueIdentifier>{24619152-15f2-4a8f-8df9-b0083425595b}</UniqueIdentifier>
     </Filter>
@@ -40,6 +37,12 @@
     <Filter Include="Fichiers sources\Data\Texture">
       <UniqueIdentifier>{efdd545d-e214-4355-9e6c-8b7c357a96a7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Fichiers d%27en-tête\Data\Image">
+      <UniqueIdentifier>{7138505a-0e0b-4f47-9873-3f51c25c1963}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers sources\Data\Image">
+      <UniqueIdentifier>{cdd2321a-0749-4e6e-a585-320f39fa6a17}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\..\src\Platform\AssertHdl.h">
@@ -47,9 +50,6 @@
     </ClInclude>
     <ClInclude Include="..\..\..\..\src\Platform\ShaderLoader.h">
       <Filter>Fichiers d%27en-tête\Platform</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\src\Maths\Image.h">
-      <Filter>Fichiers d%27en-tête\Maths</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\..\src\Renderer\ParticuleShader.h">
       <Filter>Fichiers d%27en-tête\Renderer</Filter>
@@ -62,6 +62,12 @@
     </ClInclude>
     <ClInclude Include="..\..\..\..\src\Data\Texture\TextureDefinitions.h">
       <Filter>Fichiers d%27en-tête\Data\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\Data\Image\Image.h">
+      <Filter>Fichiers d%27en-tête\Data\Image</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\Data\Image\ImageType.h">
+      <Filter>Fichiers d%27en-tête\Data\Image</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -82,6 +88,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\..\src\Data\Texture\Texture2D.cpp">
       <Filter>Fichiers sources\Data\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\Data\Image\Image.cpp">
+      <Filter>Fichiers sources\Data\Image</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
