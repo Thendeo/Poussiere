@@ -13,6 +13,8 @@
 #define PNG_DEBUG 3
 #include "png.h"
 
+#include <string>
+
 enum class ImageType
 {
 	ImageType_Gray = 0,
@@ -52,7 +54,7 @@ class Image : public I_Image
 {
 public:
 
-	Image();
+	Image(const char* p_ImagePath);
 	~Image();
 
 	virtual int getWidth();
@@ -65,25 +67,15 @@ public:
 	virtual void setPixelSize(unsigned int p_PixelSize);
 	virtual void setImgType(ImageType p_ImgType);
 
-	//! @brief Loads data from a BMP file
-	//! @param p_Path Path to the file
-	void loadFromBMP(const char* p_Path);
-
-	//! @brief Loads data from a PNG file
-	//! @param p_Path Path to the file
-	void loadFromPNG(const char* p_Path);
-
 	//! @brief Returns a reference to the buffer data
 	//! @return Template defined ptr to the image buffer
 	PixelDepth* getData();
-
-	void allocate(unsigned int p_Size);
 
 protected:
 
 	//! @brief Open a PNG file and verify header informations
 	//! @param p_Path The path to the file
-	void loadPNG(const char* p_Path);
+	void loadPNG();
 
 	//! @brief Recover informations from the file (width, height, etc.)
 	void loadInformations();
@@ -124,7 +116,7 @@ protected:
 
 
 template <typename PixelDepth>
-Image<PixelDepth>::Image()
+Image<PixelDepth>::Image(const char* p_ImagePath)
 	: m_Width(0)
 	, m_Height(0)
 	, m_ImageSize(0)
@@ -135,6 +127,30 @@ Image<PixelDepth>::Image()
 	, m_PngPtr(NULL)
 	, m_InfoPtr(NULL)
 {
+	std::string l_ImagePath(p_ImagePath);
+
+	// Get extension position inside string
+	size_t l_ExtensionPos = l_ImagePath.rfind('.', l_ImagePath.length());
+	doAssert(std::string::npos != l_ExtensionPos);
+
+	// Get extension string and compare
+	std::string l_Extension = l_ImagePath.substr(l_ExtensionPos + 1, l_ImagePath.length() - l_ExtensionPos);
+
+	m_File = fopen(p_ImagePath, "rb");
+	if (0 == strcmp("png", l_Extension.c_str()))
+	{
+		loadPNG();
+		loadInformations();
+
+		m_ImageSize = m_Width * m_Height * m_PixelSize;
+		m_Data = new PixelDepth[m_ImageSize];
+
+		readData();
+
+		// Free data
+		png_destroy_read_struct(&m_PngPtr, &m_InfoPtr, NULL);
+		fclose(m_File);
+	}
 }
 
 template <typename PixelDepth>
@@ -144,74 +160,6 @@ Image<PixelDepth>::~Image()
 	{
 		free(m_Data);
 	}
-}
-
-template <typename PixelDepth>
-void Image<PixelDepth>::loadFromBMP(const char* p_Path)
-{
-	if (NULL != m_Data)
-	{
-		m_Width = 0;
-		m_Height = 0;
-		m_ImageSize = 0;
-		m_Data = NULL;
-	}
-	FILE* l_File = fopen(p_Path, "rb");
-	doAssert(NULL != l_File);
-
-	unsigned char l_Header[54]; // 54o header
-	size_t l_Readed = fread(l_Header, 1, 54, l_File);
-	doAssert(54 == l_Readed); // File too small, or corrupted
-
-	doAssert('B' == l_Header[0]);
-	doAssert('M' == l_Header[1]);
-
-
-	// Read size
-	// Lit des entiers à partir du tableau d'octets
-	unsigned int l_DataPos; // ptr to start of data
-	l_DataPos = *(int*)&(l_Header[0x0A]);
-	m_ImageSize = *(int*)&(l_Header[0x22]) * 3;
-	m_Width = *(int*)&(l_Header[0x12]);
-	m_Height = *(int*)&(l_Header[0x16]);
-	m_ImageType = ImageType::ImageType_RGB;
-
-	if (0 == m_ImageSize)
-	{
-		m_ImageSize = m_Width * m_Height * 3; // RGB
-	}
-	doAssert(0 != m_ImageSize); // Empty image
-	doAssert(0 != l_DataPos); // No data pos
-
-	//m_Data = (PixelDepth*)malloc(m_ImageSize);
-	m_Data = new PixelDepth[m_ImageSize];
-	doAssert(0 != m_Data);
-	l_Readed = fread(m_Data, 1, m_ImageSize, l_File);
-
-	fclose(l_File);
-}
-
-template <typename PixelDepth>
-void Image<PixelDepth>::loadFromPNG(const char* p_Path)
-{
-	loadPNG(p_Path);
-
-	unsigned int l_Width = m_Width;
-	unsigned int l_Height = m_Height;
-	char l_PixelSize = m_PixelSize;
-	ImageType l_ImageType = m_ImageType;
-
-	loadInformations();
-
-	// Compute size and alloc memory
-	m_ImageSize = m_Width * m_Height * m_PixelSize;
-	m_Data = new PixelDepth[m_ImageSize];
-
-	readData();
-
-	// Free data
-	png_destroy_read_struct(&m_PngPtr, &m_InfoPtr, NULL);
-	fclose(m_File);
 }
 
 template <typename PixelDepth>
@@ -273,18 +221,9 @@ PixelDepth* Image<PixelDepth>::getData()
 	return m_Data;
 }
 
-template<typename PixelDepth>
-inline void Image<PixelDepth>::allocate(unsigned int p_Size)
-{
-	m_Data = new PixelDepth[p_Size];
-}
-
 template <typename PixelDepth>
-void Image<PixelDepth>::loadPNG(const char* p_Path)
+void Image<PixelDepth>::loadPNG()
 {
-	m_File = fopen(p_Path, "rb");
-	doAssert(NULL != m_File);
-
 	// Check if PNG
 	unsigned char l_Header[8];
 	size_t l_Ret = fread(&l_Header, 1, 8, m_File);

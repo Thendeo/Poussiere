@@ -116,7 +116,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;TW_STATIC;TW_NO_LIB_PRAGMA;TW_NO_DIRECT3D;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(WORKSPACE)\SOUP\glew-2.1.0\include;$(WORKSPACE)\SOUP\glm;$(WORKSPACE)\SOUP\glfw-3.3\include;$(WORKSPACE)\Repos\Particules\src\Renderer;$(WORKSPACE)\Repos\Particules\src\Data\Image;$(WORKSPACE)\Repos\Particules\src\Data\Loader;$(WORKSPACE)\Repos\Particules\src\Data\Texture;$(WORKSPACE)\Repos\Particules\src\Platform;$(WORKSPACE)\SOUP\libpng\1637\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(WORKSPACE)\SOUP\glew-2.1.0\include;$(WORKSPACE)\SOUP\glm;$(WORKSPACE)\SOUP\glfw-3.3\include;$(WORKSPACE)\Repos\Particules\src\Renderer;$(WORKSPACE)\Repos\Particules\src\Data\Image;$(WORKSPACE)\Repos\Particules\src\Data\Texture;$(WORKSPACE)\Repos\Particules\src\Platform;$(WORKSPACE)\SOUP\libpng\1637\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -142,7 +142,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\..\src\Data\Loader\ImageLoader.cpp" />
     <ClCompile Include="..\..\..\..\src\Data\Texture\Texture2D.cpp" />
     <ClCompile Include="..\..\..\..\src\Platform\AssertHdl.cpp" />
     <ClCompile Include="..\..\..\..\src\Platform\ShaderLoader.cpp" />
@@ -154,7 +153,6 @@
   <ItemGroup>
     <ClInclude Include="..\..\..\..\src\Data\Image\Image.h" />
     <ClInclude Include="..\..\..\..\src\Data\Image\ImageType.h" />
-    <ClInclude Include="..\..\..\..\src\Data\Loader\ImageLoader.h" />
     <ClInclude Include="..\..\..\..\src\Data\Texture\Texture2D.h" />
     <ClInclude Include="..\..\..\..\src\Data\Texture\TextureDefinitions.h" />
     <ClInclude Include="..\..\..\..\src\Platform\AssertHdl.h" />
