@@ -41,6 +41,7 @@ private:
 	GLuint m_UniformMVP;
 	GLuint m_UniformTexturePosition;
 	GLuint m_UniformTextureRendering;
+	GLuint m_UniformTextureWidth;
 
 	// Shader properties
 	unsigned int m_ParticuleNumber;

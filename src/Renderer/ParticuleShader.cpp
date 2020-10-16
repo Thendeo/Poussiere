@@ -31,6 +31,7 @@ ParticuleShader::ParticuleShader(unsigned int pNumberOfParticule)
 , m_UniformMVP()
 , m_UniformTexturePosition(0U)
 , m_UniformTextureRendering(0U)
+, m_UniformTextureWidth(0U)
 , m_ParticuleNumber(pNumberOfParticule)
 {
 	glUseProgram(m_ProgramID);
@@ -38,8 +39,10 @@ ParticuleShader::ParticuleShader(unsigned int pNumberOfParticule)
 	m_UniformMVP = glGetUniformLocation(m_ProgramID, "MVP");
 	m_UniformTexturePosition = glGetUniformLocation(m_ProgramID, "particulePositionMatrix");
 	m_UniformTextureRendering = glGetUniformLocation(m_ProgramID, "particuleSampler");
+	m_UniformTextureWidth = glGetUniformLocation(m_ProgramID, "textureWidth");
 	glUniform1i(m_UniformTexturePosition, eUniformUnitMap::eUUM_Position);
 	glUniform1i(m_UniformTextureRendering, eUniformUnitMap::eUUM_ParticuleTexture);
+	glUniform1ui(m_UniformTextureWidth, sqrt(m_ParticuleNumber));
 
 	GLenum l_Err = glGetError();
 	doAssert(l_Err == GL_NO_ERROR);
