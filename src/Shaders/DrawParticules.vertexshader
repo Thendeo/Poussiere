@@ -10,8 +10,8 @@ void main(){
 	// Get pixel pos from vertex index
 	// Texture coordinate is float (0-1)
 	vec2 tex_coord;
-	tex_coord.x = gl_VertexID % 64 / 100.0F;
-	tex_coord.y = gl_VertexID / 64 / 100.0F;
+	tex_coord.x = gl_VertexID % 32 / 100.0F;
+	tex_coord.y = gl_VertexID / 32 / 100.0F;
 	
 	// Get particule position from pixel informations
 	vec3 l_posFromTex = texture(particulePositionMatrix, tex_coord).rgb;

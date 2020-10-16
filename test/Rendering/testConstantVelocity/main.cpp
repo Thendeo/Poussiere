@@ -66,14 +66,16 @@ int main(void)
 
 
 	// Load initial position, rendered target and velocity
-	Image<UWord> l_PositionData("position.tif");
+	Image<UWord> l_PositionData("position_0.tif");
 	Texture2D l_PositionTexture(&l_PositionData, eTextureUnitMap::eTUM_Position);
+
 	Texture2D l_UpdatedPositionTexture(l_PositionTexture.getWidth(), l_PositionTexture.getHeight()
-		, l_PositionTexture.getTextureType(), eTextureUnitMap::eTUM_UpdatedPosition);
+		, l_PositionTexture.getTextureType(), sizeof(UWord), eTextureUnitMap::eTUM_UpdatedPosition);
 	Image<UWord> l_VelocityData("velocity.tif");
-	Texture2D l_VelocityTexture(&l_PositionData, eTextureUnitMap::eTUM_Velocity);
+	Texture2D l_VelocityTexture(&l_VelocityData, eTextureUnitMap::eTUM_Velocity);
+
 	Image<UByte> l_RenderingImage("particule.png");
-	Texture2D l_RenderingParticule(&l_PositionData, eTextureUnitMap::eTUM_ParticuleTexture);
+	Texture2D l_RenderingParticule(&l_RenderingImage, eTextureUnitMap::eTUM_ParticuleTexture);
 
 	// Create shader and loads paramaters
 	AdvanceShader l_AdditionShader(l_PositionTexture.getWidth());
@@ -92,7 +94,7 @@ int main(void)
 	glm::mat4 Projection = glm::perspective(45.0f, 16.0f / 9.0f, 0.1f, 500.0f);
 	glm::mat4 MVP;
 	View = glm::lookAt(
-		glm::vec3(150, 0, 150), // Position
+		glm::vec3(120, 0, 120), // Position
 		glm::vec3(0, 0, 0), // LookAt
 		glm::vec3(0, 1, 0)  // Up vector
 	);
@@ -127,7 +129,7 @@ int main(void)
 		l_Err = glGetError();
 		doAssert(l_Err == GL_NO_ERROR);
 		std::cout << "Frame : " << l_frameNb << std::endl;
-		std::this_thread::sleep_for(std::chrono::milliseconds(250));
+		std::this_thread::sleep_for(std::chrono::milliseconds(50));
 		l_frameNb++;
 	} while (false == l_shouldExit);
 

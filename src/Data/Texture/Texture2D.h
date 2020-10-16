@@ -23,8 +23,9 @@ public:
 	//! @param p_Width Width
 	//! @param p_Height Height
 	//! @param p_Type OpenGL pixel type
+	//! @param p_SizeOfSample Size of a pixel component (8/16/32/64 bits)
 	//! @param p_TUM Texture unit
-	Texture2D(unsigned int p_Width, unsigned int p_Height, GLint p_Type, eTextureUnitMap p_TUM);
+	Texture2D(unsigned int p_Width, unsigned int p_Height, GLint p_Type, size_t p_SizeOfSample, eTextureUnitMap p_TUM);
 
 	//! @brief Fills single level instance for 8bit images
 	//! @param p_Img Image data ptr

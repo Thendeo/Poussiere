@@ -12,7 +12,7 @@
 
 #include "AssertHdl.h"
 
-Texture2D::Texture2D(unsigned int p_Width, unsigned int p_Height, GLint p_Type, eTextureUnitMap p_TUM)
+Texture2D::Texture2D(unsigned int p_Width, unsigned int p_Height, GLint p_Type, size_t p_SizeOfSample, eTextureUnitMap p_TUM)
 : m_Width(p_Width)
 , m_Height(p_Height)
 , m_Size(p_Width*p_Height)
@@ -25,8 +25,22 @@ Texture2D::Texture2D(unsigned int p_Width, unsigned int p_Height, GLint p_Type, 
 	glActiveTexture(m_CurrentTextureUnit);
 	glBindTexture(GL_TEXTURE_2D, m_TextureName);
 
+	GLenum l_TextureType = 0;
+	switch (p_SizeOfSample)
+	{
+	case 1U:
+		l_TextureType = GL_UNSIGNED_BYTE;
+		break;
+	case 2U:
+		l_TextureType = GL_UNSIGNED_SHORT;
+		break;
+	default:
+		doAssert(false);
+		break;
+	}
+
 	glTexImage2D(GL_TEXTURE_2D, 0, m_TextureType, p_Width, p_Height,
-		0, m_TextureType, GL_UNSIGNED_BYTE, 0);
+		0, m_TextureType, l_TextureType, 0);
 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
