@@ -4,7 +4,9 @@ cmake_minimum_required(VERSION 3.18) # b/c of use of BUILD_INTERFACE generator e
 project(Particules)
 
 find_package(PNG 1.6.31)
-
+find_package(TIFF 4.1.0)
+find_package(OpenGL 3.3)
+find_package(GLEW 2.1.0)
 
 set(Image_HEADERS
 	src/Data/Image/Image.h
@@ -72,6 +74,8 @@ target_include_directories(testRenderToTexture PUBLIC
 							src/Platform
 							src/Renderer
 							${PNG_INCLUDE_DIRS}
+							${TIFF_INCLUDE_DIR}
+							${OPENGL_INCLUDE_DIR}
                            )
 						   
-target_link_libraries(testRenderToTexture ${PNG_LIBRARIES})
+target_link_libraries(testRenderToTexture ${PNG_LIBRARIES} ${TIFF_LIBRARIES} ${OPENGL_LIBRARIES})
