@@ -1,0 +1,43 @@
+#version 330 core
+
+// Form geometry shader
+in vec2 tex_coord; 
+ 
+// Ouput color
+layout(location = 0) out vec4 color; 
+ 
+// Texture for triangle
+uniform sampler2D inputPosition; 
+uniform sampler2D inputVelocity; 
+
+uniform unsigned int textureWidth;
+
+uniform float gravitationalConstant;
+
+void main()
+{
+	vec3 l_ForceSummed = vec3(0.1, 0.0, 0.0);
+	vec2 l_currentTexCoord = vec2(0,0);
+
+	unsigned int start = 512;
+	unsigned int gap = 32;
+	unsigned int end = start+gap;
+	
+	
+	for(unsigned int l_RowId = start; l_RowId < end; l_RowId++)
+	{
+		for(unsigned int l_ColId = start; l_ColId < end; l_ColId++)
+		{
+			//l_currentTexCoord.x = l_RowId / 64;
+			//l_currentTexCoord.y = l_ColId / 64;
+			l_ForceSummed.x += gravitationalConstant / ((pow(abs(texture(inputPosition, l_currentTexCoord).x - texture(inputPosition, tex_coord)).x,2))+0.05F);
+			//l_ForceSummed.y += gravitationalConstant / (pow(abs(texture(inputPosition, l_currentTexCoord).y - texture(inputPosition, tex_coord)).y,2));
+			//l_ForceSummed.z += gravitationalConstant / (pow(abs(texture(inputPosition, l_currentTexCoord).z - texture(inputPosition, tex_coord)).z,2));
+		}
+	}
+	
+	color.x = texture(inputVelocity, tex_coord).x + l_ForceSummed.x;//0.5f;//texture(inputVelocity, tex_coord).x + l_ForceSummed.x;
+	color.y = texture(inputVelocity, tex_coord).y + l_ForceSummed.y;//0.2f;//texture(inputVelocity, tex_coord).y + l_ForceSummed.y;
+	color.z = texture(inputVelocity, tex_coord).z + l_ForceSummed.z;//0.6f;//texture(inputVelocity, tex_coord).z + l_ForceSummed.z;
+	color.a =  0.0F;
+}
