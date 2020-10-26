@@ -66,12 +66,12 @@ int main(void)
 
 
 	// Load initial position, rendered target and velocity
-	Image<UWord> l_PositionData("position.tif");
+	Image<UWord> l_PositionData("position_origin.tif");
 	Texture2D l_PositionTexture(&l_PositionData, eTextureUnitMap::eTUM_Position);
 
 	Texture2D l_UpdatedPositionTexture(l_PositionTexture.getWidth(), l_PositionTexture.getHeight()
 		, l_PositionTexture.getTextureType(), sizeof(UWord), eTextureUnitMap::eTUM_UpdatedPosition);
-	Image<UWord> l_VelocityData("velocity.tif");
+	Image<UWord> l_VelocityData("velocity_lena.tif");
 	Texture2D l_VelocityTexture(&l_VelocityData, eTextureUnitMap::eTUM_Velocity);
 
 	Image<UByte> l_RenderingImage("particule.png");

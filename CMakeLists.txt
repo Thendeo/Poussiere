@@ -14,7 +14,6 @@ find_library(GLFW_LIB_DEBUG glfw/)
 find_library(GLFW_LIB_RELEASE glfw/)
 
 set(GLFW_LIBS "optimized" ${GLFW_LIB_DEBUG} ${GLFW_LIB_RELEASE})
-message(${GLFW_LIBS})
 
 # Set variables for sources and headers
 set(Image_HEADERS
@@ -42,11 +41,13 @@ set(Platform_SOURCES
 set(Renderer_HEADERS
 	src/Renderer/AdvanceShader.h
 	src/Renderer/ParticuleShader.h
+	src/Renderer/UpdateVelocity.h
 	src/Renderer/Shader.h)
 	
 set(Renderer_SOURCES
 	src/Renderer/AdvanceShader.cpp
 	src/Renderer/ParticuleShader.cpp
+	src/Renderer/UpdateVelocity.cpp
 	src/Renderer/Shader.cpp)
 	
 set(Shader_EXTERNAL
@@ -54,6 +55,7 @@ set(Shader_EXTERNAL
 	src/Shaders/DrawParticules.geometryshader
 	src/Shaders/DrawParticules.fragmentshader
 	src/Shaders/TextureAddition.fragmentshader
+	src/Shaders/NewtonThirdLaw.fragmentshader
 	src/Shaders/TexturedTriangle.vertexshader
 	src/Shaders/TexturedTriangle.geometryshader
 	src/Shaders/TexturedTriangle.fragmentshader)
@@ -76,14 +78,18 @@ source_group("Headers/Renderer"	FILES ${Renderer_HEADERS})
 
 source_group("Shaders"	FILES ${Shader_EXTERNAL})
 
-source_group("Sources"	FILES test/Rendering/testRenderToTexture/main.cpp)
 
 
 
 # Tests definitions
 add_executable(testRenderToTexture test/Rendering/testRenderToTexture/main.cpp ${All_SOURCES})
+source_group("Sources"	FILES test/Rendering/testRenderToTexture/main.cpp)
 add_executable(testParticuleRendering test/Rendering/testParticuleRendering/main.cpp ${All_SOURCES})
+source_group("Sources"	FILES test/Rendering/testParticuleRendering/main.cpp)
 add_executable(testConstantVelocity test/Rendering/testConstantVelocity/main.cpp ${All_SOURCES})
+source_group("Sources"	FILES test/Rendering/testConstantVelocity/main.cpp)
+add_executable(testNewtonLaw test/Rendering/testNewtonLaw/main.cpp ${All_SOURCES})
+source_group("Sources"	FILES test/Rendering/testNewtonLaw/main.cpp)
 											
 target_include_directories(testRenderToTexture PUBLIC
 							src/Data/Image
@@ -121,8 +127,20 @@ target_include_directories(testConstantVelocity PUBLIC
 							${GLM_INCLUDE_DIRS}
 							${GLFW_INCLUDE_DIRS}
                            )
+target_include_directories(testNewtonLaw PUBLIC
+							src/Data/Image
+							src/Data/Texture
+							src/Platform
+							src/Renderer
+							${PNG_INCLUDE_DIRS}
+							${TIFF_INCLUDE_DIR}
+							${OPENGL_INCLUDE_DIR}
+							${GLEW_INCLUDE_DIRS}
+							${GLM_INCLUDE_DIRS}
+							${GLFW_INCLUDE_DIRS}
+                           )
 						   
-message(${TIFF_LIBRARIES})
 target_link_libraries(testRenderToTexture ${PNG_LIBRARIES} ${TIFF_LIBRARIES} ${OPENGL_LIBRARIES} ${GLEW_LIBRARIES} ${GLFW_LIBS})
 target_link_libraries(testParticuleRendering ${PNG_LIBRARIES} ${TIFF_LIBRARIES} ${OPENGL_LIBRARIES} ${GLEW_LIBRARIES} ${GLFW_LIBS})
 target_link_libraries(testConstantVelocity ${PNG_LIBRARIES} ${TIFF_LIBRARIES} ${OPENGL_LIBRARIES} ${GLEW_LIBRARIES} ${GLFW_LIBS})
+target_link_libraries(testNewtonLaw ${PNG_LIBRARIES} ${TIFF_LIBRARIES} ${OPENGL_LIBRARIES} ${GLEW_LIBRARIES} ${GLFW_LIBS})

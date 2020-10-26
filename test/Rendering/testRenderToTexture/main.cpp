@@ -66,13 +66,13 @@ int main(void)
 
 
 	// Load initial position, rendered target and velocity
-	Image<UWord> l_PositionData("position_16.tif");
+	Image<UWord> l_PositionData("position_head.tif");
 	Texture2D l_PositionTexture(&l_PositionData, eTextureUnitMap::eTUM_Position);
 
 	Texture2D l_UpdatedPositionTexture(l_PositionTexture.getWidth(), l_PositionTexture.getHeight()
-		, l_PositionTexture.getTextureType(), eTextureUnitMap::eTUM_UpdatedPosition);
+		, l_PositionTexture.getTextureType(), sizeof(UWord), eTextureUnitMap::eTUM_UpdatedPosition);
 
-	Image<UByte> l_VelocityData("velocity_16.png");
+	Image<UByte> l_VelocityData("velocity_head.png");
 	Texture2D l_VelocityTexture(&l_VelocityData, eTextureUnitMap::eTUM_Velocity);
 
 	// Create shader and loads paramaters

@@ -69,7 +69,7 @@ int main(void)
 
 
 	const size_t l_matrixSize = 4096;
-	Image<UWord> l_PositionData("position.tif");
+	Image<UWord> l_PositionData("position_random.tif");
 	Texture2D l_ParticulePosition(&l_PositionData, eTextureUnitMap::eTUM_Position);
 
 	Image<UByte> l_ParticuleImage("particule.png");
