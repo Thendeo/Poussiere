@@ -90,6 +90,10 @@ add_executable(testConstantVelocity test/Rendering/testConstantVelocity/main.cpp
 source_group("Sources"	FILES test/Rendering/testConstantVelocity/main.cpp)
 add_executable(testDynamicVelocity test/Rendering/testDynamicVelocity/main.cpp ${All_SOURCES})
 source_group("Sources"	FILES test/Rendering/testDynamicVelocity/main.cpp)
+add_executable(testDecreaseParticule test/Rendering/testDecreaseParticule/main.cpp ${All_SOURCES})
+source_group("Sources"	FILES test/Rendering/testDecreaseParticule/main.cpp)
+
+
 											
 target_include_directories(testRenderToTexture PUBLIC
 							src/Data/Image
@@ -139,8 +143,21 @@ target_include_directories(testDynamicVelocity PUBLIC
 							${GLM_INCLUDE_DIRS}
 							${GLFW_INCLUDE_DIRS}
                            )
+target_include_directories(testDecreaseParticule PUBLIC
+							src/Data/Image
+							src/Data/Texture
+							src/Platform
+							src/Renderer
+							${PNG_INCLUDE_DIRS}
+							${TIFF_INCLUDE_DIR}
+							${OPENGL_INCLUDE_DIR}
+							${GLEW_INCLUDE_DIRS}
+							${GLM_INCLUDE_DIRS}
+							${GLFW_INCLUDE_DIRS}
+                           )
 						   
 target_link_libraries(testRenderToTexture ${PNG_LIBRARIES} ${TIFF_LIBRARIES} ${OPENGL_LIBRARIES} ${GLEW_LIBRARIES} ${GLFW_LIBS})
 target_link_libraries(testParticuleRendering ${PNG_LIBRARIES} ${TIFF_LIBRARIES} ${OPENGL_LIBRARIES} ${GLEW_LIBRARIES} ${GLFW_LIBS})
 target_link_libraries(testConstantVelocity ${PNG_LIBRARIES} ${TIFF_LIBRARIES} ${OPENGL_LIBRARIES} ${GLEW_LIBRARIES} ${GLFW_LIBS})
 target_link_libraries(testDynamicVelocity ${PNG_LIBRARIES} ${TIFF_LIBRARIES} ${OPENGL_LIBRARIES} ${GLEW_LIBRARIES} ${GLFW_LIBS})
+target_link_libraries(testDecreaseParticule ${PNG_LIBRARIES} ${TIFF_LIBRARIES} ${OPENGL_LIBRARIES} ${GLEW_LIBRARIES} ${GLFW_LIBS})

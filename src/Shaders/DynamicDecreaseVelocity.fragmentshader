@@ -16,5 +16,5 @@ uniform float gravitationalConstant;
 
 void main()
 {	
-	color.rgba = vec4(texture(inputVelocity, tex_coord).rgb * 0.9F, 0.0F);
+	color = vec4(texture(inputVelocity, tex_coord).rgb * 0.7F, 0.0F);
 }
