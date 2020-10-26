@@ -143,9 +143,10 @@ Image<PixelDepth>::Image(const char* p_ImagePath)
 	// Get extension string and compare
 	std::string l_Extension = l_ImagePath.substr(l_ExtensionPos + 1, l_ImagePath.length() - l_ExtensionPos);
 
-	m_File = fopen(p_ImagePath, "rb");
 	if (0 == strcmp("png", l_Extension.c_str()))
 	{
+		m_File = fopen(p_ImagePath, "rb");
+		doAssert(NULL != m_File);
 		loadPNG();
 		loadInformations();
 
