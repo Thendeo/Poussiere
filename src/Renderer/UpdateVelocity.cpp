@@ -24,7 +24,7 @@
 #include "ShaderLoader.h"
 
 UpdateVelocity::UpdateVelocity(unsigned int pTextureSize)
-	: Shader("TexturedTriangle.vertexshader", "TexturedTriangle.geometryshader", "NewtonThirdLaw.fragmentshader")
+	: Shader("TexturedTriangle.vertexshader", "TexturedTriangle.geometryshader", "DynamicDecreaseVelocity.fragmentshader")
 	, m_TextureSize(pTextureSize)
 	, m_UniformTexturePosition(0U)
 	, m_UniformTextureVelocity(0U)

@@ -55,7 +55,7 @@ set(Shader_EXTERNAL
 	src/Shaders/DrawParticules.geometryshader
 	src/Shaders/DrawParticules.fragmentshader
 	src/Shaders/TextureAddition.fragmentshader
-	src/Shaders/NewtonThirdLaw.fragmentshader
+	src/Shaders/DynamicDecreaseVelocity.fragmentshader
 	src/Shaders/TexturedTriangle.vertexshader
 	src/Shaders/TexturedTriangle.geometryshader
 	src/Shaders/TexturedTriangle.fragmentshader)
@@ -88,8 +88,8 @@ add_executable(testParticuleRendering test/Rendering/testParticuleRendering/main
 source_group("Sources"	FILES test/Rendering/testParticuleRendering/main.cpp)
 add_executable(testConstantVelocity test/Rendering/testConstantVelocity/main.cpp ${All_SOURCES})
 source_group("Sources"	FILES test/Rendering/testConstantVelocity/main.cpp)
-add_executable(testNewtonLaw test/Rendering/testNewtonLaw/main.cpp ${All_SOURCES})
-source_group("Sources"	FILES test/Rendering/testNewtonLaw/main.cpp)
+add_executable(testDynamicVelocity test/Rendering/testDynamicVelocity/main.cpp ${All_SOURCES})
+source_group("Sources"	FILES test/Rendering/testDynamicVelocity/main.cpp)
 											
 target_include_directories(testRenderToTexture PUBLIC
 							src/Data/Image
@@ -127,7 +127,7 @@ target_include_directories(testConstantVelocity PUBLIC
 							${GLM_INCLUDE_DIRS}
 							${GLFW_INCLUDE_DIRS}
                            )
-target_include_directories(testNewtonLaw PUBLIC
+target_include_directories(testDynamicVelocity PUBLIC
 							src/Data/Image
 							src/Data/Texture
 							src/Platform
@@ -143,4 +143,4 @@ target_include_directories(testNewtonLaw PUBLIC
 target_link_libraries(testRenderToTexture ${PNG_LIBRARIES} ${TIFF_LIBRARIES} ${OPENGL_LIBRARIES} ${GLEW_LIBRARIES} ${GLFW_LIBS})
 target_link_libraries(testParticuleRendering ${PNG_LIBRARIES} ${TIFF_LIBRARIES} ${OPENGL_LIBRARIES} ${GLEW_LIBRARIES} ${GLFW_LIBS})
 target_link_libraries(testConstantVelocity ${PNG_LIBRARIES} ${TIFF_LIBRARIES} ${OPENGL_LIBRARIES} ${GLEW_LIBRARIES} ${GLFW_LIBS})
-target_link_libraries(testNewtonLaw ${PNG_LIBRARIES} ${TIFF_LIBRARIES} ${OPENGL_LIBRARIES} ${GLEW_LIBRARIES} ${GLFW_LIBS})
+target_link_libraries(testDynamicVelocity ${PNG_LIBRARIES} ${TIFF_LIBRARIES} ${OPENGL_LIBRARIES} ${GLEW_LIBRARIES} ${GLFW_LIBS})
